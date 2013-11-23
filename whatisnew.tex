@@ -1,0 +1,841 @@
+%From robin.milner@cl.cam.ac.uk  Tue Apr  9 18:01:55 1996
+%Return-Path: robin.milner@cl.cam.ac.uk
+%To: tofte@diku.dk
+%Subject: Comments on Appendix F: What is new?
+%Date: Tue, 09 Apr 1996 17:01:42 +0100
+%From: Robin Milner <Robin.Milner@cl.cam.ac.uk>
+%
+%
+% My additions/replacements start with <<<<<
+% and end with >>>>>.  Comment lines begin %%%%% .
+% I think its good. -- Robin 
+
+%\documentstyle[11pt,fullpage]{article}
+%\input{mac}
+%\begin{document}
+\section{Appendix: What is New?}
+\label{whatisnew-app}
+This appendix gives an overview of how the present Definition
+differs from the 1990 Definition of Standard ML\cite{mth90}. 
+For the purpose of this appendix, we write SML '90 for the 
+language defined by the 1990 Definition and SML '97 for the
+present language. 
+For each major change, we give its rationale and an overview
+of its practical implications. Also, the index
+(page \pageref{index-sec} ff.) may be used for locating changes.
+\note{\thenewpreface}{This appendix is new!}
+
+
+\subsection{Type Abbreviations in Signatures}
+\label{typabbr.sec}
+%\subsubsection{Rationale}
+There are cases of type sharing which cannot be expressed
+in SML '90 signatures although they arise in structures. For example,
+there is no SML '90 signature which precisely describes the relationship
+between {\tt s} and {\tt t} in
+\begin{verbatim}
+       structure a =
+        struct
+          datatype s = C 
+          type t = s * s
+        end
+\end{verbatim}
+In SML '97, one can write {\sl type abbreviations} in signatures, e.g.,
+\begin{verbatim}
+       signature A =
+        sig
+          type s 
+          type t = s * s
+        end
+\end{verbatim}
+The need for type abbreviations in signatures was clear when SML '90 was 
+defined. However, type abbreviations were not included since, in the 
+presence of both structure sharing and type abbreviations, principal 
+signatures do not exist\cite{mt91} -- and the SML '90 Definition 
+depended strongly upon the notion of principal signature.
+Subsequently, Harper's and Lillibridge's work on translucent sums\cite{hl94} 
+and Leroy's work on modules\cite{leroy94} showed that, in the absence of 
+structure sharing and certain other features of the SML '90 signatures, 
+type abbreviations in signatures are possible. 
+Type abbreviations in signatures were implemented by 
+David MacQueen in {\em SML/NJ} 0.93 and by Xavier Leroy in
+{\em Caml Special Light\/}\cite{Caml-Special-Light}.
+
+%\subsubsection{Informal description}
+In SML '97, structure sharing has been removed (see Section~\ref{nosharing.sec} below).
+Type abbreviations are not included directly, but they arise as a derived form,
+as follows.  First, a new form of signature expression is allowed:
+$$\wheretypesigexp$$
+Here $\longtycon$ has to be specified by $\sigexp$. The type expression
+$\ty$ may refer to type constructors which  are 
+present in the basis in which the whole signature expression is elaborated, but not
+         to type constructors specified in $\sigexp$.
+
+
+The effect of the {\tt where type} is, roughly speaking, to instantiate $\longtycon$
+to $\ty$. For example, the following sequence of declarations is legal:
+\begin{verbatim}
+     signature SIG1 = sig type t; val x: t end;
+     signature SIG2 = SIG1 where type t = int*int;
+     structure S1: SIG1 = struct type t = real; val x = 1.0 end;
+     structure S2: SIG2 = struct type t = int*int; val x = (5, 7) end;
+\end{verbatim}
+%The {\tt own} construct can be used for imposing
+%additional sharing on a previously declared signature:
+%\begin{verbatim}
+%     signature SIG = sig type t  type u  val x: t*u end;
+%     signature SIG1 = SIG where type u = own t*t;
+%\end{verbatim}
+Next, a  type abbreviation is a derived form. For example, 
+\boxml{type u = t*t} is equivalent to 
+\boxml{include sig type u end where type u = t*t}~.
+In SML '97 it is allowed to \hbox{\tt include} an
+arbitrary signature expression, not just a signature identifier.
+
+\subsection{Opaque Signature Matching}
+%\subsubsection{Rationale}
+In imposing a signature on a structure, one often wants 
+the types of the resulting structure to be ``abstract'' in order to hide
+their implementation. (Signature matching in SML '90 
+hides components, but does not hide type sharing.)
+MacQueen originally suggested and implemented an {\tt abstraction} declaration
+for this purpose\cite{mq84}. In the Commentary\cite{mt91} it was
+pointed out that the issue is the semantics of matching.
+SML '97 provides two 
+kinds of matching, as new forms of structure
+expression:
+$$\strexp\boxml{ : }\sigexp$$
+$$\strexp\boxml{ :> }\sigexp$$
+
+The first (\boxml{:}) is the  SML '90 signature matching; 
+the second (\boxml{:>}) is {\sl opaque matching}.
+Opaque matching can be applied to the result structure of a functor;
+thus it is more general than MacQueen's {\tt abstraction} declaration.
+In CAML Special Light, all signature matching is opaque.
+
+%\subsubsection{Informal description}
+
+With opaque matching, types in the resulting
+structure will be abstract, to precisely the degree expressed
+in $\sigexp$. Thus
+\begin{verbatim}
+       signature Sig = 
+          sig 
+            type t = int
+            val x: t
+            type u   
+            val y: u 
+          end;
+       structure S1:> Sig = 
+        struct type t = int
+               val x = 3
+               type u = real
+               val y = 3.0
+        end
+       val r = S1.x + 1
+\end{verbatim}
+is legal, but a subsequent declaration \boxml{val s = S1.y + 1.5}
+will fail to elaborate. Similarly, consider the functor declaration:
+\begin{verbatim}
+     functor Dict(type t; val leq: t*t->int):> 
+                sig type u = t*t 
+                    type 'a dict       
+                end =
+       struct
+         type u = t*t
+         type 'a dict = (t * 'a) list
+       end
+\end{verbatim}
+When applied, {\tt Dict} will propagate 
+the identity of the type
+{\tt t} from argument to result, but it will produce a fresh
+{\tt dict} type upon each application. 
+
+Types which are specified as ``abstract'' in a opaque functor
+result signature give rise to generation of fresh type names
+upon each application of the functor, even if the functor body
+is a constant structure. For example, after the elaboration of 
+\begin{verbatim}
+       structure A = struct type t = int end
+       functor f():> sig type t end = A
+       structure B = f()
+             and C = f();
+\end{verbatim}
+the two types {\tt B.t} and {\tt C.t} are different.
+
+
+\subsection{Sharing}
+\label{nosharing.sec}
+%\subsection{Rationale} 
+Structure sharing is a 
+key idea in MacQueen's original Modules design\cite{mq84}.
+The theoretical aspects of structure sharing have been the 
+subject of considerable research 
+attention\cite{hmt87,tofte88,aponte93,tofte94,MacTo94}. 
+However, judging from experience,  structure sharing
+is not often used in its full generality, namely to ensure identity of
+values. Furthermore, experience from teaching suggests that 
+the structure sharing concept is somewhat hard to grasp. Finally, the semantic
+accounts of structure sharing that have been proposed are rather 
+complicated.
+
+%\subsection{Informal Description of change}
+The static semantics of SML '97 
+has no notion of structure sharing.
+However, SML '97 does provide a weaker form of structure sharing 
+constraints, in which structure sharing is 
+regarded as a derived form, equivalent to a collection of type sharing
+constraints. 
+
+\subsubsection{Type Sharing}
+In SML '90, a type sharing constraint
+              \boxml{sharing type $\longtycon_1$ = $\cdots$ = $\longtycon_n$}
+was an admissible form of specification.   In SML '97 such a constraint
+does not stand by itself as a specification, but may be used to qualify
+a specification. Thus there is a new form of specification, which we
+shall call a {\sl qualified} specification:
+\[
+\newsharingspec
+\]
+Here the long type constructors have to be specified by $\spec$.
+The type constructors may have been specified by {\tt type}, {\tt eqtype}
+or {\tt datatype} specifications, or indirectly through signature
+identifiers and {\tt include}. In order for the specification to be
+legal, all the type constructors must denote flexible type names. More precisely,
+let $B$ be the basis in which the qualified specification
+is elaborated. 
+Let us say that a type name $\t$ is {\sl rigid (in $B$)} if $\t\in\of{T}{B}$
+and that $\t$ is {\sl flexible (in $B$)} otherwise.
+For example {\tt int} is rigid in the initial basis and every datatype
+declaration introduces additional rigid type names into the basis. For 
+the qualified specification
+to elaborate in basis $B$, 
+it is required that each $\longtycon_i$ denotes a type name
+which is flexible in $B$.  In particular, no $\longtycon_i$
+may denote a type function 
+which is not also
+a type name (e.g., a $\longtycon$
+must not denote $\Lambda().\boxml{s}*\boxml{s}$). 
+
+For example, the two signature expressions
+\begin{verbatim}
+       sig                       sig 
+         type s                    type s
+         type t                    datatype t = C
+         sharing type s = t        sharing type s = t
+       end                       end
+\end{verbatim}
+are both legal. By contrast,  the signature expressions
+\begin{verbatim}
+       sig                       sig 
+         type s                    type s = int
+         type t = s*s              datatype t = C
+         sharing type s = t        sharing type s = t
+       end                       end
+\end{verbatim}
+are both illegal. 
+\bigskip
+
+\subsubsection{The equality attribute of specified types} 
+If $\newsharingspec$ elaborates successfully, then all $n$ type constructors
+will thereafter denote the same type name. 
+This type name will admit equality, if $\spec$ associates an equality
+type name with one of the type constructors.
+Thus
+\begin{verbatim}
+       eqtype t
+       type u 
+       sharing type t = u
+\end{verbatim}
+is legal and both {\tt t} and {\tt u} are equality types after the sharing
+qualification.
+The mechanism for inferring equality attributes for datatype specifications
+is the same as for inferring equality attributes for datatype declarations.
+Thus the specification
+\begin{verbatim}
+        datatype answer = YES | NO
+        datatype 'a option = Some of 'a | None
+\end{verbatim}
+specifies two equality types. Every  specification
+of the form $\datatypespec$ 
+introduces one type name for each type constructor described
+by $\datdesc$. The equality attribute of such a  type name is
+determined at the point where the specification occurs.
+Thus, in
+\begin{verbatim}
+        type s
+        datatype t  = C of s
+\end{verbatim}
+the type name associated with {\tt t} 
+will not admit equality, even if {\tt s} later is
+instantiated to an equality type. Type names associated with datatype
+specifications can be instantiated to other type names 
+by subsequent {\tt type sharing} or {\tt where type}
+qualifications. In this case,  no effort is made to 
+ban type environments that do not respect equality. For example,
+\begin{verbatim}
+       sig
+         eqtype s
+         datatype t = C of int -> int
+         sharing type s = t
+       end
+\end{verbatim}
+is legal in SML '97, even though it cannot be matched by any real structure.
+
+\subsubsection{Structure Sharing}
+\label{strsharing.sec}
+For convenience, structure sharing constraints are provided,
+but only as a shorthand for type sharing constraints. 
+There is a derived form of specification
+\[
+\boxml{$\spec$ sharing $\longstrid_1$ = $\cdots$  = $\longstrid_k$}\qquad(k\geq 2)
+\]
+Here $\spec$ must specify $\longstrid_1,\ldots,\longstrid_k$. 
+The equivalent form consists of $\spec$ qualified by all 
+the  type sharing constraints 
+\[\boxml{sharing type $\longstrid_i.\longtycon$ = 
+   $\longstrid_j.\longtycon$}\]
+($1\leq i< j\leq k$) such that  both 
+$\longstrid_i.\longtycon$ and $\longstrid_j.\longtycon$ are specified
+by $\spec$.
+ 
+
+In SML '90, structure sharing constraints are transitive, but
+in  SML '97 they are not. For example,
+\begin{verbatim}
+       structure A: sig type t end
+       structure B: sig end
+       structure C: sig type t end
+       sharing A=B=C
+\end{verbatim}
+induces type sharing on {\tt t}, whereas 
+\begin{verbatim}
+       structure A: sig type t end
+       structure B: sig end
+       structure C: sig type t end
+       sharing A=B sharing B=C
+\end{verbatim}
+induces no type sharing. Thus a structure sharing constraint
+in some cases induces less sharing in SML '97 than in SML '90.
+
+Next, SML '97 does not allow structure
+sharing equations which refer to ``external'' structures. 
+For example, the
+program
+\begin{verbatim}
+       structure A= struct end;
+       signature SIG = sig structure B : sig end
+                           sharing A = B
+                       end;
+\end{verbatim}
+is not legal in SML '97, because the sharing constraint now only
+qualifies the specification \boxml{structure B: sig end}, which does
+not specify $\boxml{A}$. Thus not all legal SML '90 signatures are
+legal in SML '97.
+
+The removal of structure sharing has a dramatic simplifying
+effect on the semantics. Most importantly,
+the elaboration rules can be made monogenic (i.e., ``deterministic''),
+up to renaming of new type names. 
+The need for the notion of principal signature (and even 
+equality-principal signature) disappears. The notions of structure name, structure consistency
+and well-formed signature are no longer required. The notion of cover
+can be deleted. Only one kind of realisation, namely type realisation,
+remains. The notion of type-explication has been
+removed, since it can be proved that signatures automatically are type-explicit
+in the revised language.
+\subsection{Value Polymorphism}
+%\subsection{Rationale}
+The imperative types of SML '90 were somewhat subtle,
+and they propagated into signatures 
+in an unpleasant way.
+Experiments on existing code suggest
+that the power of imperative types is rarely used fully and that
+{\sl value polymorphism}, which can in fact be seen as a restriction of
+the imperative type discipline, 
+usually suffices\cite{wright95}.
+%\subsection{Informal Description}
+With value polymorphism, there is only one kind of type variable. The definition of 
+non-expansive expressions (see~\ref{nonexpnew.sec} below) is relaxed to admit more expressions.
+In a declaration
+$$\boxml{val $x$ = $\exp$}$$
+the variable $x$ will only be given a non-trivial polymorphic type scheme
+(i.e., a type scheme which is not also a type) if $\exp$ is non-expansive.
+This applies even if there is no application of {\tt ref} in the entire
+program.
+
+Example: in the declaration {\tt val x = [] @ []}, x can be assigned
+    type $\atyvar\;\LIST$, but not the type scheme 
+    $\forall \atyvar. \atyvar\;\LIST$ (since
+    {\tt [] @ []} is an expansive expression). Consequently, {\tt (1::x, true::x)}
+    will not elaborate in the scope of the declaration. Also, if the
+    declaration appears at top level, the compiler may refuse elaboration
+    due to a top-level free type variable (see~\ref{prinenv}). 
+    Thus the top-level phrase {\tt [] @ []} may fail, since it abbreviates 
+    {\tt val it =  [] @ []}.  But of course it will not fail if a monotype
+    is explicitly ascribed, e.g. {\tt [] @ []:int list}.
+ 
+    On the other hand, in {\tt fun f() = [] @ []} (or {\tt val f = fn () => [] @ []}), 
+    {\tt f} can be assigned type scheme $\forall\atyvar.\UNIT\to\atyvar\;\LIST$ so that, 
+    for example, $\boxml{(1::f(),true::f())}$ elaborates. 
+    This transformation ($\eta$-conversion) often 
+    gives the desired polymorphism. But beware that $\eta$-conversion
+    can change the meaning of the program, if $exp$ does not terminate
+    or has side-effects.
+
+\subsection{Identifier Status}
+%
+%\subsubsection{Rationale}
+The 1990 Definition treated identifier status informally (in Section~2.4);
+a fuller definition was
+given in the Commentary\cite[Appendix B]{mt91}. However, some
+problems with the handling of exception constructors remained\cite[Sect.~10.3]{kahrs93}.
+%\subsubsection{Description of change}
+
+In the present document, we have collapsed
+the three identifier classes $\Var$, $\Exn$ and $\Con$ into a single
+class, $\VId$, of {\sl value identifiers}. 
+The semantic objects $\VE$ previously called variable environments are
+replaced by {\sl value environments}.
+%The variable environment $\VE$
+%has changed name to {\sl value environment}. 
+A value environment maps
+value identifiers to pairs of the form $(o,\is)$, where $o$ is some semantic
+object and $\is$ is an {\sl identifier status} ($\is\in\{\isv,\isc,\ise\}$)
+indicating whether the identifier should be regarded as a value variable
+($\isv$), a value constructor ($\isc$) or an exception constructor ($\ise$).
+These changes have been carried out both in the static and in the dynamic
+semantics, for both Core and Modules. Thus the assignment of identifier
+status is incorporated formally in the present Definition.
+
+The definition of enrichment has been modified to allow an
+identifier that has been specified as a value to be matched by a
+value constructor or an exception constructor.
+However, a
+specification of a value or exception constructor must be matched by
+a value or exception constructor, respectively.
+
+Thus, the status descriptor says more than just what the lexical
+status of the identifier is --- it is  a statement about the
+value in the corresponding dynamic  environment: if the
+status of $\id$ in the static environment is $\isc$, then the value
+in a matching dynamic  environment must be a value
+constructor. Similarly,  if the status of $\id$ in the static environment 
+is $\ise$, then the value
+in a matching dynamic  environment must be an exception name. 
+If the status of $\id$ is just $\isv$, however, the corresponding
+value in the dynamic environment can be any kind of value (of the appropriate
+type), including
+a value constructor and an exception name.
+
+The exception environment ($\EE$) has been deleted from the semantics,
+since it is no longer required for the definition of enrichment.
+Also, the constructor environment $\CE$ in the static semantics has
+been replaced by a value environment in which every identifier
+has status $\isc$.
+
+The new handling of identifier status admits some {\tt val rec} declarations
+    that were illegal in SML~'90 (see the comment to Rule~\ref{recvalbind-rule}). 
+%
+\subsection{Replication of Datatypes}
+SML~'97 allows {\sl datatype replication}, i.e. declarations 
+and specifications of the form
+$$\datatyperepldec$$
+When elaborated, this binds type constructor $\tycon$ to the 
+entire type structure (value constructors included)
+to which $\longtycon$ is bound in the context. Datatype replication
+does not generate a new datatype: the original and the
+replicated datatype share.
+
+Here is an example of a use of the new construct:
+%\pagebreak
+\begin{verbatim}
+       signature MYBOOL = 
+       sig
+         type bool
+         val xor: bool * bool -> bool
+       end;
+       structure MyBool: MYBOOL =
+       struct
+         datatype bool = datatype bool (* from the initial basis *)
+         fun xor(true, false) = true
+           | xor(false, true) = true
+           | xor _ = false
+       end;
+       val x = MyBool.xor(true, false);
+\end{verbatim}
+Here {\tt MyBool.xor(true, false)} evaluates to {\tt true}. Note the
+use of transparent signature matching; had opaque matching been used
+instead, the declaration of {\tt x} would not have elaborated.
+
+A datatype replication implicitly introduces the value
+constructors of $\longtycon$ into the current scope. 
+This is significant for signature matching. For example, the
+following program is legal: %\pagebreak
+\begin{verbatim}
+       datatype t0 = C;
+       structure A : sig type t val C: t end = 
+         struct 
+           datatype t = datatype t0 
+         end;
+\end{verbatim}         
+Note that {\tt C} is specified as a value in the signature;
+the datatype replication copies the value environment of {\tt t0}
+into the structure and that is why the structure contains the
+required {\tt C} value. 
+
+To make it possible for datatype replication to copy value environments
+associated with type constructors,
+the dynamic semantics has been modified so that environments now contain
+a $\TE$ component (see Figure~\ref{comp-dyn-obj}, page~\pageref{comp-dyn-obj}).
+Further, in the dynamic semantics of modules, the $\downarrow$ operation,
+which is used for cutting down structures when they are matched against
+signatures, has been extended to cover the $\TE$ component (see page~\pageref{downarrowdef}). In the above example, the value environment assigned to 
+{\tt A.t} will be empty, signifying that the type has no value constructors.
+Had the signature instead been 
+$$\boxml{sig datatype t  val C: t end}$$
+then the signature matching would have assigned {\tt A.t} a value environment
+with domain $\{\boxml{C}\}$, indicating that {\tt A.t} has value constructor
+{\tt C}. 
+
+When the datatype replication is used as a specification, $\longtycon$
+can refer to a datatype which has been introduced either by
+declaration or by specification. Here is an example of the former:
+%\pagebreak
+
+\begin{verbatim}
+       datatype t = C | D;
+       signature SIG =
+       sig 
+         datatype t = datatype t (* replication is not recursive! *)
+         val f: t -> t
+       end
+\end{verbatim}
+%Thus the signature declaration below is illegal
+%\begin{verbatim}
+%       datatype t = C | D;
+%       signature SIG =
+%       sig 
+%         datatype t = datatype t 
+%         val C: t
+%       end
+%\end{verbatim}
+%for {\tt C} is specified twice as a value identifier 
+%(once by {\tt datatype t = datatype t} and once by {\tt val C: t}).
+
+
+\subsection{Local Datatypes} 
+%\subsubsection{Rationale}
+This change is concerned with
+expressions of the form
+\boxml{let $\dec$ in $\exp$ end}
+in which $\dec$ contains a {\tt datatype} declaration.
+Let us refer to such a datatype declaration as a {\sl local} datatype
+declaration.
+There are two reasons why changes to the handling of local datatype
+declarations
+are necessary.
+
+The first is that the rule given for elaboration of 
+{\tt let}-expressions in the 1990 Definition
+is unsound\cite{kahrs93}; the problem has to do with the ability to export
+type names of locally declared datatypes out of scope.
+
+The second is that the static semantics relies on the following invariant 
+about all contexts, $C$, which arise in elaboration from the
+initial basis:
+\[
+\TyNamesFcn \C\subseteq\of{T}{\C}
+\]
+This invariant is used, for example, in the rule for elaborating
+datatype declarations, where type names are picked ``fresh'' with
+respect to $\of{T}{C}$. As pointed out by Kahrs, the second premise
+of rule 16 in the 1990 Definition violates the above invariant.
+
+%\subsubsection{Discussion of Change}
+To solve the first problem,
+the rule for elaborating {\tt let}-expressions (rule \ref{let-rule} in the present
+document) has been 
+provided with a side-condition which prevents the type of $\exp$ from
+containing  type names generated 
+by $\dec$. For example, 
+\begin{verbatim}
+       let datatype t = C in C end
+\end{verbatim}
+was legal SML '90 but is not legal SML '97.
+
+To solve the second problem, a side-condition has been added in the rule 
+for matches and the rule for {\tt val rec} (rules~\ref{mrule-rule} 
+and \ref{recvalbind-rule} of the present document).
+As a consequence, again fewer programs elaborate.
+For example, the expression
+\begin{verbatim}
+       fn x => let datatype t = C
+                   val _ = if true then x else C
+               in 5 
+               end
+\end{verbatim}
+is not legal SML '97, although it was legal SML '90.
+
+%We remark that another possible change to the same effect would have been to change
+%$\C+\VE$ in rules 16 and 27 to $\C\oplus\VE$; however, this change
+%would (wrongly) suggest that the elaboration of a pattern may generate
+%new datatypes.
+% 
+% The above changes have consequences for the preservation of elaboration
+% under substitution. For example, letting $\C_0$ be the initial
+% static context $\of{C}{B_0}$ one will be able to infer
+% $$\C_0\ts \boxml{let in fn x=> x end}: \boxml{'a}\to\boxml{'a}$$
+% but not
+% $$\C_0\ts \boxml{let in fn x => x end}: \boxml{t}\to\boxml{t}$$
+% for all type names $\boxml{t}$, since $\boxml{t}$ need  not 
+% be a member of $\of{\T}{\C_0}$.
+
+%\subsubsection{Remarks about implementation}
+%One possibility is to use the following
+%scheme. 
+%Every type variable has an attribute, the {\it {\tt let}-level}, which
+%is a reference to $\boxml{nat}^\infty$, where $\boxml{nat}^\infty$
+%denotes the set of natural numbers extended with infinity.
+%Moreover, every type name has a (non-updatable) {\tt let}-level.
+%Elaboration takes 
+%place in a {\sl current}
+%{\tt let}-level. The current {\tt let}-level of an occurrence 
+%of a phrase $\phrase$ in a program  
+%$\program$ is the number of unmatched {\tt let}
+%that occur between the beginning of $\program $ and the beginning of  $\phrase$. 
+%In instantiating type schemes, fresh type variables are given the current
+%{\tt let}-level. When choosing a fresh type name for a datatype, the
+%type name is given the current {\tt let}-level of the datatype declaration.
+%During unification, in the case where one wants to make a
+%substitution instance of a type variable
+%$\alpha$, which has level $n$, say, to a type $\tau$, it is checked that 
+%$\tau$ does not contain
+%a type name which has a higher {\tt let}-level than $n$ and
+%those  type variables in $\tau$ that have {\tt let}-levels greater than $n$
+%have their {\tt let}-levels lowered to $n$.
+%
+%
+\subsection{Principal Environments}
+\label{prinenv}
+In SML '90, the elaboration rule which allows any $\dec$ to
+appear as a $\strdec$ is
+$$
+\frac{ \of{\C}{\B}\ts\dec\ra\E
+       \quad\E\ {\rm principal\ for\ \dec\ in\ } (\of{\C}{\B})
+%version 2:        \quad\imptyvars\E=\emptyset
+}
+     { \B\ts\dec\ra\E }
+$$
+The side-condition forces the type scheme in $E$ to be as general
+as possible. However, this side-condition would be undesirably 
+restrictive in SML '97, since the new definition of the $\cl{}{}$ 
+operation admits less polymorphism than the one used in SML '90.
+For example, neither
+\begin{verbatim}
+       val f = (fn x => x)(fn x => x)
+       structure A  = struct end
+       val y = f 7
+\end{verbatim}
+(where the presence of the $\STRUCTURE$ declaration forces each $\VAL$
+declaration to be parsed as a $\strdec$),
+nor
+\begin{verbatim}
+       structure A: sig val f: int -> int end = 
+         struct
+            val f = (fn x => x)(fn x => x)
+         end
+\end{verbatim}
+would be legal in SML '97, if the side-condition were enforced.
+(A type-checker may at first infer the type $\boxml{'a}\to\boxml{'a}$ from 
+the declaration of {\tt f}, but since {\tt (fn x => x)(fn x => x)}
+is expansive, the generalisation to $\forall\boxml{'a}.\boxml{'a}\to\boxml{'a}$
+is not allowed.) By dropping the side-condition, it becomes possible
+to have the textual context of a structure-level declaration constrain
+free type variables to monotypes. Thus both the above examples can
+be elaborated. 
+
+Rather than lifting the notion of principal environments to the
+modules level, we have chosen to drop the requirement of principality.
+Since the notion of principal environments is no longer used in the
+rules, even the definition of principal environments has been removed.
+In practice, however, type checkers still have to infer types that
+are as general as possible, since implementations should not reject
+programs for which successful elaboration is possible.
+
+
+In order to avoid reporting free type variables to users,
+rules~\ref{strdectopdec-rule} and \ref{fundectopdec-rule} 
+require that the environment
+to which a $\topdec$ elaborates must not contain free type
+variables. It is possible to satisfy this side-condition 
+by replacing such type variables by arbitrary 
+monotypes; however, implementers may instead choose to 
+refuse elaboration in such situations.
+
+\subsection{Consistency and Admissibility}
+The primary purpose of consistency in SML '90 was to allow
+a very simple elaboration rule for structure sharing. A secondary
+purpose was to ban any signature which, because it specifies a datatype in
+inconsistent ways (e.g. with different constructors), can never
+be matched.
+ With the removal of structure sharing,
+the primary purpose of consistency has gone away. In our experience,
+the secondary purpose has turned out not to be very significant
+in practice. Textual copying of datatype specifications in different signatures
+is best avoided, since changes in the datatype will have to be
+done several places. In practice, it is better to specify a datatype in
+one signature and then access it elsewhere using structure specifications
+or {\tt include}. In SML '90 one could specify sharing between a
+datatype specification and an external (i.e., declared) datatype, and
+a consistency check was useful in this case.
+But in SML '97
+       this form of sharing is not allowed, so there remains no strong 
+       reason for preserving consistency; therefore it has been dropped.
+
+In SML '90, admissibility was imposed partly to ensure the existence
+of principal signatures (which are no longer needed) and partly
+to ban certain unmatchable signatures. In SML '90, admissibility was
+the conjunction of well-formedness, cycle-freedom and consistency.
+Cycle-freedom is no longer relevant, since there is no structure sharing.
+We have already discussed consistency. Well-formedness of signatures
+is no longer relevant, but the notion of well-formed type structures
+is still relevant. It turns out that well-formedness only needs to be
+checked in one place (in rule~\ref{wheretype-rule}). Otherwise, 
+well-formedness is preserved by the rules (in a sense which can be
+made precise). Thus one can avoid a global well-formedness requirement
+and dispense with admissibility. This we have done.
+
+\subsection{Special Constants}
+The class of special constants has been extended with {\tt word}
+and {\tt char} constants
+and with hexadecimal notation. Also, there are
+additional escape sequences in strings and support for UNICODE
+characters. See Section~\ref{cr:speccon}.
+%
+\subsection{Comments}
+A clarification concerning unmatched comment brackets was presented
+in the Commentary; subsequently, Stefan Kahrs discovered a problem with
+demanding that an unmatched \boxml{*)} be reported by the compiler.
+In SML '97, we therefore simply demand that an unmatched 
+\boxml{(*} must be reported by the compiler.
+
+\subsection{Infixed Operators}
+The rules for associativity of infix operators at the same level
+of precedence have been modified, to avoid confusion between right- and left-associative
+operators with the same binding precedence (see Section~\ref{infop.sec}). 
+%As a consequence, 
+%\boxml{x :: l1 @ l2} now parses as \boxml{(x :: l1) @ l2}.
+%The remarks in Section 3.3 about a possible liberalisation of
+%infix directives have been removed.
+
+\subsection{Non-expansive Expressions}
+\label{nonexpnew.sec}
+The class of non-expansive expressions (Section~\ref{expansive-sec}) has been extended,
+to compensate for the loss of polymorphism which value polymorphism
+entails. 
+
+\subsection{Rebinding of built-in identifiers}
+In SML '97, no $\datbind$, $\valbind$ or $\exnbind$ may bind $\TRUE$, $\FALSE$,
+$\boxml{nil}$, $\boxml{::}$ or $\boxml{ref}$  and no
+$\datbind$ or $\exnbind$ may bind {\tt it} (Section~\ref{synres.sec}). 
+Similarly, no $\datdesc$, $\valdesc$ or $\exndesc$ 
+may describe 
+$\TRUE$, $\FALSE$,
+$\boxml{nil}$, $\boxml{::}$ or $\boxml{ref}$  and no
+$\datdesc$ or $\exndesc$ may describe {\tt it}
+(Section~\ref{synresmod.sec}).
+These changes are made in order to fix the meaning of derived forms
+and to avoid ambiguity in the handling of {\tt ref} in
+the dynamic semantics of the Core.
+
+\subsection{Grammar for Modules}
+There are several new derived forms for modules, see Appendix A
+(Figures 18 and 19).
+%A note has been inserted in Figure 6, in order to resolve semantically
+%significant ambiguities concerning {\tt local} and sequential declarations.
+The grammar for $\topdec$ has been modified, so that there is no
+longer any need to put semicolons at the end of signature and functor
+declarations. 
+Empty and sequential signature and functor declarations have been removed, as they no
+longer serve any purpose.
+SML '97 has neither functor signature expressions nor 
+functor specifications, since they could not occur in programs
+and did not gain wide acceptance. 
+%Thus Section 5.15 and parts of Section 5.9 (Signature Instantiation)
+%and 5.12 (Signature Matching) have been removed.
+%The syntactic restrictions (Section 3.5)
+%have been revised, to reflect other changes. 
+
+\subsection{Closure Restrictions}
+Section 3.6 of the 1990 Definition has been deleted.
+%, since the closure restrictions
+%are not necessary and implementors never exploited them.
+
+\subsection{Specifications}
+{\tt open} and {\tt local} specifications have been criticised on
+the grounds of programming method\-ology\cite{appel93}. Also, they are no longer
+needed for defining the derived forms for functors and they conflict
+with a desire to have all signatures be type-explicit.
+
+SML '97 therefore admits neither {\tt open} nor {\tt local} in
+specifications. Moreover, sequential specifications must not
+specify the same identifier twice.
+As a consequence, the definition of type-explication
+has been removed: type-explication is automatically
+preserved by elaboration (if one starts in the initial basis)  so
+there is no need to impose type-explicitness explicitly.
+
+
+\subsection{Scope of Explicit Type Variables}
+A binding construct for explicit type variables has been
+introduced at {\tt val} and {\tt fun}
+(see Figure~\ref{dec-gram}). 
+For example,  one can declare the polymorphic
+identity function by
+$$\boxml{fun 'a id(x:'a) = x}$$
+
+There is no requirement that all explicit type variables be bound by
+this binding construct. For those that are not, the scope rules of 
+the 1990 Definition apply. The explicit binding construct
+has no impact on the dynamic semantics. In particular,
+there are no explicit type abstractions or applications in
+the dynamic semantics.
+
+
+\subsection{The Initial Basis}
+To achieve a clean interface to the new Standard ML Basis Library\cite{mllib96},
+the initial basis (Appendices C and D) has been cut down to a bare
+minimum. The present Definition only provides what is necessary in order
+to define the  derived forms
+and special constants of type {\tt int}, {\tt real}, {\tt word},
+{\tt char} and {\tt string}.  The following identifiers are no longer
+defined in the initial basis:
+\boxml{<>}, \verb+^+, \verb+!+, \boxml{@}, \boxml{Abs}, 
+\boxml{arctan}, \boxml{chr}, \boxml{Chr}, \boxml{close\_in},
+\boxml{close\_out}, \boxml{cos}, \boxml{Diff}, \boxml{Div},
+\boxml{end\_of\_stream}, \boxml{exp}, \boxml{Exp}, 
+\boxml{explode},
+\boxml{floor}, \boxml{Floor},
+\boxml{implode}, \boxml{input}, \boxml{instream}, \boxml{Interrupt}, \boxml{Io},
+\boxml{ln}, \boxml{Ln}, \boxml{lookahead},
+\boxml{map}, \boxml{Mod},
+\boxml{Neg}, \boxml{not},
+\boxml{real} (the coercion function), \boxml{rev}, 
+\boxml{sin}, \boxml{size}, \boxml{sqrt}, \boxml{Sqrt}, \boxml{std\_in}, \boxml{std\_out}, \boxml{Sum}, 
+\boxml{output}, \boxml{outstream},
+\boxml{Prod}, \boxml{Quot}.
+%Poor basis; all is gone
+The corresponding basic values have also been deleted. 
+\subsection{Overloading}
+The Standard ML Basis Library\cite{mllib96}
+rests on an overloading scheme for special constants and 
+pre-defined identifiers. We have adopted this scheme 
+(see Appendix~\ref{overload.sec}).
+\subsection{Reals}
+{\tt real} is no longer an equality type and real constants are no longer allowed 
+in patterns. The Basis Library provides IEEE equality operations on reals.
+
+%\end{document}
+
+

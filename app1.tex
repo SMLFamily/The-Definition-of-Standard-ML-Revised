@@ -14,8 +14,8 @@ In the derived forms for tuples, in terms of records, we use $\overline{n}$ to
 mean the ML numeral which stands for the natural number $n$.
 
 Note that a new phrase class ~FvalBind~ of function-value bindings is introduced,
-accompanied by a new declaration form ~\FUN\ \fvalbind~. The mixed forms
-~\VAL\ \REC\ \fvalbind~, ~\VAL\ \fvalbind~ and ~\FUN\ \valbind~ are not
+accompanied by a new declaration form ~\FUN\ \insertion{\theexplicittyvars}{\tyvarseq\ }\fvalbind~. The mixed forms
+~\VAL\ \insertion{\theexplicittyvars}{\tyvarseq\ }\REC\ \fvalbind~, ~\VAL\ \insertion{\theexplicittyvars}{\tyvarseq\ }\fvalbind~ and ~\FUN\ \insertion{\theexplicittyvars}{\tyvarseq\ }\valbind~ are not
 allowed -- though the first form arises during translation into the bare
 language.
 
@@ -35,8 +35,8 @@ The following notes refer to Figure~\ref{der-dec}:
            \[ \tyvarseq_1\ \tycon_1\ \mbox{\ml{=}} \ty_1\ \ \AND
               \ \cdots\ \AND
             \ \ \tyvarseq_n\ \tycon_n\ \mbox{\ml{=}} \ty_n\ \]
-           then ~\datbind$\/'$~ is the result of simultaneous replacement
-           (in ~\datbind~) of every type expression ~$\tyseq_i\ \tycon_i$~
+           then $\hbox{\datbind}'$ is the result of simultaneous replacement
+           (in ~\datbind) of every type expression ~$\tyseq_i\ \tycon_i$~
            ($1\leq i\leq n$)
            by the corresponding defining expression
            \[  \ty_i\{\tyseq_i/\tyvarseq_i\}\]
@@ -48,6 +48,7 @@ Figure~\ref{functor-der-forms-fig} shows derived forms for functors.
 They allow functors to take, say, a single type or value as a parameter,
 in cases where it would seem clumsy to ``wrap up'' the argument as a
 structure expression.
+\deletion{\thenostrsharing}{
 These forms are currently more experimental than the bare syntax of modules, 
 but we recommend implementers to include them so that they can be
 tested in practice.
@@ -61,10 +62,50 @@ the form  ~$\SIG\ \spec_1\ \END$~,
 and then $\sigexp'$ is
 $\mbox{\SIG\ \LOCAL\ \OPEN\ \strid\ \IN\ $\spec_1$\ \END\ \END}$.
 %(where $\strid$ is new).
+}
+
+\insertion{\thenostrsharing}{
+Finally, Figure~\ref{spec-der-forms-fig} shows the derived forms for specifications and signature expressions.
+The last derived form for specifications allows sharing between structure
+identifiers as a shorthand for type sharing specifications. 
+%Standard ML no 
+%longer has a semantic notion of structure sharing; 
+%however, for compatability with Standard ML '90, a weaker form
+%of structure sharing specification is provided. 
+The phrase
+\[
+\boxml{$\spec$ sharing $\longstrid_1$ = $\cdots$ = $\longstrid_k$}
+\]
+is a derived form whose equivalent form is
+\pagebreak
+%\medskip
+
+\halign{\qquad\ignore{#}&#\hfil\cr
+\boxml{$\spec$ sharing $\longstrid_1$ = $\cdots$} & \boxml{$\spec$}\cr
+\boxml{\ \ \qquad\qquad\qquad\qquad\qquad = $\longstrid_k$} & \boxml{\ sharing type $\longtycon_{1}$ =  $\longtycon_{1}'$}\cr
+  & \boxml{\ $\cdots$}\cr
+  & \boxml{\ sharing type $\longtycon_{m}$ =  $\longtycon_{m}'$}\cr}
+\medskip
+
+\noindent
+determined as follows. 
+First, note that  $\spec$  specifies a set of 
+     (possibly long) type constructors and structure identifiers, either 
+     directly or via signature identifiers and $\INCLUDE$ specifications.  
+     Then the equivalent form contains all type-sharing constraints 
+     of the form 
+\[\boxml{sharing type $\longstrid_i.\longtycon$ = $\longstrid_j.longtycon$}\]
+     $(1\leq i<j\leq k)$,  such that both sides of the equation are long type 
+     constructors specified by  $\spec$. 
+
+     The meaning of the derived form does not depend on the order of the 
+     type-sharing constraints in the equivalent form.
+
+}
+
 
 \begin{figure}
-
-\begin{tabular}{|l|l|l}
+\adhocreplacementl{\theidstatus}{0cm}{\begin{tabular}{|l|l|l}
 \multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} &
 \multicolumn{1}{c}{}\\
 \multicolumn{3}{c}{}\\
@@ -120,11 +161,66 @@ $\mbox{\SIG\ \LOCAL\ \OPEN\ \strid\ \IN\ $\spec_1$\ \END\ \END}$.
                             \ml{::}\ \NIL                 & $(n\geq 0)$ \\
 \cline{1-2}
 \multicolumn{3}{c}{}\\
-\end{tabular}
+\end{tabular}}{\begin{tabular}{|l|l|l}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} &
+\multicolumn{1}{c}{}\\
+\multicolumn{3}{c}{}\\
+\multicolumn{2}{l}{{\bf Expressions} \exp}\\
+%\multicolumn{2}{l}{EXPRESSIONS \exp}\\
+\cline{1-2}
+\ml{()}         & \ml{\lttbrace\ \rttbrace} \\
+\cline{1-2}
+\ml{(}$\exp_1$ \ml{,} $\cdots$ \ml{,} $\exp_\n$\ml{)}
+            & \ml{\lttbrace 1=}$\exp_1$\ml{,}\ $\cdots$\ml{,}\
+                             $\overline{n}$\ml{=}$\exp_\n$\ml{\rttbrace}
+                                                           & $(\n\geq 2)$\\
+\cline{1-2}
+\ml{\#}\ \lab      & \FN\ \ml{\lttbrace}\lab\ml{=}\vid\ml{,...\rttbrace\  => }\vid
+                                                           & (\vid\ new)\\
+%\cline{1-2}
+%\RAISE\ \longexn    & \RAISE\ \longexn\ \WITH\ \ml{()} \\
+\cline{1-2}
+\CASE\ \exp\ \OF\ \match
+                & \ml{(}\FN\ \match\ml{)(}\exp\ml{)} \\
+\cline{1-2}
+\IF\ $\exp_1$\ \THEN\ $\exp_2$\ \ELSE\ $\exp_3$
+                & \CASE\ $\exp_1$\ \OF\ \TRUE\ \ml{=>}\ \exp$_2$\\
+                & \ \ \qquad\qquad\ml{|}\ \FALSE\ \ml{=>}\ \exp$_3$ \\
+\cline{1-2}
+\exp$_1$\ \ORELSE\ \exp$_2$
+                & \IF\ \exp$_1$\ \THEN\ \TRUE\ \ELSE\ \exp$_2$ \\
+\cline{1-2}
+\exp$_1$\ \ANDALSO\ \exp$_2$
+                & \IF\ \exp$_1$\ \THEN\ \exp$_2$\ \ELSE\ \FALSE \\
+\cline{1-2}
+\ml{(}$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$ \ml{;} \exp\ml{)}\
+                & \CASE\ \exp$_1$\ \OF\ \ml{(\_) =>}
+                                                           & $(\n\geq 1)$ \\
+                & \qquad$\cdots$ \\
+                & \CASE\ \exp$_n$\ \OF\ \ml{(\_) =>}\ \exp \\
+\cline{1-2}
+\LET\ \dec\ \IN
+                & \LET\ \dec\ \IN                          & $(\n\geq 2)$ \\
+\qquad$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$ \END
+                & \ \ \ml{(}$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$\ml{)}\
+                                                                         \END\\
+\cline{1-2}
+\WHILE\ \exp$_1$\ \DO\ \exp$_2$
+                & \LET\ \VAL\ \REC\ \vid\ \ml{=}\ \FN\ \ml{() =>}
+                                                           & (\vid\ new)\\
+                & \ \ \IF\ \exp$_1$\ \THEN\
+                    \ml{(}\exp$_2$\ml{;}\vid\ml{())}\ \ELSE\ \ml{()} \\
+                & \ \ \IN\ \vid\ml{()}\ \END\\
+\cline{1-2}
+\ml{[}$\exp_1$ \ml{,} $\cdots$ \ml{,} $\exp_\n$\ml{]}
+                & \exp$_1$\ \ml{::}\ $\cdots$\ \ml{::}\ \exp$_n$\
+                            \ml{::}\ \NIL                 & $(n\geq 0)$ \\
+\cline{1-2}
+\multicolumn{3}{c}{}\\
+\end{tabular}}
 \caption{Derived forms of Expressions\index{67.1}}
 \label{der-exp}
 \end{figure}
-
 \begin{figure}
 
 \begin{tabular}{|l|l|l}
@@ -149,12 +245,17 @@ $\mbox{\SIG\ \LOCAL\ \OPEN\ \strid\ \IN\ $\spec_1$\ \END\ \END}$.
 \multicolumn{2}{l}{{\bf Pattern Rows} \labpats}\\
 %\multicolumn{2}{l}{PATTERN ROWS \labpats}\\
 \cline{1-2}
+\adhocreplacementl{\theidstatus}{1cm}{
 \id$\langle$\ml{:}\ty$\rangle
     \ \langle\AS\ \pat\rangle
     \ \langle$\ml{,} \labpats$\rangle$
-                & \id\ml{ = }\id$\langle$\ml{:}\ty$\rangle
+                }{\vid$\langle$\ml{:}\ty$\rangle
+    \ \langle\AS\ \pat\rangle
+    \ \langle$\ml{,} \labpats$\rangle$}& \adhocreplacementl{\theidstatus}{-9cm}{\id\ml{ = }\id$\langle$\ml{:}\ty$\rangle
                                  \ \langle\AS\ \pat\rangle
-                                 \ \langle$\ml{,} \labpats$\rangle$ \\
+                                 \ \langle$\ml{,} \labpats$\rangle$}{\vid\ml{ = }\vid$\langle$\ml{:}\ty$\rangle
+                                 \ \langle\AS\ \pat\rangle
+                                 \ \langle$\ml{,} \labpats$\rangle$} \\
 \cline{1-2}
 \multicolumn{3}{c}{}\\
 \multicolumn{2}{l}{{\bf Type Expressions} \ty}\\
@@ -170,9 +271,8 @@ $\ty_1$ \ml{*} $\cdots$ \ml{*} $\ty_\n$
 \caption{Derived forms of Patterns and Type Expressions\index{67.2}}
 \label{der-pat}
 \end{figure}
-
 \begin{figure}
-
+\adhocreplacementl{\theidstatus}{0cm}{
 \begin{tabular}{|l|l|}
 \multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form}\\
 \multicolumn{2}{c}{}\\
@@ -208,7 +308,7 @@ $\ty_1$ \ml{*} $\cdots$ \ml{*} $\ty_\n$
 \multicolumn{2}{l}{{\bf Declarations} \dec}\\
 %\multicolumn{2}{l}{DECLARATIONS \dec}\\
 \hline
-\FUN\ \fvalbind
+\FUN\  \fvalbind
                & \VAL\ \REC\ \fvalbind  \\
 \hline
 \DATATYPE\ \datbind\ \WITHTYPE\ \typbind
@@ -221,14 +321,62 @@ $\ty_1$ \ml{*} $\cdots$ \ml{*} $\ty_\n$
 \hline
 \multicolumn{2}{r}{(see note in text concerning \datbind$\/'$)}\\
 \multicolumn{2}{c}{}\\
-\end{tabular}
+\end{tabular}}{\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Function-value Bindings} \fvalbind}\\
+%\multicolumn{2}{l}{FUNCTION-VALUE BINDINGS \fvalbind}\\
+\hline
+               & $\langle\OP\rangle$\vid\ \ml{=} \FN\ \vid$_1$\ml{=>} $\cdots$
+                              \FN\ \vid$_n$\ml{=>} \\
+               & \CASE\
+                 \ml{(}\vid$_1$\ml{,} $\cdots$ \ml{,} \vid$_n$\ml{)} \OF \\
+\ \ $\langle\OP\rangle\vid\ \atpat_{11}\cdots\atpat_{1n}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_1$
+               & \ \ \ml{(}\atpat$_{11}$\ml{,}$\cdots$\ml{,}\atpat$_{1n}$
+                             \ml{)=>}\exp$_1\langle$\ml{:}\ty$\rangle$\\
+\ml{|}$\langle\OP\rangle\vid\ \atpat_{21}\cdots\atpat_{2n}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_2$
+               & \ml{|(}\atpat$_{21}$\ml{,}$\cdots$\ml{,}\atpat$_{2n}$
+                             \ml{)=>}\exp$_2\langle$\ml{:}\ty$\rangle$\\
+\ml{|}\qquad$\cdots\qquad\cdots$
+               & \ml{|}\qquad$\cdots\qquad\cdots$\\
+\ml{|}$\langle\OP\rangle\vid\ \atpat_{m1}\cdots\atpat_{mn}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_m$
+               & \ml{|(}\atpat$_{m1}$\ml{,}$\cdots$\ml{,}\atpat$_{mn}$
+                             \ml{)=>}\exp$_m\langle$\ml{:}\ty$\rangle$\\
+\qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$
+               & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$\\
+\hline
+\multicolumn{2}{r}{($m,n\geq1$; $\vid_1,\cdots,\vid_n$ distinct and new)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Declarations} \dec}\\
+%\multicolumn{2}{l}{DECLARATIONS \dec}\\
+\hline
+\FUN\ \tyvarseq\ \fvalbind
+               & \VAL\ \tyvarseq\ \REC\ \fvalbind  \\
+\hline
+\DATATYPE\ \datbind\ \WITHTYPE\ \typbind
+               & \DATATYPE\ \datbind$\/'$\ \ml{;}\ \TYPE\ \typbind \\
+\hline
+\ABSTYPE\ \datbind\ \WITHTYPE\ \typbind
+               & \ABSTYPE\ \datbind$\/'$ \\
+\qquad\qquad\WITH\ \dec\ \END
+               & \qquad\WITH\ \TYPE\ \typbind\ \ml{;}\ \dec\ \END\\
+\hline
+\multicolumn{2}{r}{(see note in text concerning \datbind$\/'$)}\\
+\multicolumn{2}{c}{}\\
+\end{tabular}}
 \caption{Derived forms of Function-value Bindings and Declarations\index{68.1}}
 \label{der-dec}
 \end{figure}
 
 %               Derived forms of functors:
 
-\begin{figure}
+\begin{figure}\adhocreplacementl{\thenostrsharing}{0mm}{
 \begin{tabular}{|l|l|}
 \multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} \\
 \multicolumn{2}{c}{}\\
@@ -262,9 +410,100 @@ $\ty_1$ \ml{*} $\cdots$ \ml{*} $\ty_\n$
 \exp           & \VAL\ \ml{it =} \exp  \\
 \cline{1-2}
 \multicolumn{2}{c}{}\\
-\end{tabular}
-\caption{Derived forms of Functors and Top-level Declarations\index{68.2}}
+\end{tabular}}{
+\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} \\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Structure  Bindings} \strbind}\\
+\cline{1-2}
+\derivedstrbinder & \equivalentstrbinder\\
+\cline{1-2}
+\derivedabststrbinder & \equivalentabststrbinder\\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Structure  Expressions} \strexp}\\
+\cline{1-2}
+\funappdec & \mbox{\funid\ \ml{(} \STRUCT\ \strdec\ \END\ \ml{)}}\\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+%\multicolumn{2}{l}{FUNCTOR BINDINGS \funbind}\\
+\multicolumn{2}{l}{{\bf Functor Bindings} \funbind}\\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\strid\ml{:}\sigexp\ml{)}\ml{:} $\sigexp'$ \ml{=}}&
+\mbox{\funid\ \ml{(}\strid\ \ml{:} \sigexp\ml{)} \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \strexp\ml{:}$\sigexp'$\  $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\strid\ml{:}\sigexp\ml{)}\ABSTRACT $\sigexp'$ \ml{=}}&
+\mbox{\funid\ \ml{(}\strid\ \ml{:} \sigexp\ml{)} \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \strexp\ABSTRACT$\sigexp'$\  $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\ \spec\ \ml{)}\ $\langle$\ml{:}\ \sigexp$\rangle$\ \ml{=}}&
+\mbox{\funid\ \ml{(}\ $\strid_\nu$\ \ml{:} \SIG\ \spec\ \END\ \ml{)} 
+              \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \LET\ \OPEN\ $\strid_\nu$ \IN\ \strexp$\langle$\ml{:}\ $\sigexp\rangle$}\\
+& \mbox{\ \ \END\ $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\ \spec\ \ml{)}\ $\langle$\ABSTRACT\ \sigexp$\rangle$\ \ml{=}}&
+\mbox{\funid\ \ml{(}\ $\strid_\nu$\ \ml{:} \SIG\ \spec\ \END\ \ml{)} 
+              \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \LET\ \OPEN\ $\strid_\nu$ \IN\ \strexp$\langle$\ABSTRACT $\sigexp\rangle$}\\
+& \mbox{\ \ \END\ $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}
+\multicolumn{2}{r}{($\strid_\nu$ new)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Programs} \program}\\
+\cline{1-2}
+$\exp\boxml{;}\langle\program\rangle$           & $\VAL\ \boxml{it =}\; \exp\boxml{;}\langle\program\rangle$\\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+\end{tabular}}
+\caption{Derived forms of Functors, Structure Bindings and Programs\index{68.2}}
 \label{functor-der-forms-fig}
+\end{figure}
+
+\begin{figure}
+\adhocinsertion{\thetypabbr}{-10mm}{
+\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} \\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Specifications} \spec}\\ 
+\cline{1-2}
+$\TYPE\;\tyvarseq\;\tycon\,\boxml{=}\,\ty$ & \boxml{include}\\
+ &\boxml{\ sig $\TYPE\;\tyvarseq\;\tycon$}\\
+ &\boxml{\ end where type $\tyvarseq\;\tycon\,\boxml{=}\,\ty$} \\
+\cline{1-2}
+\boxml{type $\tyvarseq_1\;\tycon_1$ = $\ty_1$} & \boxml{type $\tyvarseq_1\;\tycon_1$ = $\ty_1$}\\
+\boxml{ and $\cdots$} & \boxml{type $\cdots$}\\
+\boxml{ $\cdots$} & \boxml{ $\cdots$}\\
+\boxml{ and $\tyvarseq_n\;\tycon_n$ = $\ty_n$} & \boxml{type $\tyvarseq_n\;\tycon_n$ = $\ty_n$}\\
+\cline{1-2}
+$\inclspec$  & $\INCLUDE\,\sigid_1; \cdots\, ; \INCLUDE \,sigid_n$\\
+\cline{1-2}
+\boxml{$\spec$ sharing $\longstrid_1$ = $\cdots$} & \boxml{$\spec$}\\
+\boxml{\ \ \qquad\qquad\qquad\qquad\qquad = $\longstrid_k$} & \boxml{\ sharing type $\longtycon_{1}$ = }\\
+  & \boxml{\ \ \ \ \ \qquad\qquad\qquad\qquad $\longtycon_{1}'$}\\
+  & \boxml{\ $\cdots$}\\
+  & \boxml{\ sharing type $\longtycon_{m}$ = }\\
+  & \boxml{\ \ \ \ \ \qquad\qquad\qquad\qquad  $\longtycon_{m}'$}\\
+\cline{1-2}
+\multicolumn{2}{r}{\vrule height14pt depth0pt width0pt(see note in text concerning $\longtycon_{1},\ldots,\longtycon_{m}'$)}\\
+%\multicolumn{2}{r}{($n\geq 1$)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Signature Expressions} \sigexp}\\ 
+\cline{1-2}
+\boxml{$\sigexp$} & \boxml{$\sigexp$}\\
+\boxml{where type $\tyvarseq_1\; \longtycon_1$ = $\ty_1$} & \boxml{\ where type $\tyvarseq_1\; \longtycon_1$ = $\ty_1$}\\
+\boxml{\ \ and\ type $\cdots$}  & \boxml{\ where type $\cdots$}\\
+\boxml{\ \ $\cdots$}  & \boxml{\ $\cdots$}\\
+\boxml{\ \ and\ type $\tyvarseq_n\;\longtycon_n$ = $\ty_n$}        &  \boxml{\ where type $\tyvarseq_n\;\longtycon_n$ = $\ty_n$}\\
+\cline{1-2}
+\end{tabular}}
+\caption{Derived forms of Specifications and Signature Expressions}
+\label{spec-der-forms-fig}
 \end{figure}
 
 

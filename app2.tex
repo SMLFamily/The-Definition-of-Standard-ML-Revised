@@ -7,7 +7,7 @@ Section~\ref{prog-sec}.
 
 The\index{69.1} full grammar of Modules consists of the grammar of 
 Figures \ref{mod-phr}--\ref{prog-syn} in Section~\ref{syn-mod-sec},
-together with the derived forms of Figure~\ref{functor-der-forms-fig}
+together with the derived forms of \replacement{\thenostrsharing}{Figure~\ref{functor-der-forms-fig}}{Figures~\ref{functor-der-forms-fig} and \ref{spec-der-forms-fig}}
 in Appendix~\ref{derived-forms-app}.
 
 The remainder of this Appendix is devoted to the full grammar of the
@@ -88,10 +88,10 @@ match.
 \tabskip\@centering
 \halign to\textwidth
 {#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
-  \atexp& ::=	& \scon 	& special constant\cr
+  \atexp& ::=	& \scon 	& special constant\cr\adhocdeletion{\theidstatus}{0cm}{
         & 	& \opp\longvar	& value variable\cr
 	&	& \opp\longcon	& value constructor\cr
-        &       & \opp\longexn  & exception constructor\cr
+        &       & \opp\longexn  & exception constructor\cr}\adhocinsertion{\theidstatus}{-2cm}{        & 	& \opp\longvid	& value identifier\cr}
 	&	& \verb+{ +\recexp\verb+ }+	& record\cr
         &       & \ml{\#}\ \lab   & record selector\cr
         &       & \ml{()}       & 0-tuple\cr
@@ -112,7 +112,7 @@ match.
         &   	& \apexp\ \atexp& application expression\cr
 \noalign{\vspace{6pt}}
 \inexp & ::=	& \apexp	& \cr
-        &   	& $\inexp_1$\ \id\ $\inexp_2$
+        &   	& \adhocreplacementl{\theidstatus}{3cm}{$\inexp_1$\ \id\ $\inexp_2$}{$\inexp_1$\ \vid\ $\inexp_2$}
                                 & infix expression\cr
 \noalign{\vspace{6pt}}
   \exp  & ::=	& \inexp 	& \cr
@@ -148,11 +148,12 @@ match.
 \tabskip\@centering
 \halign to\textwidth
 {#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
-  \dec  & ::=	& \valdec	& value declaration\cr
-	&	& \FUN\ \fvalbind
+  \dec  & ::=	& \adhocreplacementl{\theexplicittyvars}{4cm}{\valdec}{\explicitvaldec}	& value declaration\cr
+	&	& \adhocreplacementl{\theexplicittyvars}{4cm}{\FUN\ \fvalbind}{\FUN\ \tyvarseq\  \fvalbind}
 	                        & function declaration\cr
 	&	& \typedec	& type declaration\cr
 	&	& \datatypedeca & datatype declaration\cr
+\adhocinsertion{\thedatatyperepl}{2cm}{        &       & \datatyperepldec & datatype replication\cr}
 	&	& \abstypedeca  & abstype declaration\cr
         &       & \qquad\WITH\ \dec\ \END
                                 & \cr
@@ -161,14 +162,15 @@ match.
         &       & \openstrdec   & open declaration, $n\geq 1$\cr
 	&	& \emptydec	& empty declaration\cr
 	&	& \seqdec	& sequential declaration\cr
-        &       & \longinfix    & infix (L) directive, $n\geq 1$\cr
-        &       & \longinfixr   & infix (R) directive, $n\geq 1$\cr
-        &       & \longnonfix   & nonfix directive, $n\geq 1$\cr
+        &       & \adhocreplacementl{\theidstatus}{4cm}{\longinfix}{\newlonginfix}    & infix (L) directive, $n\geq 1$\cr
+        &       & \adhocreplacementl{\theidstatus}{4cm}{\longinfixr}{\newlonginfixr}   & infix (R) directive, $n\geq 1$\cr
+        &       & \adhocreplacementl{\theidstatus}{4cm}{\longnonfix}{\newlongnonfix}   & nonfix directive, $n\geq 1$\cr
 %        &       & \exp          & expression (top-level only)\cr
 \noalign{\vspace{6pt}}
 \valbind& ::=   & \longvalbind   & \cr
 	&	& \recvalbind	& \cr
 \noalign{\vspace{6pt}}
+\adhocdeletion{\theidstatus}{5mm}{
 \fvalbind& ::=  & \ \ $\langle\OP\rangle\var\ \atpat_{11}\cdots\atpat_{1n}
                   \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_1$ & $m,n\geq 1$\cr
         &       & \ml{|}$\langle\OP\rangle\var\ \atpat_{21}\cdots\atpat_{2n}
@@ -177,26 +179,39 @@ match.
         &       & \ml{|}\qquad$\cdots\qquad\cdots$ &\cr
         &       & \ml{|}$\langle\OP\rangle\var\ \atpat_{m1}\cdots\atpat_{mn}
                   \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_m$ &\cr
-        &       & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$ &\cr
+        &       & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$ &\cr}\adhocinsertion{\theidstatus}{2cm}{\fvalbind& ::=  & \ \ $\langle\OP\rangle\vid\ \atpat_{11}\cdots\atpat_{1n}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_1$ & $m,n\geq 1$\cr
+        &       & \ml{|}$\langle\OP\rangle\vid\ \atpat_{21}\cdots\atpat_{2n}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_2$ & See also note
+                                                                     below\cr
+        &       & \ml{|}\qquad$\cdots\qquad\cdots$ &\cr
+        &       & \ml{|}$\langle\OP\rangle\vid\ \atpat_{m1}\cdots\atpat_{mn}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_m$ &\cr
+        &       & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$ &\cr}
 \noalign{\vspace{6pt}}
 \typbind& ::=	& \longtypbind	& \cr
 \noalign{\vspace{6pt}}
 \datbind& ::=	& \longdatbind	& \cr
 \noalign{\vspace{6pt}}
-\constrs& ::=	& \opp\longconstrs & \cr
+\constrs& ::=	& \adhocreplacementl{\theidstatus}{4cm}{\opp\longconstrs}{\opp\longvidconstrs} & \cr
 \noalign{\vspace{6pt}}
-\exnbind& ::=	& \generativeexnbind	& \cr
-        &       & \eqexnbind   & \cr
+\exnbind& ::=	& \adhocreplacementl{\theidstatus}{4cm}{\generativeexnbind}{\generativeexnvidbind}	& \cr
+        &       & \adhocreplacementl{\theidstatus}{4cm}{\eqexnbind}{\eqexnvidbind}   & \cr
 \noalign{\vspace{6pt}}
 }
 \makeatother
 \vspace{3pt}
-Note: In the $\fvalbind$ form, if $\var$ has infix status then either
+Note: \adhocreplacementl{\theidstatus}{3cm}{In the $\fvalbind$ form, if $\var$ has infix status then either
 ~\OP~ must be present, or $\var$ must be infixed.  Thus, at the start of
 any clause, ``~\OP\ \var\ \ml{(}\atpat\ml{,}\atpat$'$\ml{)} $\cdots$'' may be
 written
 ``\ml{(}\atpat\ \var\ \atpat$'$\ml{)} $\cdots$''; the parentheses may also be
-dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.
+dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.}{In the $\fvalbind$ form, if $\vid$ has infix status then either
+~\OP~ must be present, or $\vid$ must be infixed.  Thus, at the start of
+any clause, ``~\OP\ \vid\ \ml{(}\atpat\ml{,}\atpat$'$\ml{)} $\cdots$'' may be
+written
+``\ml{(}\atpat\ \vid\ \atpat$'$\ml{)} $\cdots$''; the parentheses may also be
+dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.}
 \caption{Grammar: Declarations and Bindings\index{71}}
 \label{dec-gram}
 \end{figure}
@@ -208,10 +223,10 @@ dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.
 \halign to\textwidth
 {#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
   \atpat& ::=	& \wildpat	& wildcard\cr
-  	&	& \scon  	& special constant\cr
+  	&	& \scon  	& special constant\cr\adhocdeletion{\theidstatus}{2cm}{
   	&	& \opp\var  	& variable\cr
 	&	& \opp\longcon  & constant\cr
-        &       & \opp\longexn  & exception constant\cr
+        &       & \opp\longexn  & exception constant\cr}\adhocinsertion{\theidstatus}{4cm}{  	&	& \opp\longvid  	& value identifier\cr}
 	&	& \verb+{ +\recpat\verb+ }+       & record\cr
         &       & \ml{()}       & 0-tuple\cr
         &       & \ml{(}$\pat_1$ \ml{,} $\cdots$ \ml{,} $\pat_\n$\ml{)}
@@ -222,18 +237,21 @@ dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.
 \noalign{\vspace{6pt}}
 \labpats& ::=	& \wildrec	& wildcard\cr
   	&	& \longlabpats 	& pattern row\cr
-        &       & \id$\langle$\ml{:}\ty$\rangle
+        &       & \adhocreplacementl{\theidstatus}{1cm}{\id}{\vid}$\langle$\ml{:}\ty$\rangle
                   \ \langle\AS\ \pat\rangle
                   \ \langle$\ml{,} \labpats$\rangle$
                                 & label as variable\cr
 \noalign{\vspace{6pt}}
-  \pat	& ::=	& \atpat	& atomic\cr
+  \pat	& ::=	& \atpat	& atomic\cr\adhocdeletion{\theidstatus}{0cm}{
 	&	& \opp\conpat	& value construction\cr
         &       & \opp\exconpat  & exception construction\cr
 	&	& \infpat       & infixed value construction\cr
         &       & \infexpat     & infixed exception construction\cr
 	&	& \typedpat	& typed\cr
-	&	& \opp\layeredpat	& layered\cr
+	&	& \opp\layeredpat	& layered\cr}\adhocinsertion{\theidstatus}{2cm}{	&	& \opp\vidpat	& constructed value\cr
+	&	& \vidinfpat       & constructed value (infix)\cr
+	&	& \typedpat	& typed\cr
+	&	& \opp\layeredvidpat	& layered\cr}
 \noalign{\vspace{6pt}}
 }
 \makeatother
@@ -253,7 +271,7 @@ dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.
 	&	& \constype 	& type construction\cr
         &       & $\ty_1$ \ml{*} $\cdots$ \ml{*} $\ty_\n$
                                 & tuple type, $\n\geq 2$ \cr
-	&	& \funtype      & function type expression\cr
+	&	& \funtype      & function type expression \adhocinsertion{\thefixtypos}{-3cm}{(R)}\cr
 	&	& \partype      & \cr
 \noalign{\vspace{6pt}}
 \labtys & ::=	& \longlabtys   & type-expression row\cr

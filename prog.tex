@@ -61,16 +61,16 @@ $\program$ results in a basis $\B'$ and a state $\s'$.
 
 It\index{64.2} must be understood  that executing a program never results in an
 exception. If the evaluation of a $\topdec$ yields an exception 
-(for instance because of a $\RAISE$ expression or external intervention) then
+(for instance because of a $\RAISE$ expression\deletion{\thelibrary}{ or external intervention}) then
 the result of executing the program ``$\topdec\ \mbox{\ml{;}}$'' is the
 original basis together with the state which is in force when the exception is
 generated. In particular, the exception convention\index{65.1} of 
 Section~\ref{dyncor-inf-rules-sec}
 is not applicable to the ensuing rules.
 
-We represent the non-elaboration of a top-level declaration by\linebreak
-$\ldots\tsstat\topdec\not\ra$. (This covers also the case in which a 
-user interrupts the elaboration.)
+We represent the non-elaboration of a top-level declaration by
+ $\ldots\tsstat\topdec\not\ra$. \deletion{\thelibrary}{(This covers also the case in which a 
+user interrupts the elaboration.)}
 
 \rulesec{Programs}{\s,\B\ts\program\ra\B',s'}
 \begin{equation}            % failing elaboration
@@ -119,11 +119,13 @@ parsed in the reduced grammar defined as follows:
 \[\topdec\ ::=\ \strdec\]
 \item Replace the definition of structure-level declarations by
 \[\strdec\ ::=\ \dec\]
+\deletion{\thelibrary}{
 \item Omit\index{65.5} the {\OPEN} declaration from the syntax class of
 declarations $\dec$
 \item Restrict the long identifier classes to identifiers, i.e.
-omit qualified identifiers.
+omit qualified identifiers.}
 \end{enumerate}
+\deletion{\thelibrary}{
 This means that  several components of a basis, for example the
 signature and functor environments, are irrelevant to the execution
-of a core language program.
+of a core language program.}

@@ -1,4 +1,5 @@
 \section*{Preface}
+\markboth{}{}
 A precise description of a programming language is a prerequisite for its 
 implementation and for its use.  The description can take many forms, 
 each suited to a different purpose.  A common form is a reference manual,
@@ -15,7 +16,7 @@ This document is a formal description of both the {\sl grammar} and the
 {\sl meaning} of a language which is both designed for large projects and
 widely used.  As such, it aims to serve the whole community of people
 seriously concerned with the language.  At a time when it is increasingly
-understood that programs must withstand rigorous analysis, particular for 
+understood that programs must withstand rigorous analysis, particularly for 
 systems where safety is critical, a rigorous language presentation is even
 important for negotiators and contractors; for a robust program
 written in an insecure language is like a house built upon sand.
@@ -26,8 +27,11 @@ To help them particularly, but also to put the present work in perspective
 for those more theoretically prepared,  it will be useful here to say something
 about three things: the nature of Standard ML, the task of language definition 
 in general, and the form of the present Definition.
+We also briefly describe the recent revisions to the Definition.
+\vspace*{-8pt}
 
 \subsubsection*{Standard ML}
+\vspace*{-4pt}
 Standard ML is a functional programming language, in the sense that the
 full power of mathematical functions is present.  But it grew in response
 to a particular programming task, for which it was equipped also
@@ -39,9 +43,9 @@ makes the strong typing remarkably flexible.  This combination of
 ingredients has not made it unduly large, but their novelty has been
 a fascinating challenge to semantic method (of which we say more below).
  
-ML has evolved over fourteen 
-years as a fusion of many ideas from many people. This evolution is
-described in some detail in Appendix E of the book, where also we
+ML has evolved over \replacement{\thenewpreface}{fourteen}{twenty} years as a fusion of many ideas 
+from many people. This evolution is
+described in some detail in Appendix~\ref{story-app} of the book, where also we
 acknowledge all those who have contributed to it, both in design
 and in implementation.
 
@@ -50,8 +54,9 @@ and in implementation.
 other (formal or informal) languages are discussed and analysed.  
 Originally ML was conceived as a medium for finding and performing 
 proofs in a logical language.   Conducting rigorous argument as dialogue 
-between person and machine has been a strong research interest at Edinburgh 
-and elsewhere, throughout these fourteen years. The difficulties are enormous, 
+between person and machine has been a \replacement{\thenostrsharing}{strong research interest at Edinburgh 
+and elsewhere, throughout these fourteen years.}{growing research topic 
+throughout these twenty years.} The difficulties are enormous, 
 and make stern demands
 upon the programming language which is used for this dialogue.   Those who are
 not familiar with computer-assisted reasoning may be surprised that a 
@@ -126,7 +131,7 @@ of the language must be in terms of these objects.
 As is commonly done in programming language semantics, we shall loosely
 talk of these semantic objects as {\sl meanings}. Of course, it is 
 perfectly possible to understand the semantic theory of a language, and
-yet be unable to to understand the meaning of a particular program, in the
+yet be unable to understand the meaning of a particular program, in the
 sense of its {\sl intention} or {\sl purpose}.  The aim of a language
 definition is not to formalise everything which could possibly be called the
 meaning of a program, but to establish a theory of semantic objects  
@@ -188,40 +193,110 @@ way, as others have, by giving rules which allow assertions about a
 {\sl compound} phrase $P$ to be inferred from assertions about its
 {\sl constituent} phrases $P_1,\ldots,P_n$.
 
-\subsubsection*{The form of the Definition\footnote{
-   The Definition has evolved through a sequence of three previous versions,
-   circulated as Technical Reports.  For those who have followed the
-   sequence, we should point out that the treatment of {\sl equality types}
-   and of {\sl admissibility} has been slightly modified in this publication 
-   to meet the claim for principal signatures.  The changes are mainly
-   in Sections~4.9, 5.5 and 5.13 and in the inference rules~19, 20,
-   29 and 65.}}
 We have written the Definition in a form suggested by the previous remarks.
 That is, we have defined our semantic objects in mathematical
 notation which is completely independent of Standard ML, and we have
 developed just enough of their theory to give sense to our rules of
 evaluation. 
+
    Following another suggestion above, we have factored our task
 by describing {\sl abstract} evaluation -- the inference and checking of
 types and signatures (which can be done at compile-time) -- completely 
 separately from {\sl concrete} evaluation.  
 It really is a factorisation, because a {\sl full} value in all its glory --
 you can think of it as a concrete object with a type
-attached -- never has to be presented.
+attached -- never has to be presented.\note{\thecommentary}{Paragraph moved}
 
-   The resulting document is, we hope, valuable as the essential point of 
+\deletion{\thenewpreface}{
+\subsubsection*{The form of the Definition
+\footnote{
+   The Definition has evolved through a sequence of three previous versions,
+   circulated as Technical Reports.  For those who have followed the
+   sequence, we should point out that the treatment of {\sl equality types}
+   and of {\sl admissibility} has been slightly modified in this publication 
+   to meet the claim for principal signatures.  The changes are mainly
+   in Sections~4.9, 5.5 and 5.13 and in the inference rules~19, 20,
+   29 and 65.}}}
+
+\subsubsection*{The Revision of Standard ML}
+{\it The Definition of Standard ML} was published in 1990.  
+Since then the implementation technology of
+the language has advanced enormously, and its users have 
+multiplied.  The language and its Definition 
+have therefore incited close scrutiny, evaluation, much approval, 
+sometimes strong criticism.\note{\thenostrsharing}{Section added.}
+
+The originators of the language have sifted this response, and
+found that there are inadequacies in the original language and its 
+formal Definition.  They are of three kinds: missing features which
+many users want;  complex and little-used features which most
+users can do without; and mistakes of definition.  What is
+remarkable is that these inadequacies are rather few, and that they
+are rather uncontroversial.  
+
+This new version of the Definition addresses the three kinds
+of inadequacy respectively by additions, subtractions and corrections.
+But we have only made such amendments when one or more aspects of
+SML -- the language itself, its usage, its implementation, its formal 
+Definition -- have thus become simpler, without complicating the
+other aspects.  It is worth noting that even the additions meet this 
+criterion; for example we have introduced type abbreviations
+in signatures to simplify the use of the language, but the way we
+have done it has even simplified the Definition too.   In fact,
+after our changes the formal Definition has fewer rules.
+
+In this exercise we have consulted the major implementers and several
+users, and have found broad agreement.  In the 1990 Definition it was
+predicted that further versions of the Definition would be produced as
+the language develops, with the intention to minimise the number of
+versions.  This is the first revised version, and we foresee no
+others. The changes that have been made to the 1990~Definition are
+enumerated in Appendix~\ref{whatisnew-app}.
+
+The resulting document is, we hope, valuable as the essential point of 
 reference for Standard ML.  If it is to play this role well, it must
-be supplemented by other literature.  Some expository books have already been 
+be supplemented by other literature.  \replacement{\thenewpreface}{Some}{Many}
+expository books have already been 
 written, and this Definition will be useful as a 
-background reference for their readers. We have also become convinced, while
-writing the Definition, that we could not discuss many questions without 
+background reference for their readers. 
+We \replacement{\thenewpreface}{have also become}{became}
+convinced, while
+writing the \insertion{\thenewpreface}{1990} Definition, that we could 
+not discuss many questions without 
 making it far too long.  Such questions are: Why were certain design choices
 made?  What are their implications for programming?  
 Was there a good alternative meaning for some constructs, or was our
 hand forced?  What different forms of phrase are equivalent? What is the proof
 of certain claims?  Many of these
-questions will not be answered by pedagogic texts either. So we are writing
-a Commentary on the Definition which will assist people in reading it, and
-which will serve as a bridge between the Definition and other texts.
-\begin{flushright} Edinburgh\\August 1989 \end{flushright}
+questions \replacement{\thenewpreface}{will not be}{are not} 
+answered by pedagogic texts either. 
+\replacement{\thenewpreface}{So we are writing
+a Commentary\cite{mt91} on the Definition which will assist people in reading it, and
+which will serve as a bridge between the Definition and other texts.}
+{We therefore wrote a 
+Commentary on the 1990
+Definition to
+assist people in reading it, and to
+serve as a bridge between the Definition and other texts. Though in
+part outdated by the present revision, the Commentary still largely fulfils its 
+purpose.}
+
+\insertion{\thenewpreface}{There exist several textbooks on programming
+with Standard ML\cite{paulson96,mcp93,Ullman94,stansifer92}. The second
+edition of Paulson's book\cite{paulson96} conforms with the present revision.}
+
+
+We wish to thank Dave Berry, Lars Birkedal, Martin Elsman, Stefan Kahrs
+and John Reppy for many detailed comments and suggestions which have assisted
+the revision.
+
+\begin{flushright}
+Robin Milner\quad Mads Tofte\quad Robert Harper\quad David MacQueen\\[1cm]
+November 1996
+\end{flushright}
+
+\newpage
+\deletion{\thenewpreface}{\begin{flushright} Edinburgh\\August 1989 \end{flushright}}
+
+
 

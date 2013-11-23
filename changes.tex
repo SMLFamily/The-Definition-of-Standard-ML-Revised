@@ -1,0 +1,4782 @@
+
+%
+\notePage{0}{Title and list of authors changed}
+
+%
+\notePage{iii}{Prelude added.}
+
+%
+\replacementPage{iv}{fourteen}{twenty}
+
+%
+\deletionPage{vii}{
+   The Definition has evolved through a sequence of three previous versions,
+   circulated as Technical Reports.  For those who have followed the
+   sequence, we should point out that the treatment of {\sl equality types}
+   and of {\sl admissibility} has been slightly modified in this publication 
+   to meet the claim for principal signatures.  The changes are mainly
+   in Sections~4.9, 5.5 and 5.13 and in the inference rules~19, 20,
+   29 and 65.}
+
+%
+\replacementPage{vii}{Some}{Many}
+
+%
+\replacementPage{vii}{have also become}{became}
+
+%
+\insertionPage{vii}{1990}
+
+%
+\replacementPage{vii}{will not be}{are not}
+
+%
+\replacementPage{vii}{So we are writing
+a Commentary\cite{mt91} on the Definition which will assist people in reading it, and
+which will serve as a bridge between the Definition and other texts.}
+{We therefore wrote a 
+Commentary on the 1990
+Definition to
+assist people in reading it, and to
+serve as a bridge between the Definition and other texts. Though in
+part outdated by the present revision, the Commentary still fulfils its 
+purpose.}
+
+%
+\insertionPage{vii}{There exist several textbooks on programming
+with Standard ML\cite{paulson96,mcp93,Ullman94,stansifer92}. The second
+edition of Pauson's book\cite{paulson96} conforms with the present revision.}
+
+%
+\deletionPage{vii}{\begin{flushright} Edinburgh\\August 1989 \end{flushright}}
+
+%
+\replacementPage{1}{just}{part of}
+
+%
+\replacementPage{2}{all predefined identifiers.}{a
+small set of predefined identifiers. A richer basis is defined
+in a separate document\cite{mllib96}.}
+
+%
+\deletionPage{2}{
+This theory, particularly the theory of types and signatures, will
+benefit from a more pedagogic treatment in other publications; the
+treatment here is
+probably the minimum required to understand the meaning of the rules.}
+
+%
+\deletionPage{2}{In two cases, however, they are presented as ``claims'' rather than
+theorems; these are the claim of principal environments in 
+Section~\ref{principal-env-sec}, and the claim of principal signatures
+in Section~\ref{prinsig-sec}. We need further confirmation of our
+detailed proofs of these claims, before asserting them as theorems.}
+
+%
+\replacementPage{3}{
+An\index{6.2} {\sl integer constant} 
+is any non-empty sequence of digits, possibly preceded
+by a negation symbol (\tttilde).
+A {\sl real constant} is an integer constant,
+possibly followed by a point ({\tt .}) and one or
+more digits, possibly followed by an exponent symbol ~{\tt E}~ and an integer
+constant; at least one of the optional parts must occur, hence no integer
+constant is a real constant.}{
+An\index{6.2} {\sl integer constant (in
+decimal notation)} is an optional negation symbol (\tttilde)
+followed by a non-empty sequence of decimal digits (\boxml{0}-\boxml{9}).
+An {\sl integer constant (in
+hexadecimal notation)} is an optional negation symbol 
+followed by \boxml{0x} followed by a non-empty sequence of
+hexadecimal digits (\boxml{0}-\boxml{9}\boxml{a}-\boxml{f}\boxml{A}-\boxml{F},
+where \boxml{A}-\boxml{F} are alternatives for \boxml{a}-\boxml{f},
+respectively).
+
+A {\sl word constant (in decimal notation)} is \boxml{0w}  followed
+by a non-empty sequence of decimal digits. A {\sl word constant
+(in hexadecimal notation)} is \boxml{0wx} followed by a non-empty
+sequence of hexadecimal digits.
+A {\sl real constant} is an integer constant in decimal notation,
+possibly followed by a point ({\tt .}) and one or
+more decimal digits, possibly followed by an exponent symbol ~({\tt E} or {\tt e})~ and an integer
+constant in decimal notation; at least one of the optional parts must occur, hence no integer
+constant is a real constant.}
+
+%
+\replacementPage{3}{We assume an underlying alphabet of 256 characters 
+(numbered 0 to 255) such that the characters with numbers 
+0 to 127 coincide with the ASCII character set.
+}{We assume an underlying alphabet of $N$ characters ($N \geq 256$), numbered
+     $0$ to $N-1$, which agrees with the ASCII character set on the characters
+     numbered 0 to 127. The interval $[0, N-1]$ is called the {\sl ordinal range} of
+     the alphabet.
+%For use in string and character constants, we assume two underlying
+%alphabets, of 8 bit and 16 bit characters, respectively. The {\sl ordinal
+%ranges} of the two alphabets are $[0,255]$ and $[0,65535]$, respectively.
+%In both cases, the characters with numbers 0 to 127 are assumed to coincide
+%with the ASCII character set.
+}
+
+%
+\notePage{3}{Inserted additional escape sequences in figure concerning
+string constants and unicodes}
+
+%
+\insertionPage{4}{A {\sl character constant} is a sequence of the form
+{\tt\#}$s$, where $s$ is a string constant denoting a string of size one character.
+
+Libraries may provide multiple numeric types and multiple string types.
+To each string type 
+corresponds an alphabet with ordinal range $[0, N-1]$
+for some $N\geq 256$; each alphabet must agree with the ASCII character set on 
+the characters numbered 0 to 127. When multiple alphabets are supported,
+all characters of a given string constant are interpreted over the same
+alphabet. For each special constant, overloading
+resolution is used for determining the type of the constant 
+(see Appendix~\ref{overload.sec}).
+
+%   All the escape sequences in a given string constant are interpreted
+%   over the same underlying alphabet (either 8-bit characters or 16-bit 
+%   characters), and for each string constant this alphabet is determined 
+%   by overloading resolution (see Appendix~\ref{overload.sec}).  
+%   It is a compile-time error 
+% if the
+%constant contains an escape sequence of the form $\uconst$ where
+%$xxxx$ denotes an integer outside the ordinal range of the alphabet so
+%determined. For example, within a sequence of 8-bit characters, the
+%two leftmost hexadecimal digits of $\uconst$ must be {\tt 0} (zero).
+}
+
+%
+\insertionPage{4}{word, character}
+
+%
+\replacementPage{4}{An 
+unmatched comment bracket should be
+detected by the compiler.}{No space is allowed between 
+            the two characters which make up
+            a comment bracket \ml{(*} or \ml{*)}.  An unmatched
+            \boxml{(*} should be detected by the compiler.}
+
+%
+\notePage{4}{Figure 1 replaced by new figure (Var, Con and ExCon 
+merged into VId)}
+
+%
+\replacementPage{4}{$\var$}{$\vid$}
+
+%
+\replacementPage{4}{Var}{$\VId$}
+
+%
+\deletionPage{5}{The subclass $\ImpTyVar$ of
+$\TyVar$, the {\sl imperative} type variables, consists of those which
+start with one or two primes followed by an underbar.  The complement
+$\AppTyVar=\TyVar\setminus\ImpTyVar$\index{8.1} consists of the {\sl
+applicative} type variables.
+}
+
+%
+\replacementPage{5}{The other six classes ({\Var}, {\Con},
+{\Exn}, {\TyCon}, {\Lab} and {\StrId}) are represented by identifiers
+not starting with a prime.}{The other four classes ({\VId}, 
+{\TyCon}, {\Lab} and {\StrId}) are represented by identifiers
+not starting with a prime.}
+
+%
+\replacementPage{5}{six}{four}
+
+%
+\replacementPage{5}{
+  \item Elsewhere, $\id$ is an exception constructor if it occurs in
+        the scope of an exception binding which introduces it as such, 
+        or a value constructor if it occurs in the
+        scope of a datatype binding which introduced it as such;
+        otherwise it is a value variable.}{
+  \item Elsewhere, $\id$ is a value identifier.}
+
+%
+\deletionPage{5}{
+It follows from the last rule that no value declaration can make a
+``hole'' in the scope of a value or exception constructor 
+by introducing the same identifier as a variable; this
+is because, in the scope of the declaration which introduces $\id$ as a value
+or exception constructor, any occurrence of $\id$ in a pattern 
+is interpreted as the
+constructor and not as the binding occurrence of a new variable.}
+
+%
+\replacementPage{6}{$\var$, a
+$\con$ or an $\exn$}{$\vid$}
+
+%
+\replacementPage{6}{directive.}{directive, and in these uses it is called an
+      {\sl infixed operator}.}
+
+%
+\replacementPage{6}{$\id$}{$\vid$}
+
+%
+\replacementPage{6}{``$\exp_1\ \id\ \exp_2$''}{``$\exp_1\ \vid\ \exp_2$''}
+
+%
+\replacementPage{6}{``$\pat_1\
+\id\ \pat_2$''}{``$\pat_1\
+\vid\ \pat_2$''}
+
+%
+\replacementPage{6}{$\id$}{$\vid$}
+
+%
+\replacementPage{6}{$\id$}{$\vid$}
+
+%
+\replacementPage{6}{$\id$}{$\vid$}
+
+%
+\replacementPage{6}{$\id$}{$\vid$}
+
+%
+\replacementPage{6}{\[ \longinfix \]
+\[ \longinfixr \]
+\[ \longnonfix \]}{\[ \newlonginfix \]
+\[ \newlonginfixr \]
+\[ \newlongnonfix \]}
+
+%
+\replacementPage{6}{$0$}{{\tt 0}}
+
+%
+\replacementPage{6}{~$\INFIX$~ and ~$\INFIXR$~ dictate left and right
+associativity respectively; association is always to the left for different
+operators of the same precedence.}{~$\INFIX$~ and ~$\INFIXR$~ dictate left and right
+associativity respectively. In an expression of the form  $\exp_1\, \vid_1\, \exp_2\, \vid_2\, \exp_3$, where
+      $\vid_1$ and $\vid_2$ are infixed operators with the same precedence, 
+      either both must associate to the left or both must
+associate to the right.
+For example, suppose that {\tt <<} and {\tt >>} have equal precedence,
+but associate to the left and right respectively; then
+\medskip
+
+\tabskip4cm
+\halign to\hsize{\indent\hfil{\tt #}\tabskip1em&\hfil#\hfil\ &\ {\tt #}\hfil\cr
+x << y << z&parses as&(x << y) << z\cr
+x >> y >> z&parses as&x >> (y >> z)\cr
+x << y >> z&is illegal\cr
+x >> y << z&is illegal\cr}
+\medskip}
+
+%
+\replacementPage{6}{infix}{infixed}
+
+%
+\replacementPage{7}{Figures~\ref{exp-syn}
+and~\ref{pat-syn}.}{Figures~\ref{pat-syn} and~\ref{exp-syn}.}
+
+%
+\deletionPage{8}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+        &       & \opp\var      & variable\cr
+        &       & \opp\longcon  & constant\cr
+        &       & \opp\longexn  & exception constant\cr}\end{minipage}}
+
+%
+\insertionPage{8}{$\opp\longvid$\qquad value identifier}
+
+%
+\insertionPage{8}{::=}
+
+%
+\deletionPage{8}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+        &       & \opp\conpat   & value construction\cr
+        &       & \opp\exconpat  & exception construction\cr
+        &       & \infpat       & infixed value construction\cr
+        &       & \infexpat     & infixed exception construction\cr}\end{minipage}}
+
+%
+\insertionPage{8}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+	& \opp\vidpat   & constructed pattern\cr
+        &       & \vidinfpat       & infixed value construction\cr}\end{minipage}}
+
+%
+\replacementPage{8}{$\opp\layeredpat$}{$\opp\layeredvidpat$}
+
+%
+\deletionPage{10}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+        &       & \opp\longvar  & value variable\cr
+        &       & \opp\longcon  & value constructor\cr
+        &       & \opp\longexn  & exception constructor\cr}\end{minipage}}
+
+%
+\insertionPage{10}{$\opp\longvid$\quad value identifier}
+
+%
+\replacementPage{10}{\infexp}{\vidinfexp}
+
+%
+\replacementPage{10}{\valdec}{\explicitvaldec}
+
+%
+\insertionPage{10}{$\datatyperepldecb$\qquad datatype replication}
+
+%
+\replacementPage{10}{\longinfix}{\newlonginfix}
+
+%
+\replacementPage{10}{\longinfixr}{\newlonginfixr}
+
+%
+\replacementPage{10}{\longnonfix}{\newlongnonfix}
+
+%
+\replacementPage{10}{$\opp\longconstrs$}{$\opp\longvidconstrs$}
+
+%
+\replacementPage{10}{\generativeexnbind}{\generativeexnvidbind}
+
+%
+\replacementPage{10}{\eqexnbind}{\eqexnvidbind}
+
+%
+\deletionPage{8}{No pattern may contain the same $\var$ twice. }
+
+%
+\insertionPage{8}{-expression}
+
+%
+\replacementPage{8}{constructors}{identifiers}
+
+%
+\insertionPage{8}{
+For each $\dec$ of the form $\datatyperepldeca$,
+      the sequences $\tyvarseq$ and $\tyvarseq'$ must be equal and neither
+      may contain the same type variable twice.}
+
+%
+\insertionPage{9}{\item No $\datbind$ or $\exnbind$ may bind $\TRUE$, $\FALSE$, $\IT$, 
+$\NIL$, \boxml{::} or $\REF$.}
+
+%
+\replacementPage{11}{The derived forms for modules concern functors and  appear in 
+Appendix~\ref{derived-forms-app}.}{The derived forms for modules  appear in 
+Appendix~\ref{derived-forms-app}.}
+
+%
+\notePage{11}{Inserted new keywords  {\tt where} and {\tt :>}}
+
+%
+\replacementPage{11}{syntax}{identifier}
+
+%
+\replacementPage{11}{generative}{basic}
+
+%
+\deletionPage{11}{A more liberal scheme (which is under consideration)
+would allow fixity directives to appear also as specifications, so that
+fixity may be dictated by a signature expression; furthermore, it would allow an ~$\OPEN$~
+or ~$\INCLUDE$~ construction to restore the fixity which prevailed
+in the structures being opened, or in the signatures being included.
+This scheme is not adopted at present.}
+
+%
+\deletionPage{12}{SharEq \quad sharing equations}
+
+%
+\deletionPage{12}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+FunSigExp & functor signature expressions\cr
+FunSpec & functor specifications\cr
+FunDesc & functor descriptions\cr}\end{minipage}}
+
+%
+\deletionPage{11}{It should be noted that functor specifications (FunSpec) cannot
+occur in programs;
+neither can the associated functor descriptions (FunDesc)
+and functor signature expressions (FunSigExp).  The purpose of a $\funspec$
+is to specify the static attributes (i.e. functor signature) of one
+or more functors. This will be useful, in fact essential, for
+separate compilation of functors. If, for example, a functor $g$
+refers to another functor $f$ then --- in order to compile $g$ in
+the absence of the declaration of $f$ --- at least the specification
+of $f$ (i.e. its functor signature) must be available. At present there is no
+special grammatical form for  a separately compilable ``chunk'' of text
+-- which we may like to call call a {\sl module} -- containing a $\fundec$
+together with a $\funspec$ specifying its global references. However, below in
+the semantics for Modules it is defined when a
+declared functor matches a functor signature specified for it. This determines
+exactly those functor environments (containing declared functors
+such as $f$) into which the separately compiled ``chunk''
+containing the declaration of $g$ may be loaded.}
+
+%
+\replacementPage{13}{generative}{basic}
+
+%
+\insertionPage{13}{$\transpconstraint$\quad transparent constraint}
+
+%
+\insertionPage{13}{ $ \opaqueconstraint$\quad opaque constraint}
+
+%
+\replacementPage{13}{$\strbindera$}{$\barestrbindera$}
+
+%
+\replacementPage{13}{generative}{basic}
+
+%
+\insertionPage{13}{$\wheretypesigexp$\quad type realisation}
+
+%
+\deletionPage{13}{single}
+
+%
+\deletionPage{13}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+        &       & \emptysigdec          & empty\cr
+        &       & \seqsigdec            & sequential\cr}\end{minipage}}
+
+%
+\replacementPage{12}{, $\strdesc$ or $\fundesc$}{or $\strdesc$}
+
+%
+\replacementPage{12}{constructors}{identifiers}
+
+%
+\insertionPage{12}{
+No ${\it tyvarseq}$ may contain the same ${\it tyvar}$ twice.}
+
+%
+\insertionPage{12}{
+For each $\spec$ of the form $\datatypereplspeca$, the sequences
+$\tyvarseq$ and $\tyvarseq'$ must be equal.}
+
+%
+\insertionPage{12}{
+ 
+      Any $\tyvar$ occurring on the right side of a $\datdesc$ of the form\linebreak
+ $\tyvarseq \;\tycon\;\boxml{=}$ $\cdots$ must occur
+      in the $\tyvarseq$; similarly, in signature expressions of the form $\sigexp\ \boxml{where type}\, \tyvarseq\,\longtycon\,$
+$\boxml{=}\,\ty$, any $\tyvar$ occurring in $\ty$ must occur in $\tyvarseq$.}
+
+%
+\insertionPage{12}{\item No $\datdesc$ or $\exndesc$ may describe 
+$\TRUE$, $\FALSE$, $\IT$, 
+$\NIL$, \boxml{::} or $\REF$.}
+
+%
+\insertionPage{14}{$\datatypereplspecb$\qquad replication}
+
+%
+\deletionPage{14}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+        &	& \sharingspec	        & sharing\cr
+	&	& \localspec    	& local\cr
+        &       & \openspec             & open ($n\geq 1$)\cr }\end{minipage}}
+
+%
+\replacementPage{14}{$\inclspec$\qquad include ($n\geq 1$)}{
+$\singleinclspec$\qquad include}
+
+%
+\insertionPage{14}{$\newsharingspec$\qquad sharing \quad $(n\geq 2)$}
+
+%
+\replacementPage{14}{\valdescription}{\valviddescription}
+
+%
+\replacementPage{14}{\condescription}{\conviddescription}
+
+%
+\replacementPage{14}{\exndescription}{\exnviddescription}
+
+%
+\deletionPage{14}{\begin{minipage}{\textwidth}\halign{\indent#\hfil&#\hfil&#\hfil&#\hfil\cr
+\shareq & ::=   & \strshareq            & structure sharing\cr
+        &       &                       & \qquad ($n\geq 2$) \cr
+        &       & \typshareq            & type sharing \cr
+        &       &                       & \qquad ($n\geq 2$) \cr
+        &       & \multshareq           & multiple\cr\noalign{\vspace{6pt}}
+\noalign{\vspace{6pt}}}\end{minipage}}
+
+%
+\notePage{12}{Figure 8: Functor signature expressions and
+functor specifications have been removed. Sequential and empty
+functor declarations and signature declarations have been removed.
+The grammar for $\topdec$ now allows sequencing (without semicolon) 
+of structure-level declarations, signature declarations and functor
+declarations.}
+
+%
+\deletionPage{12}{
+\subsection{Closure Restrictions}
+\label{closure-restr-sec}
+The\index{18.2} semantics presented in later sections requires no restriction on
+reference to non-local identifiers. For example, it allows a signature 
+expression to refer to external signature identifiers and
+(via ~$\SHARING$~ or ~$\OPEN$~) to external structure identifiers; it also
+allows a functor to refer to external identifiers of any kind.
+
+However, implementers who want to provide a simple facility for
+separate compilation may want to impose the following restrictions
+(ignoring references to identifiers bound in the initial basis
+$\B_0$, which may occur anywhere):
+
+%However, in the present version of the language,
+%apart from references to identifiers bound in the initial basis $B_0$
+%(which may occur anywhere), it is required that signatures only refer
+%non-locally to signature identifiers and that functors only
+%refer non-locally to functor and signature identifiers.
+%These restrictions ease separate
+%compilation; however, they may be relaxed in a future version of the language.
+%
+%More precisely, the restrictions are as follows (ignoring reference to
+%identifiers bound in $B_0$):
+\begin{enumerate}
+\item In any signature binding ~$\sigid\ \mbox{{\tt =}}\ \sigexp$~,
+the only non-local
+references in $\sigexp$ are to signature identifiers.
+\item In any functor description ~$\funid\ \longfunsigexpa$~,
+the only non-local
+references in $\sigexp$ and $\sigexp'$ are to signature identifiers,
+except that $\sigexp'$ may refer to $\strid$ and its components.
+\item In any functor binding ~$\funstrbinder$~, the only non-local
+references in $\sigexp$, $\sigexp'$ and $\strexp$ are to functor and signature
+identifiers,
+except that both $\sigexp'$ and $\strexp$ may refer to $\strid$ and
+its components.
+\end{enumerate}
+In the last two cases the final qualification allows, for example, sharing
+constraints to be specified between functor argument and result.
+(For a completely precise definition of these closure restrictions,
+see the comments to rules \ref{single-sigdec-rule} 
+(page~\pageref{single-sigdec-rule}), 
+\ref{singfunspec-rule} (page~\pageref{singfunspec-rule})
+and \ref{singfundec-rule} (page~\pageref{singfundec-rule})
+in the static semantics of modules, Section~\ref{statmod-sec}.)
+
+The\index{19.1} 
+significance of these restrictions is that they may ease separate
+compilation; this may be seen as follows. If one takes a {\sl module}
+to be a sequence of signature declarations, functor specifications
+and functor declarations satisfying the above restrictions then the
+elaboration of a module can be made to depend on the initial
+static basis alone (in particular, it will not rely on
+structures outside the module). Moreover, the elaboration 
+of a module cannot create new free structure or type names, so 
+name consistency (as defined in Section~\ref{consistency-sec}, 
+page \pageref{consistency-sec}) is automatically preserved
+across separately compiled modules. On the other hand,
+imposing these restrictions may force the programmer to write
+many more sharing equations than is needed if functors
+and signature expressions can refer to free structures.
+}
+
+%
+\replacementPage{15}{All semantic objects in the static semantics of the entire 
+language are built from identifiers and two further kinds of simple objects: 
+type constructor names and structure names.}{All semantic objects in 
+the static semantics of the entire 
+language are built from identifiers and two further kinds of simple objects: 
+type constructor names and identifier status descriptors.}
+
+%
+\deletionPage{15}{Structure names play an active role only in
+the Modules semantics; they enter the Core semantics only because
+they appear in structure environments, which (in turn) are needed in the Core
+semantics only to determine the values of long identifiers.}
+
+%
+\replacementPage{15}{
+\begin{displaymath}
+\begin{array}{rclr}
+\alpha\ {\rm or}\ \tyvar & \in   & \TyVar       & \mbox{type variables}\\
+\t               & \in   & \TyNames     & \mbox{type names}\\ 
+\m              & \in   & \StrNames     & \mbox{structure names}
+\end{array}
+\end{displaymath}}{\begin{displaymath}
+\begin{array}{rcll}
+\alpha\ {\rm or}\ \tyvar & \in   & \TyVar       & \mbox{type variables}\\
+\t               & \in   & \TyNames     & \mbox{type names}\\
+\is              & \in   & \IdStatus = \{\isc,\ise,\isv\}    & \mbox{identifier status descriptors}
+\end{array}
+\end{displaymath}}
+
+%
+\deletionPage{15}{Independently hereof, each $\alpha$ possesses a boolean attribute,
+the {\sl imperative} attribute, which determines whether it is imperative,
+i.e. whether it is a member of $\ImpTyVar$ (defined on page~\pageref{etyvar-lab})
+or not.}
+
+%
+\replacementPage{15}{{\INT}, {\REAL} 
+ or {\STRING}}{{\INT}, {\REAL}, {\WORD}, {\CHAR}
+ or {\STRING}}
+
+%
+\insertionPage{15}{(However, see Appendix~\ref{overload.sec} 
+concerning types of overloaded special constants.)}
+
+%
+\replacementPage{16}{\RecType}{\RowType}
+
+%
+\replacementPage{16}{\RecType}{\RowType}
+
+%
+\deletionPage{16}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&$#$\hfil&$#$\hfil\cr
+\S\ {\rm or}\ (\m,\E)
+                & \in   & \Str = \StrNames\times\Env  \cr}\end{minipage}}
+
+%
+\replacementPage{16}{\CE}{\VE}
+
+%
+\replacementPage{16}{$\TyStr = \TypeFcn\times\ConEnv$}{$\TyStr = \TypeFcn\times\ValEnv$}
+
+%
+\replacementPage{16}{$\StrEnv = \finfun{\StrId}{\Str}$}{$\StrEnv = \finfun{\StrId}{\Env}$}
+
+%
+\deletionPage{16}{$\CE\quad \in\quad \ConEnv = \finfun{\Con}{\TypeScheme}$}
+
+%
+\replacementPage{16}{$\VarEnv = \finfun{(\Var\cup\Con\cup\Exn)}{\TypeScheme}$}{$\ValEnv = \finfun{\VId}{\TypeScheme\times\IdStatus}$}
+
+%
+\deletionPage{16}{$\EE \in   \ExnEnv = \finfun{\Exn}{\Type}$}
+
+%
+\replacementPage{16}{$\longE{}$}{$\newlongE{}$}
+
+%
+\replacementPage{16}{$\Env = \StrEnv\times\TyEnv\times\VarEnv\times\ExnEnv$}{$\Env = \StrEnv\times\TyEnv\times\ValEnv$}
+
+%
+\deletionPage{16}{Moreover, $\imptyvars A$ and $\apptyvars A$ denote respectively the set
+of imperative type variables and the set of applicative
+type variables occurring free in $A$.}
+
+%
+\insertionPage{16}{\par Also note that a value environment maps
+value identifiers to a pair of a type scheme and an identifier status.
+If $\VE(\vid) = (\sigma,\is)$, we say that $\vid$ {\sl has status $\is$
+in $\VE$}. An occurrence of a value identifier which is elaborated
+in $\VE$ is referred to as a {\sl value variable}, a {\sl value constructor}
+or an {\sl exception constructor}, depending on whether its status in $\VE$
+is $\isv$, $\isc$ or $\ise$, respectively. }
+
+%
+\replacementPage{17}{variable-environment}{value-environment}
+
+%
+\replacementPage{17}{variable}{metavariable}
+
+%
+\replacementPage{17}{variable-environment}{value-environment}
+
+%
+\deletionPage{17}{ and ``$\of{\m}{\S}$'' means ``the structure name of $\S$''}
+
+%
+\replacementPage{17}{For instance $\C(\tycon)$ means
+$(\of{\TE}{\C})\tycon$.
+
+A particular case needs mention:  $\C(\con)$ is taken to stand for
+$(\of{\VE}{\C})\con$; similarly, $\C(\exn)$ is taken to stand for
+$(\of{\VE}{\C})\exn$.
+  The type scheme of a value constructor is
+held in $\VE$ as well as in $\TE$ (where it will be recorded within
+a $\CE$); similarly, the type of an exception constructor is held in
+$\VE$ as well as in $\EE$.
+Thus the re-binding of a constructor of either kind is given proper
+effect by accessing it in $\VE$, rather than in $\TE$ or in $\EE$.}{For 
+instance $\C(\tycon)$ means
+$(\of{\TE}{\C})\tycon$ and $\C(\vid)$ means $(\of{\VE}{(\of{E}{\C})})(\vid)$.}
+
+%
+\replacementPage{17}{For instance if $\longcon = \strid_1.\cdots.\strid_k.\con$ then
+$\E(\longcon)$ means
+\[ (\of{\VE}
+       {(\of{\SE}
+            {\cdots(\of{\SE}
+                       {(\of{\SE}{\E})\strid_1}
+                   )\strid_2\cdots}
+        )\strid_k}
+    )\con.
+\]
+}{For instance if $\longvid = \strid_1.\cdots.\strid_k.\vid$ then
+$\E(\longvid)$ means
+\[ (\of{\VE}
+       {(\of{\SE}
+            {\cdots(\of{\SE}
+                       {(\of{\SE}{\E})\strid_1}
+                   )\strid_2\cdots}
+        )\strid_k}
+    )\vid.
+\]
+}
+
+%
+\replacementPage{17}{$(\emptymap,\emptymap,\VE,\emptymap)$.}{$(\emptymap,\emptymap,\VE)$.}
+
+%
+\replacementPage{17}{$\E+(\emptymap,\emptymap,\VE,\emptymap)$.}{$\E+(\emptymap,\emptymap,\VE)$.}
+
+%
+\deletionPage{17}{Similarly, the imperative attribute has no significance 
+in the bound variable of a type function.}
+
+%
+\deletionPage{18}{A type is {\sl imperative} if all type variables occurring in it are
+imperative.}
+
+%
+\replacementPage{18}{if $\tau'=\tau\{\tauk/\alphak\}$ for some $\tauk$, where each member $\tau_i$
+of $\tauk$ admits equality if $\alpha_i$ does,  
+%poly 
+and $\tau_i$ is imperative if $\alpha_i$ is imperative.}{if $\tau'=\tau\{\tauk/\alphak\}$ for some $\tauk$, where each member $\tau_i$
+of $\tauk$ admits equality if $\alpha_i$ does.}
+
+%
+\deletionPage{18}{Similarly, the imperative attribute of a bound type variable of a
+type scheme {\sl is} significant.}
+
+%
+\insertionPage{18}{Moreover, in a value declaration
+{\tt val $\tyvarseq$ $\valbind$}, the sequence $\tyvarseq$ binds
+type variables: a type variable occurs free in 
+{\tt val $\tyvarseq$ $\valbind$} iff it occurs free in $\valbind$
+and is not in the sequence $\tyvarseq$.}
+
+%
+\deletionPage{18}{
+In the modules, a description of a value, type, or datatype
+may contain explicit type variables whose scope is that
+description.}
+
+%
+\insertionPage{18}{explicit binding of type
+variables at {\tt val} is optional, so}
+
+%
+\insertionPage{18}{free}
+
+%
+\replacementPage{18}{First, an occurrence of $\alpha$ in a value declaration $\valdec$ is said
+to be {\sl unguarded} if the occurrence is not part of a smaller value
+declaration within $\valbind$.}{First, a free occurrence of $\alpha$ in a value declaration 
+$\explicitvaldec$ is said
+to be {\sl unguarded} if the occurrence is not part of a smaller value
+declaration within $\valbind$.}
+
+%
+\replacementPage{18}{Then we say that $\alpha$ is {\sl scoped at} 
+a particular occurrence
+$O$ of $\valdec$ in a program if}{Then we say that $\alpha$ is {\sl implicitly scoped at} a particular value declaration
+{\tt val $\tyvarseq$ $\valbind$} in a program if}
+
+%
+\replacementPage{18}{occurrence $O$.}{given one.}
+
+%
+\deletionPage{18}{
+Hence, associated with every occurrence of a value declaration there is 
+a set $\U$ of the explicit type variables that are implicitly
+scoped at that
+occurrence. One may think of each occurrence of $\VAL$ as being implicitly
+decorated with such a  set, for instance:
+
+\vspace*{3mm}
+\halign{\indent$#$&$#$&$#$\cr
+\mbox{$\VAL_{\{\}}$ \ml{x = }}&\mbox{\ml{(}}&
+\mbox{\ml{let $\VAL_{\{\mbox{\ml{'a}}\}}$ Id1:'a->'a = fn z=>z in Id1 Id1 end,}}\cr
+& &\mbox{\ml{let $\VAL_{\{\mbox{\ml{'a}}\}}$ Id2:'a->'a = fn z=>z in Id2 Id2 end)}}\cr
+\noalign{\vspace*{3mm}}
+\mbox{$\VAL_{\{\mbox{\ml{'a}}\}}$ \ml{x = }}&\mbox{\ml{(}}&
+\mbox{\ml{let $\VAL_{\{\}}$ Id:'a->'a = fn z=>z in Id Id end,}}\cr
+& &\mbox{\ml{fn z=> z:'a)}}\cr}
+}
+
+%
+\insertionPage{19}{Henceforth, we assume that for every
+value declaration $\boxml{val}\,\tyvarseq\cdots$ occurring in the
+program, every explicit type variable implicitly scoped at the {\tt val}
+has been added to $\tyvarseq$. Thus for example, in the two declarations
+\begin{tabbing}
+\indent\=\tt  val x =  let val id:'a->'a = fn z=>z in id id end\\
+       \>\tt  val x = (let val id:'a->'a = fn z=>z in id id end; fn z=>z:'a)
+\end{tabbing}
+the type variable \boxml{'a} is scoped differently; they become respectively
+\begin{tabbing}
+\indent\=\tt val x =  let val 'a id:'a->'a = fn z=>z in id id end\\
+       \>\tt val 'a x = (let val id:'a->'a = fn z=>z in id id end; fn z=>z:'a)
+\end{tabbing}
+}
+
+%
+\replacementPage{19}{According}{Then, according}
+
+%
+\replacementPage{19}{\ml{Id}}{\ml{id}}
+
+%
+\replacementPage{19}{\ml{Id Id}}{\ml{id id}}
+
+%
+\deletionPage{19}{
+\subsection{Non-expansive Expressions}
+\label{expansive-sec}
+In\index{23.4} order to treat polymorphic references and exceptions,
+the set Exp of expressions is partitioned into two classes, the {\sl
+expansive} and the {\sl non-expansive} expressions. 
+Any variable,
+constructor and $\FN$ expression, possibly constrained by one or more
+type expressions, is non-expansive; all other expressions are said to
+be expansive.  The idea is that the dynamic evaluation of a
+non-expansive expression will neither generate an exception nor extend
+the domain of the memory, while the evaluation of an expansive
+expression might.}
+
+%
+\insertionPage{19}{
+\subsection{Non-expansive Expressions}
+\label{expansive-sec}
+In\index{23.4} order to treat polymorphic references and exceptions,
+the set Exp of expressions is partitioned into two classes, the {\sl
+expansive} and the {\sl non-expansive} expressions. 
+An expression
+     is {\sl non-expansive in context $\C$} if, after replacing infixed forms 
+     by their equivalent prefixed forms, and derived forms by their equivalent
+     forms, it can be generated  by the following grammar from the 
+     non-terminal $\nexp$:
+\medskip
+
+\halign{\indent\hfil$#$\ &\ $#$\hfil\ &\ $#$\hfil&\ #\hfil\cr
+\nexp&::=&\scon\cr
+&&\langle\OP\rangle\longvid\cr
+&&\ttlbrace\langle\nexprow\rangle\ttrbrace\cr
+&&\boxml{($\nexp$)}\cr
+&&\boxml{$\conexp\;\nexp$}\cr
+%&&\boxml{$\longvid\;\nexp$}\qquad\qquad\hbox{restrictions:}&$\longvid\neq\REF$ and\cr
+%&&&$\of{\is}{\C(\longvid)}\in\{\isc,\ise\}$\cr
+&&\nexp \boxml{:} \ty\cr
+%&&\boxml{$\nexp$ handle $\match$}\cr
+&&\boxml{fn $\match$}\cr%\cr
+\nexprow&::=&\boxml{$\lab$ = $\nexp\langle$, $\nexprow\rangle$}\cr
+\conexp&::=&\boxml{($\conexp\langle$:$\ty\rangle$)}\cr
+       &&\hbox{$\langle\OP\rangle\longvid$\hskip3cm Restriction:}&$\longvid\neq\REF$ and\cr
+&&&$\of{\is}{\C(\longvid)}\in\{\isc,\ise\}$\cr}
+\medskip
+
+\noindent
+All other expressions are said to be {\sl expansive (in $C$)}.
+The idea is that the dynamic evaluation of a
+non-expansive expression will neither generate an exception nor extend
+the domain of the memory, while the evaluation of an expansive
+expression might.
+}
+
+%
+\replacementPage{19}{variable environment}{value 
+environment}
+
+%
+\replacementPage{19}{\[\cl{A}{\VE}=\{\id\mapsto\cl{A}{(\tau)}\ ;\ \VE(\id)=\tau\}\]}{\[\cl{A}{\VE}=\{\vid\mapsto(\cl{A}{(\tau)},\is)\ ;\ \VE(\vid)=(\tau,\is)\}\]}
+
+%
+\deletionPage{20}{with a similar definition for $\cl{A}{\CE}$.}
+
+%
+\replacementPage{20}{variable environment}{value environment}
+
+%
+\replacementPage{20}{Thus, for each $\var\in\Dom\VE$ 
+there is a unique \mbox{\pat\ \ml{=} \exp}
+in $\valbind$ which binds $\var$.}{Thus, for each $\vid\in\Dom\VE$ 
+there is a unique \mbox{\pat\ \ml{=} \exp}
+in $\valbind$ which binds $\vid$.}
+
+%
+\replacementPage{20}{$\VE(\var)=\tau$}{$\VE(\vid)=(\tau,\is)$}
+
+%
+\replacementPage{20}{$\cl{\C,\valbind}{\VE(\var)}=\longtych$}{$\cl{\C,\valbind}{\VE(\vid)}=(\longtych,\is)$}
+
+%
+\replacementPage{20}{\[\alphak=\cases{\TyVarFcn\tau\setminus\TyVarFcn\C,&if $\exp$ 
+                                                    is non-expansive;\cr
+                 \apptyvars\tau\setminus\TyVarFcn\C,&if $\exp$ is expansive.}
+\]
+}{
+\[\alphak=\cases{\TyVarFcn\tau\setminus\TyVarFcn\C,&if $\exp$ 
+                                                    is non-expansive in $\C$;\cr
+                 (),&if $\exp$ is expansive in $\C$.}
+\]}
+
+%
+\deletionPage{20}{Notice that the form of $\valbind$ does not affect the binding of
+applicative type variables, only the binding of imperative
+type variables.}
+
+%
+\replacementPage{20}{$(\theta,\CE)$}{$(\theta,\VE)$}
+
+%
+\replacementPage{20}{$(\theta,\CE)$}{$(\theta,\VE)$}
+
+%
+\replacementPage{20}{$\CE\neq\emptymap$}{$\VE\neq\emptymap$}
+
+%
+\insertionPage{20}{An object or assembly $A$ of semantic objects is {\sl well-formed} if every type structure
+occurring in $A$ is well-formed.}
+
+%
+\replacementPage{20}{assumed}{required}
+
+%
+\replacementPage{20}{$(\t,\CE)$}{$(\t,\VE)$}
+
+%
+\replacementPage{20}{$\CE(\con)$}{$\VE(\vid)$}
+
+%
+\replacementPage{20}{$\forall\alphak.(\tau\rightarrow\alphak\t)$,}{$(\forall\alphak.(\tau\rightarrow\alphak\t), \is)$,}
+
+%
+\replacementPage{20}{$(\con,v)$}{$(\vid,v)$}
+
+%
+\replacementPage{20}{$(\t,\CE)$ }{$(\t,\VE)$ }
+
+%
+\replacementPage{20}{$\CE\neq\emptymap$}{$\VE\neq\emptymap$}
+
+%
+\replacementPage{20}{\[\TE=\{\tycon_i\mapsto(t_i,\CE_i)\ ;\ 1\leq i\leq k\},\]}{\[\TE=\{\tycon_i\mapsto(t_i,\VE_i)\ ;\ 1\leq i\leq k\},\]}
+
+%
+\replacementPage{20}{$\CE_i$}{$\VE_i$}
+
+%
+\replacementPage{20}{constructor}{value}
+
+%
+\replacementPage{20}{$\CE_i$}{$\VE_i$}
+
+%
+\replacementPage{21}{$\B=(\M,\T),\F,\G,\E$}{$\B=\T,\F,\G,\E$}
+
+%
+\replacementPage{21}{\begin{equation}        % value variable
+\label{varexp-rule}
+\frac{\C(\longvar)\succ\tau}
+     {\C\ts\longvar\ra\tau}
+\end{equation}}{\begin{equation}        % value variable
+\label{varexp-rule}
+\frac{\C(\longvid) = (\sigma,\is)\qquad\sigma\succ\tau}
+     {\C\ts\longvid\ra\tau}
+\end{equation}}
+
+%
+\deletionPage{21}{\begin{equation}        % value constructor
+\label{conexp-rule}
+\frac{\C(\longcon)\succ\tau}
+     {\C\ts\longcon\ra\tau}
+\end{equation}
+
+\begin{equation}      % exception constant
+%\label{exconexp-rule}
+\frac{\C(\longexn)=\tau}
+     {\C\ts\longexn\ra\tau}
+\end{equation}}
+
+%
+\replacementPage{21}{\begin{equation}        % local declaration
+\label{let-rule}
+\frac{\C\ts\dec\ra\E\qquad\C\oplus\E\ts\exp\ra\tau}
+     {\C\ts\letexp\ra\tau}\index{27.1}
+\end{equation}}{\begin{equation}        % local declaration
+\label{let-rule}
+\frac{\C\ts\dec\ra\E\qquad\C\oplus\E\ts\exp\ra\tau\qquad\TyNamesFcn\tau\subseteq\of{\T}{\C}}
+     {\C\ts\letexp\ra\tau}\index{27.1}
+\end{equation}}
+
+%
+\replacementPage{22}{\item{(\ref{varexp-rule}),(\ref{conexp-rule})}
+The instantiation of 
+type schemes allows different occurrences of a single $\longvar$ 
+or $\longcon$ to assume different types.}{\item{(\ref{varexp-rule})}
+The instantiation of 
+type schemes allows different occurrences of a single $\longvid$ 
+to assume different types. Note that the identifier status is not
+used in this rule.}
+
+%
+\insertionPage{22}{The side condition
+prevents type names generated by $\dec$ from escaping outside the local declaration.}
+
+%
+\replacementPage{23}{
+\begin{equation}        % mrule
+%\label{mrule-rule}
+\frac{\C\ts\pat\ra(\VE,\tau)\qquad\C+\VE\ts\exp\ra\tau'}
+     {\C\ts\longmrule\ \ra\tau\rightarrow\tau'}
+\end{equation}}{\begin{equation}        % mrule
+\label{mrule-rule}
+\frac{\C\ts\pat\ra(\VE,\tau)\qquad\C+\VE\ts\exp\ra\tau'\qquad\TyNamesFcn\VE\subseteq\of{\T}{\C}}
+     {\C\ts\longmrule\ \ra\tau\rightarrow\tau'}
+\end{equation}}
+
+%
+\replacementPage{23}{
+\begin{equation}        % value declaration
+\label{valdec-rule}
+\frac{\plusmap{\C}{\U}\ts\valbind\ra\VE\qquad 
+      \VE'=\cl{\C,\valbind}{\VE}\qquad
+      \U\cap\TyVarFcn\VE'=\emptyset}
+     {\C\ts\valdecS\ra\VE'\ \In\ \Env}\index{28.2}
+\end{equation}}{\begin{equation}        % value declaration
+\label{valdec-rule}
+\frac{\begin{array}{l}
+      U = \TyVarsFcn (\tyvarseq)\\
+     \plusmap{\C}{\U}\ts\valbind\ra\VE\qquad 
+      \VE'=\cl{\C,\valbind}{\VE}\qquad
+      \U\cap\TyVarFcn\VE'=\emptyset
+      \end{array}}
+     {\C\ts\boxml{val $\tyvarseq$ $\valbind$}\ra\VE'\ \In\ \Env}\index{28.2}
+\end{equation}}
+
+%
+\replacementPage{23}{\CE}{\VE'}
+
+%
+\insertionPage{23}{\begin{equation}        % datatype replication
+\label{datatyperepldec-rule}
+\frac{\C(\longtycon) = (\typefcn,\VE)\quad
+      \typefcn = \typefcnk\quad
+      \tyvarseq = \alphak\quad
+      \TE=\{\tycon\mapsto(\typefcn,\VE)\}
+     }
+     {\C\ts\datatyperepldec\ra(\VE,\TE)\ \In\ \Env}
+\end{equation}}
+
+%
+\replacementPage{23}{\CE}{\VE'}
+
+%
+\replacementPage{23}{\begin{equation}        % exception declaration
+\label{exceptiondec-rule}
+\frac{\C\ts\exnbind\ra\EE\quad\VE=\EE }
+     {\C\ts\exceptiondec\ra(\VE,\EE)\ \In\ \Env }
+\end{equation}}{\begin{equation}        % exception declaration
+\label{exceptiondec-rule}
+\frac{\C\ts\exnbind\ra\VE}
+     {\C\ts\exceptiondec\ra\VE\ \In\ \Env }
+\end{equation}}
+
+%
+\replacementPage{24}{\begin{equation}                % open declaration
+%\label{open-dec-rule}
+\frac{ \C(\longstrid_1)=(\m_1,\E_1)
+            \quad\cdots\quad
+       \C(\longstrid_n)=(\m_n,\E_n) }
+     { \C\ts\openstrdec\ra \E_1 + \cdots + \E_n }
+\end{equation}}{\begin{equation}                % open declaration
+%\label{open-dec-rule}
+\frac{ \C(\longstrid_1)= \E_1 
+            \quad\cdots\quad
+       \C(\longstrid_n)= \E_n  }
+     { \C\ts\openstrdec\ra \E_1 + \cdots + \E_n }
+\end{equation}}
+
+%
+\replacementPage{24}{The closure of $\VE$ is exactly what allows variables to
+be used polymorphically, via rule~\ref{varexp-rule}.}{The closure of $\VE$  
+allows value identifiers  to
+be used polymorphically, via rule~\ref{varexp-rule}.}
+
+%
+\replacementPage{24}{Moreover, $\U$ is the set of explicit type variables scoped at this particular
+occurrence of $\valdec$, cf. Section~\ref{scope-sec}, 
+page~\pageref{scope-def-lab}. The side-condition on $\U$
+ensures that these explicit type variables are bound by the closure 
+operation.}{The side-condition on $\U$
+ensures that the type variables in $\tyvarseq$  are bound 
+by the closure operation,
+if they occur free in the range of $\VE$.}
+
+%
+\replacementPage{24}{On the other hand, no {\sl other} explicit type variable occurring
+free in $\VE$ will become bound, since it must be in $\of{\U}{\C}$, and
+is therefore excluded from closure by the definition of the closure operation
+(Section~\ref{closure-sec}, page~\pageref{clos-def-lab})
+since $\of{\U}{\C}\subseteq\TyVarFcn\C$.}{On the other hand,
+if the phrase $\boxml{val}\,\tyvarseq\,\valbind$ occurs inside
+some larger value binding $\boxml{val}\,\tyvarseq'\,\valbind'$
+then no type variable $\alpha$ listed in $\tyvarseq'$ will become
+bound by the $\cl{\C,\valbind}{\VE}$ operation; for $\alpha$ must 
+be in $\of{\U}{\C}$ and hence excluded from closure by the definition of the closure operation
+(Section~\ref{closure-sec}, page~\pageref{clos-def-lab})
+since $\of{\U}{\C}\subseteq\TyVarFcn\C$.}
+
+%
+\insertionPage{24}{\item{(\ref{datatyperepldec-rule})}
+Note that no new type name is generated (i.e., datatype replication is
+not generative). 
+By the syntactic restriction in Section~\ref{synres.sec} the two type
+variable sequences in the conclusion must be equal.}
+
+%
+\replacementPage{24}{$\EE$}{$\VE$}
+
+%
+\replacementPage{24}{names}{constructors}
+
+%
+\deletionPage{24}{
+Note that $\EE$ is also recorded in the {\VarEnv} component of
+the resulting environment (see Section~\ref{stat-proj}, page~\pageref{stat-proj}).\index{29.0}}
+
+%
+\replacementPage{24}{
+\begin{equation}        % recursive value binding
+\label{recvalbind-rule}
+\frac{\C+\VE\ts\valbind\ra\VE}
+     {\C\ts\recvalbind\ra\VE}
+\end{equation}}{\begin{equation}        % recursive value binding
+\label{recvalbind-rule}
+\frac{\C+\VE\ts\valbind\ra\VE\qquad\TyNamesFcn\VE\subseteq\of{\T}{\C}}
+     {\C\ts\recvalbind\ra\VE}
+\end{equation}}
+
+%
+\insertionPage{25}{Also note that $\C+\VE$ may overwrite 
+identifier status. For example, the program
+    {\tt datatype t = f; val rec f = fn x => x;}~~  is legal.}
+
+%
+\replacementPage{25}{\begin{equation}        % datatype binding
+\frac{\begin{array}{c}
+        \tyvarseq=\alphak\qquad\C,\alphakt\ts\constrs\ra\CE\\
+        \langle\C\ts\datbind\ra\VE,\TE\qquad
+        \forall(\t',\CE)\in\Ran\TE, \t\neq\t'\rangle
+      \end{array}
+     }
+     {\begin{array}{c}
+        \C\ts\longdatbind\ra\\
+        \qquad\qquad\qquad\cl{}{\CE}\langle +\ \VE\rangle,\
+        \{\tycon\mapsto(\t,\cl{}{\CE})\}\ \langle +\ \TE\rangle
+      \end{array}
+     }\index{30.1}
+\end{equation}}{\begin{equation}        % datatype binding
+\frac{\begin{array}{c}
+        \tyvarseq=\alphak\qquad\C,\alphakt\ts\constrs\ra\VE\\
+        \langle\C\ts\datbind'\ra\VE',\TE'\qquad
+        \forall(\t',\VE'')\in\Ran\TE', \t\neq\t'\rangle
+      \end{array}
+     }
+     {\begin{array}{l}
+        \C\ts\newlongdatbind\ra\\
+        \qquad(\cl{}{\VE}\langle +\ \VE'\rangle,\
+        \{\tycon\mapsto(\t,\cl{}{\VE})\}\ \langle +\ \TE'\rangle
+      \end{array}
+     }\index{30.1}
+\end{equation}}
+
+%
+\replacementPage{25}{The syntactic restrictions ensure $\Dom\VE\cap\Dom\CE = \emptyset$
+and $\tycon\notin\Dom\TE$.}{The syntactic restrictions ensure $\Dom\VE\cap\Dom\VE' = \emptyset$
+and $\tycon\notin\Dom\TE'$.}
+
+%
+\replacementPage{25}{\rulesec{Constructor Bindings}{\C,\tau\ts\constrs\ra\CE}}{\rulesec{Constructor Bindings}{\C,\tau\ts\constrs\ra\VE}}
+
+%
+\replacementPage{25}{\begin{equation}        % data constructors
+%\label{constrs-rule}
+\frac{\langle\C\ts\ty\ra\tau'\rangle\qquad
+      \langle\langle\C,\tau\ts\constrs\ra\CE\rangle\rangle }
+     {\begin{array}{c}
+      \C,\tau\ts\longerconstrs\ra\\
+      \qquad\qquad\qquad\{\con\mapsto\tau\}\
+     \langle +\ \{\con\mapsto\tau'\to\tau\}\ \rangle\
+      \langle\langle +\ \CE\rangle\rangle
+      \end{array}
+     }\index{30.2}
+\end{equation}}{\begin{equation}        % data constructors
+%\label{constrs-rule}
+\frac{\langle\C\ts\ty\ra\tau'\rangle\qquad
+      \langle\langle\C,\tau\ts\constrs\ra\VE\rangle\rangle }
+     {\begin{array}{c}
+      \C,\tau\ts\longervidconstrs\ra\\
+      \qquad\qquad\qquad\{\vid\mapsto(\tau,\isc)\}\
+     \langle +\ \{\vid\mapsto(\tau'\to\tau,\isc)\}\ \rangle\
+      \langle\langle +\ \VE\rangle\rangle
+      \end{array}
+     }\index{30.2}
+\end{equation}}
+
+%
+\replacementPage{25}{$\con\notin\Dom\CE$.}{$\vid\notin\Dom\VE$.}
+
+%
+\replacementPage{25}{
+\rulesec{Exception Bindings}{\C\ts\exnbind\ra\EE}}{
+\rulesec{Exception Bindings}{\C\ts\exnbind\ra\VE}}
+
+%
+\replacementPage{26}{\begin{equation}        % exception binding
+\label{exnbind1-rule}
+\frac{\langle\C\ts\ty\ra\tau\quad\mbox{$\tau$ is imperative}\rangle\qquad
+      \langle\langle\C\ts\exnbind\ra\EE\rangle\rangle }
+     {\begin{array}{c}
+      \C\ts\longexnbinda\ra\\
+      \qquad\qquad\qquad\{\exn\mapsto\EXCN\}\
+      \langle +\ \{\exn\mapsto\tau\rightarrow\EXCN\}\ \rangle\
+      \langle\langle +\ \EE\rangle\rangle
+      \end{array}
+     }\index{30.3}
+\end{equation}}{\begin{equation}        % exception binding
+\label{exnbind1-rule}
+\frac{\langle\C\ts\ty\ra\tau\rangle\qquad
+      \langle\langle\C\ts\exnbind\ra\VE\rangle\rangle }
+     {\begin{array}{l}
+      \C\ts\longvidexnbinda\ra\\
+      \qquad\{\vid\mapsto(\EXCN,\ise)\}\
+      \langle +\ \{\vid\mapsto(\tau\rightarrow\EXCN,\ise)\}\ \rangle\
+      \langle\langle +\ \VE\rangle\rangle
+      \end{array}
+     }\index{30.3}
+\end{equation}}
+
+%
+\replacementPage{26}{\begin{equation}        % exception binding
+\label{exnbind2-rule}
+\frac{\C(\longexn)=\tau\qquad
+      \langle\C\ts\exnbind\ra\EE\rangle }
+      {\C\ts\longexnbindb\ra\{\exn\mapsto\tau\}\ \langle +\ \EE\rangle}
+\end{equation}}{\begin{equation}        % exception binding
+\label{exnbind2-rule}
+\frac{\C(\longvid)=(\tau,\ise)\qquad
+      \langle\C\ts\exnbind\ra\VE\rangle }
+      {\C\ts\longvidexnbindb\ra\{\vid\mapsto(\tau,\ise)\}\ \langle +\ \VE\rangle}
+\end{equation}}
+
+%
+\replacementPage{26}{\item{(\ref{exnbind1-rule})} Notice that $\tau$ must not contain
+any applicative type variables.}{\item{(\ref{exnbind1-rule})} Notice that $\tau$ may contain
+type variables.}
+
+%
+\replacementPage{26}{
+There is a unique $\EE$, for each $\C$ and $\exnbind$,
+such that $\C\ts\exnbind\ra\EE$.}{For each $\C$ and $\exnbind$,
+there is at most one $\VE$ satisfying $\C\ts\exnbind\ra\VE$.}
+
+%
+\replacementPage{26}{
+\begin{equation}        % variable pattern
+\label{varpat-rule}
+\frac{}
+     {\C\ts\var\ra (\{\var\mapsto\tau\},\tau) }
+\end{equation}}{\begin{equation}        % variable pattern
+\label{varpat-rule}
+\frac{\hbox{$\vid\notin\Dom(\C)$ or $\of{\is}{C(\vid)} = \isv$}}
+     {\C\ts\vid\ra (\{\vid\mapsto(\tau,\isv)\},\tau) }
+\end{equation}}
+
+%
+\replacementPage{26}{
+\begin{equation}        % constant pattern
+%\label{constpat-rule}
+\frac{\C(\longcon)\succ\tauk\t }
+     {\C\ts\longcon\ra (\emptymap,\tauk\t)}
+\end{equation}}{\begin{equation}        % constant pattern
+\label{constpat-rule}
+\frac{\C(\longvid)=(\sigma,\is)\qquad\is\neq\isv\qquad\sigma\succ\tauk\t }
+     {\C\ts\longvid\ra (\emptymap,\tauk\t)}
+\end{equation}}
+
+%
+\deletionPage{26}{
+\begin{equation}       % exception constant
+%\label{exconapat-rule}
+\frac{\C(\longexn)=\EXCN}
+     {\C\ts\longexn\ra (\emptymap,\EXCN)}
+\end{equation}}
+
+%
+\replacementPage{26}{\item{(\ref{varpat-rule})} 
+Note that $\var$ can assume a type, not a general type scheme.}{\item{(\ref{varpat-rule}), (\ref{constpat-rule})} The context $\C$ determines which of these
+two rules applies. In rule~\ref{varpat-rule}, note that  
+$\vid$ can assume a type, not a general type scheme.}
+
+%
+\replacementPage{27}{\begin{equation}        % record component
+\label{longlab-rule}
+\frac{\C\ts\pat\ra(\VE,\tau)\qquad
+      \langle\C\ts\labpats\ra(\VE',\varrho)\qquad\lab\notin\Dom\varrho\rangle
+}
+     {\C\ts\longlabpats\ra
+     (\VE\langle +\ \VE'\rangle,\
+      \{\lab\mapsto\tau\}\langle +\ \varrho\rangle) }
+\end{equation}}{\begin{equation}        % record component
+\label{longlab-rule}
+\frac{\begin{array}{c}\C\ts\pat\ra(\VE,\tau)\\
+      \langle\C\ts\labpats\ra(\VE',\varrho)\qquad\Dom\VE\cap\Dom\VE' = \emptyset\qquad\lab\notin\Dom\varrho\rangle
+      \end{array}
+}
+     {\C\ts\longlabpats\ra
+     (\VE\langle +\ \VE'\rangle,\
+      \{\lab\mapsto\tau\}\langle +\ \varrho\rangle) }
+\end{equation}}
+
+%
+\deletionPage{27}{\comment 
+\begin{description}
+\item{(\ref{longlab-rule})} 
+ By the syntactic restrictions, $\Dom\VE\cap\Dom\VE' = \emptyset$.
+\end{description}}
+
+%
+\replacementPage{27}{
+\begin{equation}        % construction pattern
+%\label{conpat-rule}
+\frac{\C(\longcon)\succ\tau'\to\tau\qquad\C\ts\atpat\ra(\VE,\tau')}
+     {\C\ts\conpat\ra (\VE,\tau)}
+\end{equation}}{\begin{equation}        % construction pattern
+%\label{conpat-rule}
+\frac{\C(\longvid) = (\sigma, \is)\qquad\is\neq\isv\qquad \sigma\succ\tau'\to\tau\qquad\C\ts\atpat\ra(\VE,\tau')}
+     {\C\ts\vidpat\ra (\VE,\tau)}
+\end{equation}}
+
+%
+\deletionPage{27}{
+\begin{equation}       %  exception construction pattern
+%\label{exconpat-rule}
+\frac{\C(\longexn)=\tau\rightarrow\EXCN\qquad
+      \C\ts\atpat\ra(\VE,\tau)}
+     {\C\ts\exconpat\ra(\VE,\EXCN)}
+\end{equation}}
+
+%
+\replacementPage{27}{
+\begin{equation}        % layered pattern
+\label{layeredpat-rule}
+\frac{\begin{array}{c}
+      \C\ts\var\ra(\VE,\tau)\qquad\langle\C\ts\ty\ra\tau\rangle\\
+      \C\ts\pat\ra(\VE',\tau)
+      \end{array}
+     }
+     {\C\ts\layeredpat\ra(\plusmap{\VE}{\VE'},\tau)}
+\end{equation}}{\begin{equation}        % layered pattern
+\label{layeredpat-rule}
+\frac{\begin{array}{c}
+     \hbox{$\vid\notin\Dom(\C)$ or $\of{\is}{C(\vid)} = \isv$}\\
+      \langle\C\ts\ty\ra\tau\rangle\qquad
+      \C\ts\pat\ra(\VE,\tau)\qquad \vid\notin\Dom\VE
+      \end{array}
+     }
+     {\C\ts\layeredvidpat\ra(\plusmap{\{\vid\mapsto(\tau,\isv)\}}{\VE},\tau)}
+\end{equation}}
+
+%
+\deletionPage{27}{\comments
+\begin{description}
+\item{(\ref{layeredpat-rule})}
+By the syntactic restrictions, $\Dom\VE\cap\Dom\VE' = \emptyset$.
+\end{description}}
+
+%
+\replacementPage{27}{\CE}{\VE}
+
+%
+\replacementPage{28}{record}{row}
+
+%
+\deletionPage{28}{This restriction is necessary to ensure the
+existence of principal type schemes.}
+
+%
+\insertionPage{28}{-value}
+
+%
+\replacementPage{28}{$\var\ \atpat_1\ \cdots\ \atpat_n\langle : \ty\rangle$\ \ml{=}\ $\exp$}{$\vid\ \atpat_1\ \cdots\ \atpat_n\langle : \ty\rangle$\ \ml{=}\ $\exp$}
+
+%
+\deletionPage{28}{
+\subsection{Principal Environments}
+\label{principal-env-sec}
+The\index{33.15} notion of {\sl enrichment}, $\E\succ\E'$, between environments
+$\E=(\SE,\TE,\VE,\EE)$ and $\E'=(\SE',\TE',\VE',\EE')$ is defined
+in Section~\ref{enrichment-sec}. For the present section,  $\E\succ\E'$
+may be taken to mean $\SE=\SE'=\emptymap$, $\TE=\TE'$,
+$\EE=\EE'$, $\Dom\VE=\Dom\VE'$ and, for each $\id\in\Dom\VE$,
+$\VE(\id)\succ\VE'(\id)$.
+
+Let\index{33.2} $\C$ be a context, and suppose that $\C\ts\dec\ra\E$
+according to the preceding Inference Rules. Then $E$ is {\em principal}
+(for $\dec$ in the context $\C$) if, for all $\E'$ for
+which $\C\ts\dec\ra\E'$, we have $\E\succ\E'$. We claim that if
+$\dec$ elaborates to any environment in $\C$ then it elaborates to
+a principal environment in $\C$. Strictly, we must allow for the
+possibility that type names and imperative
+ type variables
+which do not occur in $\C$ are chosen
+differently for $\E$ and $\E'$. 
+The stated claim is therefore made up to such variation.
+}
+
+%
+\replacementPage{29}{
+\begin{displaymath}
+\begin{array}{rcl}
+\M              & \in   & \StrNameSets = \Fin(\StrNames)\\
+\N\ {\rm or}\ (\M,\T)
+                & \in   & \NameSets = \StrNameSets\times\TyNameSets\\
+\sig\ {\rm or}\ \longsig{}
+                & \in   & \Sig =  \NameSets\times\Str \\
+\funsig\ {\rm or}\ \longfunsig{}
+                & \in   & \FunSig = \NameSets\times
+                                         (\Str\times\Sig)\\
+\G              & \in   & \SigEnv        =       \finfun{\SigId}{\Sig} \\
+\F              & \in   & \FunEnv        =       \finfun{\FunId}{\FunSig} \\
+\B\ {\rm or}\ \N,\F,\G,\E
+                & \in   & \Basis = \NameSets\times
+                                              \FunEnv\times\SigEnv\times\Env\\
+\end{array}
+\end{displaymath}}{\begin{displaymath}
+\begin{array}{rcl}
+\sig\ {\rm or}\ \newlongsig{}
+                & \in   & \Sig =  \TyNameSets\times\Env \\
+\funsig\ {\rm or}\ \newlongfunsig{}
+                & \in   & \FunSig = \TyNameSets\times
+                                         (\Env\times\Sig)\\
+\G              & \in   & \SigEnv        =       \finfun{\SigId}{\Sig} \\
+\F              & \in   & \FunEnv        =       \finfun{\FunId}{\FunSig} \\
+\B\ {\rm or}\ \T,\F,\G,\E
+                & \in   & \Basis = \TyNameSets\times
+                                              \FunEnv\times\SigEnv\times\Env\\
+\end{array}
+\end{displaymath}}
+
+%
+\replacementPage{29}{
+The prefix $(\N)$, in signatures and functor signatures, binds both type names
+and structure names. We shall always consider a set $\N$ of names as
+partitioned into a pair $(\M,\T)$ of sets of the two kinds of name.}{The 
+prefix $(\T)$, in signatures and functor signatures, binds  type names.}
+
+%
+\deletionPage{29}{It is sometimes convenient to work with an arbitrary semantic object $A$, or
+assembly $A$ of such objects.
+As with the function $\TyNamesFcn$,
+$\StrNamesFcn(A)$ and $\NamesFcn(A)$ denote respectively the set of structure names
+and the set of names occurring free in $A$.}
+
+%
+\replacementPage{29}{Section~\ref{realisation-sec}}{Section~\ref{tyrea.sec}}
+
+%
+\deletionPage{29}{imperative, }
+
+%
+\deletionPage{29}{For any structure $\S=\longS{}$ we call $m$ the {\sl structure name} or
+{\sl name} of $\S$; also, the {\sl proper substructures} of $\S$ are
+the members of $\Ran\SE$ and their proper substructures.  The 
+{\sl substructures} of
+$\S$ are $\S$ itself and its proper substructures.  The structures
+{\sl occurring in}
+an object or assembly $A$ are the structures and
+substructures from which it is built.}
+
+%
+\replacementPage{29}{$\of{\N}{\B}$}{$\of{\T}{\B}$}
+
+%
+\deletionPage{29}{and
+structure names }
+
+%
+\replacementPage{29}{$\B+(\NamesFcn\SE,\SE)$}{$\B+(\TyNamesFcn\SE,\SE)$}
+
+%
+\insertionPage{29}{
+There is no separate kind of semantic object to represent structures: 
+structure expressions elaborate to environments, just as structure-level
+declarations do. Thus, notions which are commonly associated with structures
+(for example the notion of matching a structure against a signature) are defined
+in terms of environments.}
+
+%
+\deletionPage{29}{
+\subsection{Consistency}
+\label{consistency-sec}
+A\index{35.1} set of type structures is said to be {\sl consistent} if, for all
+$(\theta_1,\CE_1)$ and $(\theta_2,\CE_2)$ in the set, if $\theta_1 = \theta_2$
+then
+\[\CE_1=\emptymap\ {\rm or}\ 
+\CE_2=\emptymap\ {\rm or}\ \Dom\CE_1=\Dom\CE_2\]
+A semantic object $A$ or assembly $A$ of objects is said to be
+{\sl consistent} if (after changing bound names to make all nameset prefixes
+in $A$ disjoint) 
+for all $\S_1$ and
+$\S_2$ occurring in $A$ and for every $\longstrid$ 
+and every $\longtycon$
+\begin{enumerate}
+\item If $\of{\m}{\S_1}=\of{\m}{\S_2}$, and both
+      $\S_1(\longstrid)$ and $\S_2(\longstrid)$ exist, then
+      \[ \of{\m}{\S_1(\longstrid)}\ =\ \of{\m}{\S_2(\longstrid)}\]
+
+\item If $\of{\m}{\S_1}=\of{\m}{\S_2}$, and both
+      $\S_1(\longtycon)$ and $\S_2(\longtycon)$ exist, then
+      \[ \of{\theta}{\S_1(\longtycon)}\ =\ \of{\theta}{\S_2(\longtycon)}\]
+
+\item The set of all type structures in $A$ is consistent
+\end{enumerate}
+
+As an example, a functor signature 
+$\longfunsig{}$ is
+consistent if, assuming first that 
+$\N\cap\N'=\emptyset$,
+the assembly $A=\{\S,\S'\}$ is consistent.
+
+We may loosely say that two 
+structures $\S_1$ and $\S_2$
+are consistent if
+$\{\S_1,\S_2\}$ is consistent, but must remember that this is stronger than
+the assertion that $\S_1$ is consistent and $\S_2$ is consistent.
+
+Note that if $A$ is a consistent assembly and $A'\subset A$ then $A'$ is
+also a consistent assembly.
+}
+
+%
+\deletionPage{29}{
+\subsection{Well-formedness}
+A signature\index{35.2} $\longsig{}$ is {\sl well-formed} 
+if $\N\subseteq\NamesFcn\S$,
+and also, whenever $(\m,\E)$ is a
+substructure of $\S$ and $\m\notin\N$, then $\N\cap(\NamesFcn\E)=\emptyset$.
+A functor signature $\longfunsig{}$ is {\sl well-formed} if
+$\longsig{}$ and  $(\N')\S'$ are well-formed, and also, whenever
+$(\m',\E')$ is a substructure of $\S'$ and $\m'\notin\N\cup\N'$,
+then $(\N\cup\N')\cap(\NamesFcn\E')=\emptyset$.
+
+An object or assembly $A$ is {\sl well-formed} if every type environment,
+signature and functor signature occurring in $A$ is well-formed.}
+
+%
+\deletionPage{29}{\subsection{Cycle-freedom}
+An\index{35.3} object or assembly $A$ is {\sl cycle-free} if it contains no
+cycle of structure names; that is, there is no sequence
+\[\m_0,\cdots,\m_{k-1},\m_k=m_0\ \ (k>0)\]
+of structure names such that, for each $i\ (0\leq i<k)$ some structure
+with name $m_i$ occurring in $A$ has a proper substructure with name
+$m_{i+1}$.
+}
+
+%
+\deletionPage{29}{
+\subsection{Admissibility}
+\label{admis-sec}
+An\index{36.1} object or assembly $A$ is {\sl admissible} if it is
+consistent, well-formed and cycle-free. 
+Henceforth it is assumed
+that
+all objects mentioned are admissible.  
+We also require that
+\begin{enumerate}
+\item In every sentence $A\ts\phrase\ra A'$  inferred by the rules
+given in Section~\ref{statmod-rules-sec}, the assembly $\{A,A'\}$ is
+admissible.  
+\item In the special case of a sentence $\B\ts\sigexp\ra\S$,
+we further require that the assembly consisting of all semantic
+objects occurring in the entire inference of this sentence be
+admissible. This  is important for the definition of principal
+signatures in Section~\ref{prinsig-sec}.
+\end{enumerate}
+In our semantic definition we have not undertaken to
+indicate how admissibility should be checked in an implementation.
+}
+
+%
+\replacementPage{29}{
+A {\sl type realisation}\index{36.2} is a map
+$\tyrea:\TyNames\to\TypeFcn$
+such that
+$\t$ and $\tyrea(\t)$ have the same arity, and
+if $t$ admits equality then so does $\tyrea(\t)$.
+
+The {\sl support} $\Supp\tyrea$ of a type realisation $\tyrea$ is the set of
+type names $\t$ for which $\tyrea(\t)\ne\t$.}{A 
+{\sl (type) realisation}\index{36.2} is a map
+$\rea:\TyNames\to\TypeFcn$
+such that
+$\t$ and $\rea(\t)$ have the same arity, and
+if $t$ admits equality then so does $\rea(\t)$.
+
+The {\sl support} $\Supp\rea$ of a type realisation $\rea$ is the set of
+type names $\t$ for which $\rea(\t)\ne\t$.}
+
+%
+\deletionPage{29}{\subsection{Realisation}
+\label{realisation-sec}
+A {\sl realisation}\index{36.3} is a function $\rea$ of names,
+partitioned into a type realisation $\tyrea:\TyNames\to\TypeFcn$
+and a function $\strrea : \StrNames\to\StrNames$.
+The {\sl support} $\Supp\rea$
+of a realisation $\rea$ is the set of
+names $\n$ for which $\rea(\n)\ne\n$.}
+
+%
+\replacementPage{29}{The {\sl yield}
+$\Yield\rea$ of a realisation $\rea$ is the set of
+names which occur in some $\rea(\n)$ for which $\n\in\Supp\rea$.}{The
+{\sl yield} $\Yield\rea$ of a realisation $\rea$ is the set of
+type names which occur in some $\rea(\t)$ for which $\t\in\Supp\rea$.}
+
+%
+\replacementPage{29}{$n$ by $\rea(\n)$}{$\t$ by $\rea(\t)$}
+
+%
+\replacementPage{30}{$\longsig{}$}{$\newlongsig{}$}
+
+%
+\replacementPage{30}{$(\N)$}{$(\T)$}
+
+%
+\replacementPage{30}{
+\[\N\cap(\Supp\rea\cup\Yield\rea)=\emptyset\ .\]}{\[\T\cap(\Supp\rea\cup\Yield\rea)=\emptyset\ .\]}
+
+%
+\deletionPage{30}{
+\subsection{Type Explication}
+\label{type-explication-sec}
+A\index{36.35} signature $(\N)\S$ is {\sl type-explicit\/} if,
+whenever $\t\in\N$ and occurs free in $\S$, then some substructure of
+$\S$ contains a type environment $\TE$ such that
+$\TE(\tycon)=(\t,\CE)$ for some $\tycon$ and some $\CE$.}
+
+%
+\replacementPage{30}{
+A\index{36.4} structure $\S_2$ {\sl is an instance of} a signature
+$\sig_1=\longsig{1}$,
+written $\siginst{\sig_1}{}{\S_2}$, if there exists a realisation
+$\rea$
+such that $\rea(\S_1)=\S_2$ and $\Supp\rea\subseteq\N_1$.}{An\index{36.4} environment $\E_2$ {\sl is an instance of} a signature
+$\sig_1=\newlongsig{1}$,
+written $\siginst{\sig_1}{}{\E_2}$, if there exists a realisation
+$\rea$
+such that $\rea(\E_1)=\E_2$ and $\Supp\rea\subseteq\T_1$.}
+
+%
+\deletionPage{30}{(Note that if $\sig_1$ is type-explicit then there is at most one
+such $\rea$.)}
+
+%
+\deletionPage{30}{A signature
+$\sig_2=\longsig{2}$ {\sl is an instance of}
+$\sig_1 =\longsig{1}$,
+written $\siginst{\sig_1}{}{\sig_2}$, if
+$\siginst{\sig_1}{}{\S_2}$ and $\N_2\cap(\NamesFcn\sig_1)=\emptyset$.
+It can be shown that $\siginst{\sig_1}{}{\sig_2}$ iff, for all $\S$,
+whenever $\siginst{\sig_2}{}{\S}$ then $\siginst{\sig_1}{}{\S}$.}
+
+%
+\replacementPage{30}{
+A\index{36.5} pair $(\S,(\N')\S')$ is called a {\sl functor instance}.
+Given $\funsig=\longfunsig{1}$,
+a functor instance $(\S_2,(\N_2')\S_2')$ is an {\sl instance} of
+$\funsig$,
+written $\funsiginst{\funsig}{}{(\S_2,(\N_2')\S_2')}$,
+if there exists a realisation $\rea$
+such that
+$\rea(\S_1,(\N_1')\S_1')=(\S_2,(\N_2')\S_2')$ and
+$\Supp\rea\subseteq\N_1$.}{
+A\index{36.5} pair $(\E,(\T')\E')$ is called a {\sl functor instance}.
+Given $\funsig=\newlongfunsig{1}$,
+a functor instance $(\E_2,(\T_2')\E_2')$ is an {\sl instance} of
+$\funsig$,
+written $\funsiginst{\funsig}{}{(\E_2,(\T_2')\E_2')}$,
+if there exists a realisation $\rea$
+such that
+$\rea(\E_1,(\T_1')\E_1')=(\E_2,(\T_2')\E_2')$ and
+$\Supp\rea\subseteq\T_1$.}
+
+%
+\replacementPage{30}{a structure}{an environment}
+
+%
+\replacementPage{30}{structure}{environment}
+
+%
+\deletionPage{30}{structures, }
+
+%
+\replacementPage{30}{by mutual recursion}{recursively}
+
+%
+\deletionPage{30}{A structure $\S_1=(\m_1,\E_1)$
+{\sl enriches} another structure
+$\S_2=(\m_2,\E_2)$, written $\S_1\succ\S_2$, if
+\begin{enumerate}
+\item $\m_1=\m_2$
+\item $\E_1\succ\E_2$
+\end{enumerate}}
+
+%
+\replacementPage{30}{$\E_1=\longE{1}$}{$\E_1=\newlongE{1}$}
+
+%
+\replacementPage{30}{$\E_2=$ $\longE{2}$}{$\E_2=
+( \SE_2,$\linebreak$\TE_2,\VE_2)$}
+
+%
+\replacementPage{30}{$\Dom\VE_1\supseteq\Dom\VE_2$, and $\VE_1(\id)\succ\VE_2(\id)$
+                                               for all $\id\in\Dom\VE_2$}{$\Dom\VE_1\supseteq\Dom\VE_2$, and $\VE_1(\vid)\succ\VE_2(\vid)$
+                                               for all $\vid\in\Dom\VE_2$,
+where $(\sigma_1,\is_1)\succ(\sigma_2,\is_2)$ means $\sigma_1\succ\sigma_2$ and
+$$\is_1 = \is_2\quad\hbox{or}\quad \is_2 = \isv$$}
+
+%
+\deletionPage{30}{
+\item $\Dom\EE_1\supseteq\Dom\EE_2$, and $\EE_1(\exn)=\EE_2(\exn)$
+                                               for all $\exn\in\Dom\EE_2$}
+
+%
+\replacementPage{30}{\CE}{\VE}
+
+%
+\replacementPage{30}{\CE}{\VE}
+
+%
+\replacementPage{30}{\CE}{\VE}
+
+%
+\replacementPage{30}{\CE}{\VE}
+
+%
+\replacementPage{30}{\CE}{\VE}
+
+%
+\replacementPage{30}{\CE}{\VE}
+
+%
+\replacementPage{30}{\CE}{\VE}
+
+%
+\replacementPage{30}{
+A\index{37.2} structure $\S$ {\sl matches} a signature $\sig_1$ if there exists
+a structure $\S^-$ such that $\sig_1\geq\S^-\prec\S$. Thus matching
+is a combination of instantiation and enrichment. There is at most
+one such $\S^-$, given $\sig_1$ and $\S$.}{An\index{37.2} environment $\E$ {\sl matches} a signature $\sig_1$ if there exists
+an environment $\E^-$ such that $\sig_1\geq\E^-\prec\E$. Thus matching
+is a combination of instantiation and enrichment. There is at most
+one such $\E^-$, given $\sig_1$ and $\E$.}
+
+%
+\deletionPage{30}{Moreover, writing $\sig_1=
+\longsig{1}$, if $\sig_1\geq\S^-$ then there exists a realisation $\rea$
+with $\Supp\rea\subseteq\N_1$ and $\rea(\S_1)=\S^-$.
+We shall then say that $\S$ matches $\sig_1$ {\em via} $\rea$.
+(Note that if $\sig_1$ is type-explicit 
+then $\rea$ is uniquely determined by $\sig_1$ and $\S$.)}
+
+%
+\deletionPage{30}{A\index{37.2.5} signature $\sig_2$ {\em matches} a signature $\sig_1$
+if for all structures $\S$, if $\S$ matches $\sig_2$ then $\S$
+matches $\sig_1$. It can be shown that $\sig_2=\longsig{2}$ matches
+$\sig_1=\longsig{1}$ if and only if there exists a realisation
+$\rea$ with $\Supp\rea\subseteq\N_1$ and $\rea(\S_1)\prec\S_2$
+and $\N_2\cap\NamesFcn\sig_1=\emptyset$.}
+
+%
+\deletionPage{30}{\subsection{Principal Signatures}
+\label{prinsig-sec}
+The definitions in this section concern the elaboration of signature
+expressions; more precisely they concern inferences of sentences of the
+form $\B\ts\sigexp\ra\S$, where $\S$ is a structure and $\B$ is a basis.
+Recall, from Section~\ref{admis-sec}, that the assembly of all semantic
+objects in such an inference must be admissible.
+
+For any basis $\B$ and any structure $\S$, 
+we say that $\B$ {\sl covers} $\S$
+if for every substructure $(m,E)$ of $\S$ such that
+$m\in\of{\N}{\B}$:
+\begin{enumerate}
+\item
+For every structure identifier $\strid\in\Dom\E$,
+$\B$ contains a substructure $(m,\E')$ with $m$
+free and $\strid\in\Dom\E'$
+\item
+For every type constructor $\tycon\in\Dom\E$,
+$\B$ contains a substructure $(m,\E')$ with $m$ free
+and $\tycon\in\Dom\E'$
+\end{enumerate}
+(This condition is not a consequence of consistency of $\{\B,\S\}$; 
+informally, it states that if $\S$ shares a substructure with $\B$,
+then $\S$ mentions no more components of the substructure than
+$\B$ does.)
+
+
+
+We\index{38.1} say that a signature
+$\longsig{}$ is {\sl principal for $\sigexp$ in $\B$} if, choosing $\N$
+so that $(\of{\N}{\B})\cap\N=\emptyset$,
+\begin{enumerate}
+\item $\B$ covers $\S$ 
+\item $\B\vdash\sigexp\ra\S$
+\item Whenever $\B\vdash\sigexp\ra\S'$, then $\sigord{\longsig{}}{}{\S'}$
+\end{enumerate}
+We claim that if $\sigexp$ elaborates in $\B$ to some structure covered
+by $\B$, then it possesses a principal signature in $\B$.
+
+Analogous to the definition given for type environments in
+Section~\ref{typeenv-wf-sec}, we say that a semantic object $A$
+{\sl respects equality} if every type environment occurring in 
+$A$ respects equality. 
+%
+%
+%Further, let $T$ be the set of type names
+%$\t$ such that $(\t,\CE)$ occurs in $A$ for some
+%$\CE\neq\emptymap$.  Then $A$ is said to {\sl maximise equality}
+%if (a) $A$ respects equality, and also (b) if any larger subset of
+%$T$ were to admit equality (without any change in the equality
+%attribute of any type names not in $T$) then $A$ would cease to
+%respect equality.
+%
+\oldpagebreak
+Now\index{38.5} let us assume that $\sigexp$ possesses a principal signature
+$\sig_0=\longsig{0}$ in $B$. We wish to
+define, in terms of $\sig_0$, another signature $\sig$ which provides more
+information about the equality attributes of structures which will
+match $\sig_0$. To this end, let $\T_0$ be the set of type names $\t\in\N_0$
+which do not admit equality, and such that $(\t,\CE)$ occurs in $\S_0$
+for some $\CE\neq\emptymap$.  Then we say $\sig$ is 
+{\sl equality-principal for $\sigexp$ in $\B$} if
+\begin{enumerate}
+\item
+$\sig$ respects equality
+\item
+$\sig$ is obtained from $\sig_0$ just by making as many
+members of $\T_0$ admit equality as possible, subject to 1.~above
+\end{enumerate}
+It is easy to show that, if any such $\sig$ exists, it is determined
+uniquely by $\sig_0$; moreover, $\sig$ exists if $\sig_0$ itself
+respects equality.
+\bigskip}
+
+%
+\replacementPage{31}{$\B=\N,\F,\G,\E$}{$\B=\T,\F,\G,\E$}
+
+%
+\replacementPage{31}{$\NamesFcn\F\ \cup\NamesFcn\G\cup\NamesFcn\E\subseteq\N$}{$\TyNamesFcn\F
+\ \cup\TyNamesFcn\G\cup\TyNamesFcn\E\subseteq\T$}
+
+%
+\replacementPage{31}{
+This is not
+the case for bases in which signature expressions and specifications are
+elaborated, but the following Theorem can be proved:}{
+The following Theorem can be proved:}
+
+%
+\replacementPage{31}{
+Moreover, if S$'$ is a sentence of the form
+$\B''\ts\phrase\ra A$ occurring in a proof of S, where $\phrase$ is
+either a structure expression or a structure-level declaration, then $\B''$
+also satisfies the condition.}{
+Moreover, if S$'$ is a sentence of the form
+$\B''\ts\phrase\ra A$ occurring in a proof of S, where $\phrase$ is
+any Modules phrase, then $\B''$ also satisfies the condition.}
+
+%
+\replacementPage{31}{Finally, if $\T,\U,\E\ts\phrase\ra A$ occurs
+in a proof of S, where $\phrase$ is a phrase of the Core, then
+$\TyNamesFcn\E\subseteq\T$.}{Finally, if $\T,\U,\E\ts\phrase\ra A$ occurs
+in a proof of S, where $\phrase$ is a phrase of Modules or of the Core, then
+$\TyNamesFcn\E\subseteq\T$.}
+
+%
+\replacementPage{31}{
+\rulesec{Structure Expressions}{\B\ts\strexp\ra \S}}
+{\rulesec{Structure Expressions}{\B\ts\strexp\ra \E}}
+
+%
+\replacementPage{31}{\begin{equation}        % generative strexp
+\label{generative-strexp-rule}
+\frac{\B\ts\strdec\ra\E\qquad\m\notin(\of{\N}{\B})\cup\NamesFcn\E}
+     {\B\ts\encstrexp\ra(\m,\E)}\index{39.2}
+\end{equation}}{\begin{equation}        % generative strexp
+\label{generative-strexp-rule}
+\frac{\B\ts\strdec\ra\E}
+     {\B\ts\encstrexp\ra \E }\index{39.2}
+\end{equation}}
+
+%
+\replacementPage{31}{
+\begin{equation}        % longstrid
+%\label{longstrid-strexp-rule}
+\frac{\B(\longstrid)=\S}
+     {\B\ts\longstrid\ra\S}
+\end{equation}}{\begin{equation}        % longstrid
+%\label{longstrid-strexp-rule}
+\frac{\B(\longstrid)=\E}
+     {\B\ts\longstrid\ra\E}
+\end{equation}}
+
+%
+\insertionPage{31}{
+\begin{equation}
+\label{transparent-constraint-rule}
+\frac{B\ts\strexp\ra\E\quad\B\ts\sigexp\ra\Sigma\quad\Sigma\geq\E'\prec\E}
+     {\B\ts\transpconstraint\ra\E'}
+\end{equation}
+}
+
+%
+\insertionPage{31}{
+\begin{equation}
+\label{opaque-constraint-rule}
+\frac{\begin{array}{c}
+   B\ts\strexp\ra\E\quad\B\ts\sigexp\ra(\T')\E'\\
+   (\T')\E'\geq\E''\prec\E\quad \T' \cap(\of{\T}{\B}) = \emptyset
+      \end{array}}
+     {\B\ts\opaqueconstraint\ra\E'}
+\end{equation}
+}
+
+%
+\replacementPage{31}{
+\begin{equation}                % functor application
+\label{functor-application-rule}
+\frac{ \begin{array}{c}
+        \B\ts\strexp\ra\S\\
+        \funsiginst{\B(\funid)}{}{(\S'',(\N')\S')}\ ,
+                                                    \ \S\succ\S''\\
+        (\of{\N}{\B})\cap\N'=\emptyset
+       \end{array}
+     }
+     {\B\ts\funappstr\ra\S'}
+\end{equation}}{\begin{equation}                % functor application
+\label{functor-application-rule}
+\frac{ \begin{array}{c}
+        \B\ts\strexp\ra\E\\
+        \funsiginst{\B(\funid)}{}{(\E'',(\T')\E')}\ ,
+                                                    \ \E\succ\E''\\
+        (\TyNamesFcn \E\; \cup\; \of{\T}{\B})\cap\T'=\emptyset
+       \end{array}
+     }
+     {\B\ts\funappstr\ra\E'}
+\end{equation}}
+
+%
+\replacementPage{31}{
+\begin{equation}        % let strexp
+\label{letstrexp-rule}
+\frac{\B\ts\strdec\ra\E\qquad\B\oplus\E\ts\strexp\ra\S}
+     {\B\ts\letstrexp\ra\S}
+\end{equation}}{\begin{equation}        % let strexp
+\label{letstrexp-rule}
+\frac{\B\ts\strdec\ra\E_1\qquad\B\oplus\E_1\ts\strexp\ra\E_2}
+     {\B\ts\letstrexp\ra\E_2}
+\end{equation}}
+
+%
+\deletionPage{32}{
+\item{(\ref{generative-strexp-rule})}
+   The side condition ensures that each generative structure
+expression receives a new name. If the expression occurs in
+a functor body the structure name will be bound by $(\N')$ in
+rule~\ref{funbind-rule}; this will ensure that for each application of the 
+functor, by rule~\ref{functor-application-rule}, a new distinct name
+will be chosen for the structure generated.}
+
+%
+\replacementPage{32}{$ (\of{\N}{\B})\cap\N'=\emptyset$}{$(\TyNamesFcn\E \cup \of{\T}{\B})\cap\T'=\emptyset$}
+
+%
+\replacementPage{32}{$(\N')S'$}{$(\T')E'$}
+
+%
+\replacementPage{32}{structures}{datatypes}
+
+%
+\replacementPage{32}{Let $\B(\funid)=(N)(\S_f,(N')\S_f')$.}{Let $\B(\funid)=(\T)(\E_f,(T')\E_f')$.}
+
+%
+\replacementPage{32}{Assuming that $(\N)\S_f$ is
+type-explicit, the realisation $\rea$ for which
+$\rea(\S_f,(N')\S_f')=(\S'',(\N')\S')$ is uniquely determined by $\S$,
+since $\S\succ\S''$ can only hold if the type names and structure
+names in $\S$ and $\S''$ agree.  Recall that enrichment $\succ$ allows
+more components and more polymorphism, while instantiation $\geq$ does
+not.\par}{Let $\rea$ be a realisation such that\linebreak
+$\rea(\E_f,(T')\E_f')=(\E'',(\T')\E')$.}
+
+%
+\replacementPage{32}{
+Sharing between argument and result specified in the declaration of
+the functor $\funid$ is represented by the occurrence of the same name
+in both $\S_f$ and $\S_f'$, and this repeated occurrence is preserved
+by $\rea$, yielding sharing between the argument structure $\S$ and
+the result structure $\S'$ of this functor application.}{
+Sharing between argument and result specified in the declaration of
+the functor $\funid$ is represented by the occurrence of the same name
+in both $\E_f$ and $\E_f'$, and this repeated occurrence is preserved
+by $\rea$, yielding sharing between the argument structure $\E$ and
+the result structure $\E'$ of this functor application.}
+
+%
+\deletionPage{32}{structure
+and }
+
+%
+\replacementPage{32}{
+\begin{equation}                % core declaration
+\label{dec-rule}
+\frac{ \of{\C}{\B}\ts\dec\ra\E
+       \quad\E\ {\rm principal\ for\ \dec\ in\ } (\of{\C}{\B})
+}
+     { \B\ts\dec\ra\E }\index{40.2}
+\end{equation}}{\begin{equation}                % core declaration
+\label{dec-rule}
+\frac{ \of{\C}{\B}\ts\dec\ra\E
+}
+     { \B\ts\dec\ra\E }\index{40.2}
+\end{equation}}
+
+%
+\deletionPage{32}{
+\comments
+\begin{description}
+\item{(\ref{dec-rule})}
+The side condition ensures that all type schemes in $\E$ are as
+general as possible.
+% and that no imperative type variables occur
+%free in $\E$.
+%from version 1:
+%   The side condition ensures that all type schemes in $\E$ are as
+%general as possible and that all new type names in $\E$ admit
+%equality, if possible.
+\end{description}}
+
+%
+\replacementPage{32}{
+\begin{equation}                % structure binding
+\label{structure-binding-rule}
+\frac{ \begin{array}{cl}
+       \B\ts\strexp\ra\S\qquad\langle\B\ts\sigexp\ra\sig\ ,
+                                      \ \sig\geq\S'\prec\S\rangle\\
+       \langle\langle\plusmap{\B}{\TyNamesFcn\S}\ts
+                                      \strbind\ra\SE\rangle\rangle
+       \end{array}
+     }
+     { \B\ts\strbinder\ra\{\strid\mapsto\S\langle'\rangle\}
+       \ \langle\langle +\ \SE\rangle\rangle }\index{41.1}
+\end{equation}}{\begin{equation}                % structure binding
+\label{structure-binding-rule}
+\frac{ 
+       \B\ts\strexp\ra\E\quad
+       \langle\plusmap{\B}{\TyNamesFcn\E}\ts
+                                      \strbind\ra\SE\rangle
+     }
+     { \B\ts\barestrbindera\ra\{\strid\mapsto\E\}
+       \ \langle +\ \SE\rangle}\index{41.1}
+\end{equation}}
+
+%
+\deletionPage{32}{ 
+\comment If present, $\sigexp$ has the effect of restricting the
+view which $\strid$ provides of $\S$ while retaining sharing of names.
+The notation $\S\langle'\rangle$ means $\S'$, if the first option is present,
+and $\S$ if not.}
+
+%
+\replacementPage{32}{
+\rulesec{Signature Expressions}{\B\ts\sigexp\ra\S}
+\begin{equation}                % encapsulation sigexp
+\label{encapsulating-sigexp-rule}
+\frac{\B\ts\spec\ra\E }
+     {\B\ts\encsigexp\ra  (\m,\E) }\index{41.2}
+\end{equation}}{\rulesec{Signature Expressions}{\B\ts\sigexp\ra\E}
+\begin{equation}                % encapsulation sigexp
+\label{encapsulating-sigexp-rule}
+\frac{\B\ts\spec\ra\E }
+     {\B\ts\encsigexp\ra  \E }\index{41.2}
+\end{equation}}
+
+%
+\replacementPage{33}{\begin{equation}                % signature identifier
+\label{signature-identifier-rule}
+\frac{ \sigord{\B(\sigid)}{}{\S} }
+     { \B\ts\sigid\ra\S }
+\end{equation}}{\begin{equation}                % signature identifier
+\label{signature-identifier-rule}
+\frac{  \B(\sigid) = (\T)\E \quad \T\cap (\of{\T}{\B}) = \emptyset}
+     { \B\ts\sigid\ra\E }
+\end{equation}}
+
+%
+\insertionPage{33}{
+\begin{equation}
+\label{wheretype-rule}
+\frac{
+  \begin{array}{c}
+     \B\ts\sigexp\ra \E\quad \tyvarseq = \alphak\quad \of{\C}{\B}\ts\ty\ra \tau\\
+     \E(\longtycon) = (\t, \VE)\quad t\notin(\of{\T}{\B})\cup\TyNamesFcn\tau\\
+     \rea = \{\t\mapsto \Lambda\alphak.\tau\}\quad
+     \hbox{$\Lambda\alphak.\tau$ admits equality, if $\t$ does\quad $\rea(\E)$ well-formed}
+  \end{array}
+ }
+ {\B\ts\wheretypesigexp\ra\rea(\E)}
+\end{equation}}
+
+%
+\deletionPage{33}{
+\item{(\ref{encapsulating-sigexp-rule})}
+   In contrast to rule~\ref{generative-strexp-rule}, $m$ is not here 
+required to be new. 
+The name $m$ may be chosen to achieve the sharing required
+in rule~\ref{strshareq-rule}, or to achieve the enrichment side conditions
+of rule~\ref{structure-binding-rule} or \ref{funbind-rule}. 
+The choice of $m$ must result in an admissible object.}
+
+%
+\replacementPage{33}{The instance $\S$ of $\B(\sigid)$ is not determined by this rule,
+but -- as in rule~\ref{encapsulating-sigexp-rule} -- the instance
+may  be chosen to achieve sharing properties or enrichment
+conditions.}{The bound names of $\B(\sigid)$ can always be renamed to satisfy $\T\cap(\of{\T}{\B}) = \emptyset$,
+if necessary.}
+
+%
+\replacementPage{33}{\begin{equation}                % any sigexp
+\label{topmost-sigexp-rule}
+\frac{\begin{array}{c}
+\B\ts\sigexp\ra\S\quad\mbox{$(\N)\S$ equality-principal for $\sigexp$ in $\B$}\\
+\mbox{$(\N)\S$ type-explicit}
+      \end{array}}
+     {\B\ts\sigexp\ra (\N)\S}\index{41.25}
+\end{equation}}{\begin{equation}                % any sigexp
+\label{topmost-sigexp-rule}
+\frac{
+\B\ts\sigexp\ra\E\quad\T= \TyNamesFcn\E\setminus(\of{\T}{\B})
+}
+     {\B\ts\sigexp\ra (\T)\E}\index{41.25}
+\end{equation}}
+
+%
+\deletionPage{33}{a structure binding, }
+
+%
+\replacementPage{33}{, a 
+functor binding or a
+functor signature}{, a signature constraint, or a
+functor binding }
+
+%
+\replacementPage{33}{an equality-principal and type-explicit }{a }
+
+%
+\replacementPage{33}{\ref{structure-binding-rule}, }{
+\ref{transparent-constraint-rule}, \ref{opaque-constraint-rule}, }
+
+%
+\deletionPage{33}{, 
+\ref{funsigexp-rule}}
+
+%
+\deletionPage{33}{By contrast, signature 
+expressions occurring in structure descriptions are elaborated to
+structures using the liberal rules
+\ref{encapsulating-sigexp-rule} and \ref{signature-identifier-rule}, 
+see rule~\ref{strdesc-rule}, so that names can be chosen to achieve
+sharing, when necessary.}
+
+%
+\deletionPage{33}{
+\begin{equation}        % empty signature declaration
+%\label{empty-sigdec-rule}
+\frac{}
+     { \B\ts\emptysigdec\ra\emptymap }
+\end{equation}
+
+\begin{equation}        % sequential signature declaration
+\label{sequence-sigdec-rule}
+\frac{ \B\ts\sigdec_1\ra\G_1 \qquad \plusmap{\B}{\G_1}\ts\sigdec_2\ra\G_2 }
+     { \B\ts\seqsigdec\ra\plusmap{\G_1}{\G_2} }
+\end{equation}}
+
+%
+\deletionPage{33}{\comments
+\begin{description}
+%
+\item{(\ref{single-sigdec-rule})}
+The first closure restriction of Section~\ref{closure-restr-sec}
+can be  enforced by replacing the $\B$ in the premise by $\B_0+\of{\G}{\B}$.
+\item{(\ref{sequence-sigdec-rule})}
+   A signature declaration does not create any new structures
+or types; hence the use of $+$ instead of $\oplus$.
+\end{description}
+}
+
+%
+\deletionPage{33}{\comment The  condition that $\sig$ be equality-principal,
+implicit in the first premise, ensures that the
+signature found is as general as possible given the sharing
+constraints present in $\sigexp$.}
+
+%
+\replacementPage{33}{
+\begin{equation}        % type specification
+\label{typespec-rule}
+\frac{ \of{\C}{\B}\ts\typdesc\ra\TE }
+     { \B\ts\typespec\ra\TE\ \In\ \Env }
+\end{equation}}{\begin{equation}        % type specification
+\label{typespec-rule}
+\frac{ 
+         \of{\C}{\B}\ts\typdesc\ra\TE \quad
+         \forall(\t,\VE)\in\Ran\TE,\hbox{\ $t$ does not admit equality}
+     }
+     { \B\ts\typespec\ra\TE\ \In\ \Env }
+\end{equation}}
+
+%
+\replacementPage{34}{
+\begin{equation}        % eqtype specification
+\label{eqtypspec-rule}
+\frac{ \of{\C}{\B}\ts\typdesc\ra\TE \qquad
+       \forall(\theta,\CE)\in \Ran\TE,\ \theta {\rm\ admits\ equality} }
+     { \B\ts\eqtypespec\ra\TE\ \In\ \Env }
+\end{equation}}{\begin{equation}        % eqtype specification
+\label{eqtypspec-rule}
+\frac{ \of{\C}{\B}\ts\typdesc\ra\TE \qquad
+       \forall(\t,\VE)\in \Ran\TE,\ \t {\rm\ admits\ equality} }
+     { \B\ts\eqtypespec\ra\TE\ \In\ \Env }
+\end{equation}}
+
+%
+\replacementPage{34}{
+\begin{equation}        % data specification
+\label{datatypespec-rule}
+\frac{ \plusmap{\of{\C}{\B}}{\TE}\ts\datdesc\ra\VE,\TE }
+     { \B\ts\datatypespec\ra(\VE,\TE)\ \In\ \Env }
+\end{equation}}{
+\begin{equation}        % data specification
+\label{datatypespec-rule}
+\frac{ \begin{array}{c}
+       \of{\C}{\B}\oplus\TE\ts\datdesc\ra\VE,\TE \quad
+       \forall(\t,\VE')\in\Ran\TE, \t\notin\of{\T}{\B}\\
+       \hbox{$\TE$ maximises equality}
+       \end{array}}
+     { \B\ts\datatypespec\ra(\VE,\TE)\ \In\ \Env }
+\end{equation}}
+
+%
+\insertionPage{34}{\begin{equation}
+\label{datatypereplspec-rule}
+\frac{ \B(\longtycon) = (\typefcn,\VE)\quad
+       \typefcn = \typefcnk\quad
+       \tyvarseq = \alphak\quad
+       \TE = \{\tycon\mapsto(\typefcn,\VE)\}
+     }
+     {\B\ts\datatypereplspec\ra (\VE,\TE)\ \In\ \Env}
+\end{equation}}
+
+%
+\replacementPage{34}{
+\begin{equation}        % exception specification
+\label{exceptionspec-rule}
+\frac{ \of{\C}{\B}\ts\exndesc\ra\EE\quad\VE=\EE }
+     { \B\ts\exceptionspec\ra(\VE,\EE)\ \In\ \Env }
+\end{equation}}{\begin{equation}        % exception specification
+\label{exceptionspec-rule}
+\frac{ \of{\C}{\B}\ts\exndesc\ra\VE }
+     { \B\ts\exceptionspec\ra\VE\ \In\ \Env }
+\end{equation}}
+
+%
+\deletionPage{34}{
+\begin{equation}        % sharing specification
+%\label{sharingspec-rule}
+\frac{ \B\ts\shareq\ra\emptymap }
+     { \B\ts\sharingspec\ra\emptymap\ \In\ \Env }\index{42.3}
+\end{equation}}
+
+%
+\deletionPage{34}{\begin{equation}        % local specification
+%\label{localspec-rule}
+\frac{ \B\ts\spec_1\ra\E_1 \qquad \plusmap{\B}{\E_1}\ts\spec_2\ra\E_2 }
+     { \B\ts\localspec\ra\E_2 }
+\end{equation}}
+
+%
+\deletionPage{34}{\begin{equation}        % open specification
+%\label{openspec-rule}
+\frac{ \B(\longstrid_1)=(\m_1,\E_1)\quad\cdots\quad
+       \B(\longstrid_n)=(\m_n,\E_n) }
+     { \B\ts\openspec\ra\E_1 + \cdots +\E_n }
+\end{equation}}
+
+%
+\replacementPage{34}{\begin{equation}        % include signature specification
+\label{inclspec-rule}
+\frac{ \sigord{\B(\sigid_1)}{}{(\m_1,\E_1)} \quad\cdots\quad
+       \sigord{\B(\sigid_n)}{}{(\m_n,\E_n)} }
+     { \B\ts\inclspec\ra\E_1 + \cdots +\E_n }
+\end{equation}}{\begin{equation}        % include signature specification
+\label{inclspec-rule}
+\frac{  \B\ts\sigexp\ra\E}
+     { \B\ts\singleinclspec\ra\E }
+\end{equation}}
+
+%
+\replacementPage{34}{
+\begin{equation}        % sequential specification
+%\label{seqspec-rule}
+\frac{ \B\ts\spec_1\ra\E_1 \qquad \plusmap{\B}{\E_1}\ts\spec_2\ra\E_2 }
+     { \B\ts\seqspec\ra\plusmap{\E_1}{\E_2} }
+\end{equation}}{\begin{equation}        % sequential specification
+\label{seqspec-rule}
+\frac{ \B\ts\spec_1\ra\E_1 \qquad \B\oplus\E_1\ts\spec_2\ra\E_2\qquad\Dom(\E_1)\cap\Dom(\E_2) = \emptyset }
+     { \B\ts\seqspec\ra\plusmap{\E_1}{\E_2} }
+\end{equation}}
+
+%
+\insertionPage{34}{
+\begin{equation}
+\label{sharspec-rule}
+\frac{\begin{array}{c}
+        \B\ts \spec \ra \E\quad \E(\longtycon_i) = (\t_i,\VE_i), \;i = 1..n\\
+        t\in\{\t_1,\ldots,\t_n\}\quad\hbox{$\t$ admits equality, if some $\t_i$ does}\\
+        \{\t_1,\ldots,\t_n\}\cap\of{\T}{\B} = \emptyset\quad
+           \rea = \{\t_1\mapsto\t,\ldots,\t_n\mapsto \t\}
+      \end{array}
+     }
+     {\B\ts \newsharingspec\ra \rea(\E)}
+\end{equation}}
+
+%
+\replacementPage{35}{The type functions in $\TE$ may be chosen to achieve the sharing hypothesis
+of rule~\ref{typshareq-rule} or the enrichment conditions of 
+rules~\ref{structure-binding-rule} and~\ref{funbind-rule}. In particular, the type
+names in $\TE$ in rule~\ref{datatypespec-rule} need not be new.
+Also, in rule~\ref{typespec-rule} the type functions in $\TE$ may admit
+equality.}{The type
+names in $\TE$ are new.}
+
+%
+\replacementPage{35}{$\EE$}{$\VE$}
+
+%
+\deletionPage{35}{\item{(\ref{inclspec-rule})}
+   The names $\m_i$ in the instances may be chosen to achieve sharing or
+enrichment conditions.\index{43.0}}
+
+%
+\insertionPage{35}{\item{(\ref{seqspec-rule})}
+   Note that no sequential specification is allowed to specify the
+   same identifier twice.}
+
+%
+\replacementPage{35}{
+\begin{equation}         % value description
+%\label{valdesc-rule}
+\frac{ \C\ts\ty\ra\tau\qquad
+       \langle\C\ts\valdesc\ra\VE\rangle }
+     { \C\ts\valdescription\ra\{\var\mapsto\tau\}
+       \ \langle +\ \VE\rangle }\index{43.1}
+\end{equation}}{\begin{equation}         % value description
+%\label{valdesc-rule}
+\frac{ \C\ts\ty\ra\tau\qquad
+       \langle\C\ts\valdesc\ra\VE\rangle }
+     { \C\ts\valviddescription\ra\{\vid\mapsto(\tau,\isv)\}
+       \ \langle +\ \VE\rangle }\index{43.1}
+\end{equation}}
+
+%
+\replacementPage{35}{
+\begin{equation}         % type description
+\label{typdesc-rule}
+\frac{ \tyvarseq = \alphak
+       \qquad\langle \C\ts\typdesc\ra\TE\rangle\qquad\arity\theta=k }
+     { \C\ts\typdescription\ra\{\tycon\mapsto(\theta,\emptymap)\}
+       \ \langle +\ \TE\rangle }\index{43.2}
+\end{equation}}{\begin{equation}         % type description
+\label{typdesc-rule}
+\frac{ \begin{array}{c}
+         \tyvarseq = \alphak\quad\t\notin\of{\T}{\C}\quad\arity\t=k \\
+       \langle \C\ts\typdesc\ra\TE\qquad\t\notin\TyNamesFcn\TE\rangle
+      \end{array}}
+     { \C\ts\typdescription\ra\{\tycon\mapsto(\t,\emptymap)\}
+       \ \langle +\ \TE\rangle }\index{43.2}
+\end{equation}}
+
+%
+\deletionPage{35}{any $\theta$ of arity $k$ may be chosen but that}
+
+%
+\replacementPage{35}{constructor}{value}
+
+%
+\replacementPage{35}{For example, \mbox{\ml{datatype s=c type t sharing s=t}}\  }{For example, \mbox{\ml{datatype s=C type t}} \mbox{\ml{sharing type t=s}}\  }
+
+%
+\replacementPage{35}{\begin{equation}         % datatype description
+\label{datdesc-rule}
+\frac{ \tyvarseq = \alphak\qquad\C,\alphakt\ts\condesc\ra\CE
+       \qquad\langle\C\ts\datdesc\ra\VE,\TE\rangle }
+     { \begin{array}{cl}
+       \C\ts\datdescription\ra\\
+       \qquad\qquad\cl{}{\CE}\langle +\ \VE\rangle,\
+       \{\tycon\mapsto(t,\cl{}{\CE})\}\ \langle +\ \TE\rangle
+       \end{array}
+     }\index{43.3}
+\end{equation}}{\begin{equation}         % datatype description
+\label{datdesc-rule}
+\frac{ \begin{array}{c}
+        \tyvarseq = \alphak\qquad\C,\alphakt\ts\condesc\ra\VE
+           \quad\arity \t  =  k\\
+        \langle\C\ts\datdesc'\ra\VE',\TE'\qquad \forall(\t',\VE'')\in\Ran\TE',\,\t\neq\t'\rangle 
+       \end{array}}
+     { \begin{array}{l}
+       \C\ts\newdatdescription\ra\\
+       \qquad\cl{}{\VE} \langle +\ \VE'\rangle,\
+       \{\tycon\mapsto(t,\cl{}{\VE})\}\ \langle +\ \TE'\rangle
+       \end{array}
+     }\index{43.3}
+\end{equation}}
+
+%
+\replacementPage{35}{\rulesec{Constructor Descriptions}{\C,\tau\ts\condesc\ra\CE}}{\rulesec{Constructor Descriptions}{\C,\tau\ts\condesc\ra\VE}}
+
+%
+\replacementPage{35}{\begin{equation}         % constructor description
+%\label{condesc-rule}
+\frac{\langle\C\ts\ty\ra\tau'\rangle\qquad
+      \langle\langle\C,\tau\ts\condesc\ra\CE\rangle\rangle }
+     {\begin{array}{l}
+      \C,\tau\ts\longcondescription\ra\\
+      \qquad\{\con\mapsto\tau\}\
+     \langle +\ \{\con\mapsto\tau'\to\tau\}\ \rangle\
+      \langle\langle +\ \CE\rangle\rangle
+      \end{array}
+     }\index{43.35}
+\end{equation}}{\begin{equation}         % constructor description
+%\label{condesc-rule}
+\frac{\langle\C\ts\ty\ra\tau'\rangle\qquad
+      \langle\langle\C,\tau\ts\condesc\ra\VE\rangle\rangle }
+     {\begin{array}{l}
+      \C,\tau\ts\longconviddescription\ra\\
+      \qquad\{\vid\mapsto(\tau,\isc)\}\
+     \langle +\ \{\vid\mapsto(\tau'\to\tau,\isc)\}\ \rangle\
+      \langle\langle +\ \VE\rangle\rangle
+      \end{array}
+     }\index{43.35}
+\end{equation}}
+
+%
+\replacementPage{35}{
+\rulesec{Exception Descriptions}{\C\ts\exndesc\ra\EE}}{\rulesec{Exception 
+Descriptions}{\C\ts\exndesc\ra\VE}}
+
+%
+\replacementPage{35}{
+\begin{equation}         % exception description
+\label{exndesc-rule}
+\frac{ \langle\C\ts\ty\ra\tau\qquad\TyVarsFcn(\tau)=\emptyset\rangle\qquad
+       \langle\langle\C\ts\exndesc\ra\EE\rangle\rangle }
+     { \begin{array}{l}
+        \C\ts\exndescriptiona\ra\\
+        \quad\quad\{\exn\mapsto\EXCN\}\ \langle +\ \{\exn\mapsto\tau\rightarrow\EXCN\}\rangle\ \langle\langle +\ \EE\rangle\rangle 
+       \end{array}
+     }\index{43.4}
+\end{equation}}{\begin{equation}         % exception description
+\label{exndesc-rule}
+\frac{ \langle\C\ts\ty\ra\tau\qquad\TyVarsFcn(\tau)=\emptyset\rangle\qquad
+       \langle\langle\C\ts\exndesc\ra\VE\rangle\rangle }
+     { \begin{array}{l}
+        \C\ts\exnviddescriptiona\ra\\
+        \quad\quad\{\vid\mapsto(\EXCN,\ise)\}\ \langle +\ \{\vid\mapsto(\tau\rightarrow\EXCN,\ise)\}\rangle\ \langle\langle +\ \VE\rangle\rangle 
+       \end{array}
+     }\index{43.4}
+\end{equation}}
+
+%
+\replacementPage{36}{
+\begin{equation}
+\label{strdesc-rule}
+\frac{ \B\ts\sigexp\ra\S\qquad\langle\B\ts\strdesc\ra\SE\rangle }
+     { \B\ts\strdescription\ra\{\strid\mapsto\S\}\ \langle +\ \SE\rangle }\index{43.5}
+\end{equation}}{\begin{equation}
+\label{strdesc-rule}
+\frac{ \B\ts\sigexp\ra\E\qquad\langle\B + \TyNamesFcn\E\ts\strdesc\ra\SE\rangle }
+     { \B\ts\strdescription\ra\{\strid\mapsto\E\}\ \langle +\ \SE\rangle }\index{43.5}
+\end{equation}}
+
+%
+\deletionPage{36}{
+\rulesec{Sharing Equations}{\B\ts\shareq\ra\emptymap}
+\begin{equation}          % structure sharing equation
+\label{strshareq-rule}
+\frac{ \of{\m}{\B(\longstrid_1)}=\cdots =\of{\m}{\B(\longstrid_n)} }
+     { \B\ts\strshareq\ra\E,\emptymap }\index{44.1}
+\end{equation}
+\vspace{6pt}
+\begin{equation}          % type sharing equation
+\label{typshareq-rule}
+\frac{ \of{\typefcn}{\B(\longtycon_1)}=\cdots=\of{\typefcn}{\B(\longtycon_n)} }
+     { \B\ts\typshareq\ra\emptymap }
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}          % multiple sharing equation
+%\label{multshareq-rule}
+\frac{ \B\ts\shareq_1\ra\emptymap\qquad\B\ts\shareq_2\ra\emptymap }
+     { \B\ts\multshareq\ra\emptymap }
+\end{equation}
+
+%
+\comments
+\begin{description}
+\item{(\ref{strshareq-rule})}
+   By the definition of consistency the premise is weaker than\linebreak
+$\B(\longstrid_1) = \cdots = \B(\longstrid_n)$.
+Two different structures with the same name may be thought of
+as representing different views. The requirement that $\B$ is 
+consistent forces different views to be consistent.
+\end{description}
+%
+\oldpagebreak
+\begin{description}
+\item{(\ref{typshareq-rule})}
+   By\index{44.1.5} 
+the definition of consistency the premise is weaker than\linebreak
+$\B(\longtycon_1) = \cdots = \B(\longtycon_n)$.
+A type structure with empty constructor environment may have the
+same type name as one with a non-empty constructor environment;
+the former could arise from a type description, and the latter
+from a datatype description. 
+However, the requirement that $\B$ is
+consistent will prevent two type structures with constructor
+environments which have different 
+non-empty domains from sharing the same type name.
+\end{description}
+}
+
+%
+\deletionPage{36}{
+%
+%                       Functor Specification rules
+%
+\rulesec{Functor Specifications}{\B\ts\funspec\ra\F}
+\begin{equation}        % single functor specification
+\label{singfunspec-rule}
+\frac{ \B\ts\fundesc\ra\F }
+     { \B\ts\singfunspec\ra\F }\index{44.2}
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}        % empty functor specification
+%\label{emptyfunspec-rule}
+\frac{}
+     { \B\ts\emptyfunspec\ra\emptymap }
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}        % sequential functor specification
+%\label{seqfunspec-rule}
+\frac{ \B\ts\funspec_1\ra\F_1\qquad
+       \B+\F_1\ts\funspec_2\ra\F_2 }
+     { \B\ts\seqfunspec\ra\plusmap{\F_1}{\F_2} }
+\end{equation}
+\comments
+\begin{description}
+\item{(\ref{singfunspec-rule})}
+The second closure restriction of Section~\ref{closure-restr-sec}
+can be enforced by replacing the $\B$ in the premise by $\B_0+\of{\G}{\B}$.
+\end{description}
+\rulesec{Functor Descriptions}{\B\ts\fundesc\ra\F}
+\begin{equation}        % functor description
+%\label{fundesc-rule}
+\frac{ \B\ts\funsigexp\ra\funsig\qquad
+       \langle\B\ts\fundesc\ra\F\rangle}
+     { \B\ts\longfundesc\ra\{\funid\mapsto\funsig\}
+       \langle +\ \F\rangle}\index{44.3}
+\end{equation}
+
+\rulesec{Functor Signature Expressions}{\B\ts\funsigexp\ra\funsig}
+\begin{equation}        % functor signature
+\label{funsigexp-rule}
+%version 1:
+%\frac{
+%      \begin{array}{c}
+%      \B\ts\sigexp\ra\S\qquad\longsig{}{\rm\ principal\ in\ }\B\\
+%      \B\oplus\{\strid\mapsto\S\} \ts\sigexp'\ra\S'\\
+%      \N' = \NamesFcn\S'\setminus((\of{\N}{\B})\cup\N) 
+%      \end{array}
+%     }
+%     {\B\ts\longfunsigexpa\ra(\N)(\S,(\N')\S')}\index{44.4}
+%version2: \frac{\begin{array}{rl}
+%      \B\ts\sigexp\ra\S&\mbox{$(N)S$ principal in $\B$}\\
+%      \B\oplus\{\strid\mapsto\S\}\ts\sigexp'\ra\S'&
+%      \mbox{$(N')S'$ principal in $\B\oplus\{\strid\mapsto\S\}$}
+%      \end{array}}
+%     {\B\ts\longfunsigexpa\ra(N)(S,(N')S')}\index{44.4}
+%\end{equation}
+\frac{\B\ts\sigexp\ra(\N)\S\qquad
+      \B\oplus\{\strid\mapsto\S\}\ts\sigexp'\ra(\N')\S'}
+     {\B\ts\longfunsigexpa\ra(N)(S,(N')S')}\index{44.4}
+\end{equation}
+\comment
+The signatures $(\N)\S$ and $(\N')\S'$ are equality-principal 
+and type-explicit, see rule~\ref{topmost-sigexp-rule}.
+}
+
+%
+\deletionPage{36}{
+\vspace{6pt}
+\begin{equation}        % empty functor declaration
+%\label{emptyfundec-rule}
+\frac{}
+     { \B\ts\emptyfundec\ra\emptymap }
+\end{equation}
+
+\vspace{6pt}
+\oldpagebreak
+
+\begin{equation}        % sequential functor declaration
+%\label{seqfundec-rule}
+\frac{ \B\ts\fundec_1\ra\F_1\qquad
+       \B+\F_1\ts\fundec_2\ra\F_2 }
+     { \B\ts\seqfundec\ra\plusmap{\F_1}{\F_2} }\index{45.1.5}
+\end{equation}}
+
+%
+\deletionPage{36}{\comments
+\begin{description}
+\item{(\ref{singfundec-rule})}
+The third closure restriction of Section~\ref{closure-restr-sec}
+can be enforced by replacing the $\B$ in the premise 
+by $\B_0+(\of{\G}{\B})+(\of{\F}{\B})$.
+\end{description}}
+
+%
+\replacementPage{36}{\begin{equation}        % functor binding
+\label{funbind-rule}
+\frac{
+      \begin{array}{c}
+      \B\ts\sigexp\ra(\N)\S\qquad
+      \B\oplus\{\strid\mapsto\S\} \ts\strexp\ra\S' \\
+       \langle
+      \B\oplus\{\strid\mapsto\S\} \ts\sigexp'\ra\sig',\ \sig'\geq\S''\prec\S'
+       \rangle\\
+      \N' = \NamesFcn\S'\setminus((\of{\N}{\B})\cup\N) \\
+       \langle\langle\B\ts\funbind\ra\F\rangle\rangle
+      \end{array}
+     }
+     {
+      \begin{array}{c}
+       \B\ts\funstrbinder\ \optfunbind\ra\\
+       \qquad\qquad \qquad
+              \{\funid\mapsto(\N)(\S,(\N')\S'\langle'\rangle)\}
+              \ \langle\langle +\ \F\rangle\rangle
+      \end{array}
+     }\index{45.2}
+\end{equation}}{\begin{equation}        % functor binding
+\label{funbind-rule}
+\frac{
+      \begin{array}{c}
+      \B\ts\sigexp\ra(\T)\E\qquad
+      \B\oplus\{\strid\mapsto\E\} \ts\strexp\ra\E' 
+      \\
+      \T\cap(\of{\T}{\B}) = \emptyset\quad \T' = \TyNamesFcn\E'\setminus((\of{\T}{\B})\cup\T) \\
+       \langle\B\ts\funbind\ra\F\rangle
+      \end{array}
+     }
+     {
+      \begin{array}{c}
+       \B\ts\barefunstrbinder\ \langle\boxml{and \funbind}\rangle\ra\\
+       \qquad\qquad \qquad
+              \{\funid\mapsto(\T)(\E,(\T')\E')\}
+              \ \langle +\ \F\rangle
+      \end{array}
+     }\index{45.2}
+\end{equation}
+}
+
+%
+\deletionPage{36}{The  requirement that $(\N)\S$ be equality-principal,
+implicit in the first premise, forces $(\N)\S$ to be
+as general as possible given the sharing constraints in $\sigexp$.
+The requirement that $(\N)\S$ be type-explicit ensures that there is
+at most one realisation via which an actual argument can match
+$(\N)\S$.}
+
+%
+\deletionPage{36}{structure name $\m$ and}
+
+%
+\replacementPage{36}{$\S$ }{$\E$ }
+
+%
+\deletionPage{36}{$\m$ and }
+
+%
+\replacementPage{36}{The set $\N'$ is
+chosen such that every  name free
+in $(\N)\S$ or $(\N)(\S,(\N')\S')$ is free in $\B$.}{The set $\T'$ is
+chosen such that every  name free
+in $(\T)\E$ or $(\T)(\E,(\T')\E')$ is free in $\B$.}
+
+%
+\replacementPage{36}{\begin{equation}	% structure-level declaration
+\label{strdectopdec-rule}
+\frac{\B\ts\strdec\ra\E \quad\imptyvars\E=\emptyset}
+     {\B\ts\strdec\ra
+      (\NamesFcn\E,\E)\ \In\ \Basis
+     }\index{45.3}
+\end{equation}}{\begin{equation}        % structure-level declaration
+\label{strdectopdec-rule}
+\frac{\begin{array}{c}
+        \B\ts\strdec\ra\E \quad \langle \B\oplus \E\ts \topdec\ra \B'\rangle\\
+        B'' = (\TyNamesFcn\E,\E)\In\ \Basis\; \langle + \B'\rangle\quad\TyVarFcn\B''=\emptyset
+      \end{array}}
+     {\B\ts\strdecintopdec\ra\B''}
+\end{equation}}
+
+%
+\replacementPage{36}{\begin{equation}	% signature declaration
+%\label{sigdectopdec-rule}
+\frac{\B\ts\sigdec\ra\G \quad\imptyvars\G=\emptyset}
+     {\B\ts\sigdec\ra
+      (\NamesFcn\G,\G)\ \In\ \Basis
+     }\index{46.0}
+\end{equation}}{\begin{equation}        % signature declaration
+\frac{\begin{array}{c}
+        \B\ts\sigdec\ra \G\quad \langle\B\oplus\G\ts\topdec\ra\B'\rangle\\
+        \B'' = (\TyNamesFcn\G,G)\ \In\ \Basis\;\langle + \B'\rangle
+      \end{array}}
+     {\B\ts\sigdecintopdec\ra \B''
+     }\index{46.0}
+\end{equation}}
+
+%
+\replacementPage{36}{\begin{equation}	% functor declaration
+\label{fundectopdec-rule}
+\frac{\B\ts\fundec\ra\F \quad\imptyvars\F=\emptyset}
+     {\B\ts\fundec\ra
+      (\NamesFcn\F,\F)\ \In\ \Basis
+     }
+\end{equation}}{\begin{equation}        % functor declaration
+\label{fundectopdec-rule}
+\frac{\begin{array}{c}
+          \B\ts\fundec\ra\F\quad\langle\B\oplus\F\ts\topdec\ra\B'\rangle\\
+          B'' = (\TyNamesFcn\F,\F)\ \In\ \Basis\; \langle+\B'\rangle\quad \TyVarsFcn\B''=\emptyset
+      \end{array}}
+     {\B\ts\fundecintopdec\ra\B''}
+\end{equation}}
+
+%
+\replacementPage{36}{
+\begin{description}
+\item{(\ref{strdectopdec-rule})--(\ref{fundectopdec-rule})} The side
+conditions ensure that no free imperative 
+type variables enter the 
+basis.\index{46.01}
+\end{description}}{
+\begin{description}
+\item{(\ref{strdectopdec-rule})--(\ref{fundectopdec-rule})} 
+No free type variables enter the  basis: if $\B\ts\topdec\ra\B'$
+then $\TyVarsFcn(\B') = \emptyset$.\index{46.01}
+\end{description}}
+
+%
+\deletionPage{36}{\subsection{Functor Signature Matching}
+\label{fun-sig-match-sec}
+As\index{46} pointed out in Section~\ref{mod-gram-sec} on the 
+grammar for Modules, there is no phrase class whose elaboration 
+requires matching one functor signature to another functor signature.
+But a precise definition of this matching is needed, since a 
+functor $g$ may only be separately compiled in the presence of 
+specification of any functor $f$ to which $g$ refers, and then a 
+real functor $f$ must match this specification.
+In the case, then, that $f$ has been specified by a functor signature
+\[\funsig_1\ =\ \longfunsig{1}\]
+and that later $f$ is declared with functor signature
+\[\funsig_2\ =\ \longfunsig{2}\]
+the following matching rule will be employed:
+
+A functor signature
+$\funsig_2\ =\ \longfunsig{2}$ {\sl matches} another functor signature,
+$\funsig_1\ =\ \longfunsig{1}$, if there exists a realisation $\rea$ 
+such that
+\begin{enumerate}
+\item $\longsig{1}$ matches $\longsig{2}$ via $\rea$, and
+\item $\rea((\N_2')\S_2')$ matches $(\N_1')\S_1'$.
+\end{enumerate}
+The first condition ensures that the real functor signature $\funsig_2$
+for $f$ requires the argument $\strexp$ of any application $\f(\strexp)$
+to have no more sharing, and no more richness, than was predicted by
+the specified signature $\funsig_1$.
+The second condition ensures that the real functor signature $\funsig_2$,
+instantiated to $(\rea\S_2,\rea((\N_2')\S_2'))$, provides in the result of
+the application $\f(\strexp)$
+no less sharing, and no less richness, than was predicted by
+the specified signature $\funsig_1$.
+
+%We claim that any phrase -- e.g. the declaration of the functor $g$ above --
+%which elaborates successfully in a basis $\B$ with $\B(f)=\funsig_1$ will
+%also elaborate successfully in the basis $\B+\{f\mapsto\funsig_2\}$.  This
+%claim justifies our definition of functor matching.
+% -- this claim is false because of open.
+
+}
+
+%
+\replacementPage{37}{
+Since\index{47.1} types are fully dealt with in the static semantics,
+the dynamic semantics ignores them.  The Core syntax is therefore
+reduced by the following transformations, for the purpose of the dynamic
+semantics:}{Since\index{47.1} types are mostly dealt with in the static semantics,
+the Core syntax is 
+reduced by the following transformations, 
+for the purpose of the dynamic
+semantics:}
+
+%
+\insertionPage{37}{constructor and}
+
+%
+\deletionPage{37}{
+\item Any declaration of the form ``$\,\typedec\,$'' 
+      or ``$\datatypedec$'' is replaced by the empty declaration.}
+
+%
+\deletionPage{37}{\item A declaration of the form ``$\,\abstypedec\,$'' is replaced by ``$\dec\,$''.}
+
+%
+\deletionPage{37}{TypBind, DatBind, $\ConBind$, }
+
+%
+\insertionPage{37}{, word}
+
+%
+\insertionPage{37}{or character}
+
+%
+\deletionPage{37}{ASCII }
+
+%
+\replacementPage{37}{Exception constructors evaluate to exception names, unlike value constructors
+which simply evaluate to themselves.}{Exception constructors evaluate to exception names.}
+
+%
+\replacementPage{37}{We generally omit the injection functions taking $\Con$,
+$\Con\times\Val$ etc into $\Val$.}{We generally omit the injection functions taking $\VId$,
+$\VId\times\Val$ etc into $\Val$.}
+
+%
+\replacementPage{38}{$\Val =\{\mbox{\tt :=}\}\cup\SVal\cup\BasVal\cup\Con$}{$\Val =\{\mbox{\tt :=}\}\cup\SVal\cup\BasVal\cup\VId$}
+
+%
+\replacementPage{38}{$\qquad\cup(\Con\times\Val)\cup\ExVal$}{$\qquad\cup(\VId\times\Val)\cup\ExVal$}
+
+%
+\replacementPage{38}{\Closure}{\FcnClosure}
+
+%
+\replacementPage{38}{$\Closure = \Match\times\Env\times\VarEnv$}{$\FcnClosure = \Match\times\Env\times\ValEnv$}
+
+%
+\insertionPage{38}{\TE,}
+
+%
+\deletionPage{38}{,\EE}
+
+%
+\replacementPage{38}{$\Env = \StrEnv\times\VarEnv\times\ExnEnv$}{$\Env = \StrEnv\times\TyEnv\times\ValEnv$}
+
+%
+\insertionPage{38}{$        \TE      \in    \TyEnv = \finfun{\TyCon}{\ValEnv}$}
+
+%
+\replacementPage{38}{$\VarEnv = \finfun{\Var}{\Val}$}{$\ValEnv = \finfun{\VId}{\Val\times\IdStatus}$}
+
+%
+\deletionPage{38}{$        \EE	 \in	 \ExnEnv = \finfun{\Exn}{\Exc}$}
+
+%
+\deletionPage{38}{
+An important point is that structure names $\m$ have
+no significance at all in the dynamic semantics; this explains why the
+object class $\Str = \StrNames\times\Env$ is absent here -- for the dynamic
+semantics the concepts {\sl structure} and {\sl environment} coincide.}
+
+%
+\deletionPage{38}{the }
+
+%
+\replacementPage{38}{identifiers}{value variables}
+
+%
+\replacementPage{38}{
+These values are denoted by the identifiers to which they are bound in the
+initial dynamic basis (see Appendix~\ref{init-dyn-bas-app}), 
+and are as follows:
+{\tt 
+           abs  floor  real  sqrt  sin  cos  arctan  exp  ln
+              size  chr  ord  explode  implode  div  mod
+                  ~  /  *  +  -  =  <>  <  >  <=  >=
+        std\_in  std\_out  open\_in  open\_out  close\_in  close\_out
+                input  output  lookahead  end\_of\_stream
+}
+The meaning of basic values (almost all of which are functions) is
+represented by the function
+$\APPLY\ :\ \BasVal\times\Val\to\Val\cup\Pack $
+ which is detailed in Appendix~\ref{init-dyn-bas-app}.
+}{In this document, we take $\BasVal$ to be the singleton set $\{\boxml{=}\}$;
+however, libraries may define a larger set of basic values. 
+The meaning of basic values is
+represented by a function
+$ \APPLY\ :\ \BasVal\times\Val\to\Val\cup\Pack $
+which satisfies that $\APPLY(\boxml{=}, \{1\mapsto v_1, 2\mapsto v_2\})$ 
+is {\tt true} or {\tt false} according as the values $\V_1$ and $\V_2$ are, or are
+not, identical values. 
+}
+
+%
+\replacementPage{39}{
+A\index{49.2} subset $\BasExc\subset\Exc$ of the exception names are bound to predefined
+exception constructors.
+These names are denoted by the identifiers to which they are bound in the
+initial dynamic basis (see Appendix~\ref{init-dyn-bas-app}), 
+and are as follows:}{A\index{49.2} 
+subset $\BasExc\subset\Exc$ of the exception names are bound to predefined
+exception constructors in the initial dynamic basis 
+(see Appendix~\ref{init-dyn-bas-app}).
+These names are denoted by the identifiers 
+to which they are bound in the
+initial basis, 
+and are as follows:}
+
+%
+\replacementPage{39}{{\tt 
+        Abs  Ord  Chr   Div  Mod  Quot  Prod  
+        Neg  Sum  Diff  Floor  Sqrt  Exp  Ln
+        Io   Match  Bind  Interrupt
+}}{$$\boxml{ Match\ \  Bind}$$}
+
+%
+\replacementPage{39}{
+The exceptions on the first two  lines are raised by 
+corresponding basic functions, where \verb+~+ {\tt /} {\tt *}
+{\tt +} {\tt -} correspond respectively to {\tt Neg} {\tt Quot}
+{\tt Prod} {\tt Sum} {\tt Diff}. The details are given
+in Appendix~\ref{init-dyn-bas-app}. The exception $(\mbox{{\tt Io}},s)$,
+where $s$ is a string, is raised
+by certain of the basic input/output functions,
+as detailed in Appendix~\ref{init-dyn-bas-app}.  
+}{The}
+
+%
+\deletionPage{39}{
+Finally, ~\ml{Interrupt}~
+is raised by external intervention.}
+
+%
+\replacementPage{39}{\subsection{Closures}}{\subsection{Function Closures}}
+
+%
+\insertionPage{39}{function}
+
+%
+\insertionPage{39}{function}
+
+%
+\deletionPage{39}{function }
+
+%
+\replacementPage{39}{where\[ \Rec\ :\ \VarEnv\to\VarEnv \]is defined as follows:}{where\[ \Rec\ :\ \ValEnv\to\ValEnv \]is defined as follows:}
+
+%
+\replacementPage{39}{$\VE(\var)\notin\Closure$}{$\VE(\vid)\notin\FcnClosure\times\{\isv\}$}
+
+%
+\replacementPage{39}{If $\VE(\var)=(\match',\E',\VE')$
+      then $(\Rec\VE)(\var)=(\match',\E',\VE)$}{If $\VE(\vid)=((\match',\E',\VE'), \isv)$
+      then $(\Rec\VE)(\vid)=((\match',\E',\VE), \isv)$}
+
+%
+\replacementPage{39}{closure values}{function closures}
+
+%
+\insertionPage{40}{function}
+
+%
+\replacementPage{41}{\begin{equation}	% value variable
+\label{varexp-dyn-rule}
+\frac{\E(\longvar)=\V}
+     {\E\ts\longvar\ra\V}\index{51.2}
+\end{equation}
+\oldpagebreak
+\begin{equation}	% value constructor
+\label{conexp-dyn-rule}
+\frac{\longcon=\strid_1.\cdots.\strid_k.\con}
+     {\E\ts\longcon\ra\con}\index{52.1}
+\end{equation}
+
+\begin{equation}       %  exception constant
+\label{exconexp-dyn-rule}
+\frac{\E(\longexn)=\e}
+     {\E\ts\longexn\ra\e}
+\end{equation}}{\begin{equation}	% value variable
+\label{varexp-dyn-rule}
+\frac{\E(\longvid)=(\V,\is)}
+     {\E\ts\longvid\ra\V}\index{51.2}
+\end{equation}}
+
+%
+\deletionPage{41}{\item{(\ref{conexp-dyn-rule})}
+   Value constructors denote themselves.}
+
+%
+\insertionPage{41}{\item{(\ref{varexp-dyn-rule})}
+As in the static semantics,
+value identifiers are looked up in the environment and the
+identifier status is not used.}
+
+%
+\deletionPage{41}{
+\item{(\ref{exconexp-dyn-rule})}
+   Exception constructors are looked up in the exception environment
+   component of $\E$.}
+
+%
+\replacementPage{41}{\begin{equation}	% constructor application
+\label{conapp-dyn-rule}
+\frac{\E\ts\exp\ra\con\qquad\con\neq\REF\qquad\E\ts\atexp\ra\V}
+     {\E\ts\appexp\ra(\con,\V)}
+\end{equation}}{\begin{equation}	% constructor application
+\label{conapp-dyn-rule}
+\frac{\E\ts\exp\ra\vid\qquad\vid\neq\REF\qquad\E\ts\atexp\ra\V}
+     {\E\ts\appexp\ra(\vid,\V)}
+\end{equation}}
+
+%
+\replacementPage{42}{
+\begin{equation}	% basic function application
+%\label{basapp-dyn-rule}
+\frac{\E\ts\exp\ra b
+      \qquad\E\ts\atexp\ra\V\qquad\APPLY(b,\V)=\V'}
+     {\E\ts\appexp\ra\V'}\index{53.1}
+\end{equation}}{
+\begin{equation}	% basic function application
+%\label{basapp-dyn-rule}
+\frac{\E\ts\exp\ra b
+      \qquad\E\ts\atexp\ra\V\qquad\APPLY(b,\V)=\V'/\p}
+     {\E\ts\appexp\ra\V'/\p}\index{53.1}
+\end{equation}}
+
+%
+\deletionPage{42}{ (``garbage
+collection'')}
+
+%
+\insertionPage{43}{function}
+
+%
+\replacementPage{43}{
+\begin{equation}	% match 3
+%\label{match-dyn-rule}
+\frac{\E,\V\ts\mrule\ra\FAIL\qquad\E,\V\ts\match\ra\V'/\FAIL}
+     {\E\ts\longmatcha\ra\V'/\FAIL}
+\end{equation}}{\begin{equation}	% match 3
+%\label{match-dyn-rule}
+\frac{\E,\V\ts\mrule\ra\FAIL\qquad\E,\V\ts\match\ra\V'/\FAIL}
+     {\E,\V\ts\longmatcha\ra\V'/\FAIL}
+\end{equation}}
+
+%
+\replacementPage{43}{
+\begin{equation}	% value declaration
+%\label{valdec-dyn-rule}
+\frac{\E\ts\valbind\ra\VE}
+     {\E\ts\valdec\ra\VE\ \In\ \Env}\index{54.3}
+\end{equation}}{\begin{equation}	% value declaration
+%\label{valdec-dyn-rule}
+\frac{\E\ts\valbind\ra\VE}
+     {\E\ts\explicitvaldec\ra\VE\ \In\ \Env}\index{54.3}
+\end{equation}}
+
+%
+\insertionPage{43}{\begin{equation}
+\frac{\ts\typbind\ra\TE}
+     {\E\ts\typedec\ra\TE\ \In\ \Env}
+\end{equation}}
+
+%
+\insertionPage{43}{
+\begin{equation}
+\frac{\ts\datbind\ra\VE,\TE}
+     {\E\ts\datatypedec\ra(\VE,\TE)\ \In\ \Env}
+\end{equation}}
+
+%
+\insertionPage{43}{\begin{equation}
+\frac{\E(\longtycon) = \VE}
+     {\begin{array}{r}
+          \E\ts\datatyperepldec\ra\qquad\qquad\\
+          (\VE,\{\tycon\mapsto\VE\})\ \In\ \Env
+      \end{array}}
+\end{equation}}
+
+%
+\insertionPage{44}{
+\begin{equation}
+\frac{\ts\datbind\ra\VE\qquad \E+\VE\ts\dec\ra \E'}
+     {\E\ts\abstypedec \ra \E'}
+\end{equation}}
+
+%
+\replacementPage{44}{
+\begin{equation}	% exception declaration
+%\label{exceptiondec-dyn-rule}
+\frac{\E\ts\exnbind\ra\EE }
+     {\E\ts\exceptiondec\ra\EE\ \In\ \Env }
+\end{equation}}{\begin{equation}	% exception declaration
+%\label{exceptiondec-dyn-rule}
+\frac{\E\ts\exnbind\ra\VE }
+     {\E\ts\exceptiondec\ra\VE\ \In\ \Env }
+\end{equation}}
+
+%
+\replacementPage{44}{
+\begin{equation}                % open declaration
+%\label{open-strdec-dyn-rule}
+\frac{ \E(\longstrid_1)=\E_1
+            \quad\cdots\quad
+       \E(\longstrid_k)=\E_k }
+     { \E\ts\openstrdec\ra \E_1 + \cdots + \E_k }
+\end{equation}}{
+\begin{equation}                % open declaration
+%\label{open-strdec-dyn-rule}
+\frac{ \E(\longstrid_1)=\E_1
+            \quad\cdots\quad
+       \E(\longstrid_n)=\E_n }
+     { \E\ts\openstrdec\ra \E_1 + \cdots + \E_n }
+\end{equation}}
+
+%
+\insertionPage{44}{
+\rulesec{Type Bindings}{\ts\typbind\ra\TE}
+\begin{equation}
+\frac{\langle\ts\typbind\ra\TE\rangle}
+     {\ts\longtypbind\ra\{\tycon\mapsto\emptymap\}\langle+\TE\rangle}
+\end{equation}}
+
+%
+\insertionPage{44}{
+\rulesec{Datatype Bindings}{\ts\datbind\ra\VE,\TE}
+\begin{equation}
+\frac{\ts\constrs\ra\VE\qquad\langle\ts\datbind'\ra\VE',\TE'\rangle}
+     {\ts\tyvarseq\;\tycon\boxml{=}\constrs\;\langle\boxml{and}\,\datbind'\rangle\ra\VE\langle+\VE'\rangle,\{\tycon\mapsto\VE\}\langle+\TE'\rangle}
+\end{equation}
+
+\rulesec{Constructor Bindings}{\ts\constrs\ra\VE}
+\begin{equation}
+\frac{\langle\ts\constrs\ra\VE\rangle}
+     {\ts\vid\langle\boxml{|}\,\constrs\rangle\ra
+               \{\vid\mapsto(\vid,\isc)\}\,\langle+\VE\rangle}
+\end{equation}
+}
+
+%
+\replacementPage{45}{
+\rulesec{Exception Bindings}{\E\ts\exnbind\ra\EE/\p}}{\rulesec{Exception 
+Bindings}{\E\ts\exnbind\ra\VE}}
+
+%
+\replacementPage{45}{
+\begin{equation}	% exception binding 1
+\label{exnbind-dyn-rule1}
+\frac{\e\notin\of{\excs}{\s}\qquad\s'=\s+\{\e\}\qquad
+      \langle\s',\E\ts\exnbind\ra\EE,\s''\rangle }
+     {\s,\E\ts\longexnbindaa\ra\{\exn\mapsto\e\}\langle +\ \EE\rangle,\
+                               \s'\langle'\rangle}\index{55.2}
+\end{equation}}{\begin{equation}	% exception binding 1
+\label{exnbind-dyn-rule1}
+\frac{\e\notin\of{\excs}{\s}\qquad\s'=\s+\{\e\}\qquad
+      \langle\s',\E\ts\exnbind\ra\VE,\s''\rangle }
+     {\s,\E\ts\longvidexnbindaa\ra\{\vid\mapsto(\e,\ise)\}\langle +\ \VE\rangle,\
+                               \s'\langle'\rangle}\index{55.2}
+\end{equation}}
+
+%
+\replacementPage{45}{
+\begin{equation}	% exception binding 2
+%\label{exnbind-dyn-rule2}
+\frac{\E(\longexn)=\e\qquad
+      \langle\E\ts\exnbind\ra\EE\rangle }
+     {\E\ts\longexnbindb\ra\{\exn\mapsto\e\}\langle +\ \EE\rangle}
+\end{equation}}{\begin{equation}	% exception binding 2
+%\label{exnbind-dyn-rule2}
+\frac{\E(\longvid)=(\e,\ise)\qquad
+      \langle\E\ts\exnbind\ra\VE\rangle }
+     {\E\ts\longvidexnbindb\ra\{\vid\mapsto(\e,\ise)\}\langle +\ \VE\rangle}
+\end{equation}}
+
+%
+\replacementPage{45}{\begin{equation}	% variable pattern
+%\label{varpat-dyn-rule}
+\frac{}
+     {\E,\V\ts\var\ra \{\var\mapsto\V\} }
+\end{equation}}{\begin{equation}	% variable pattern
+%\label{varpat-dyn-rule}
+\frac{\hbox{$\vid\notin\Dom(\E)$ or $\of{\is}{\E(\vid)} = \isv$}}
+     {\E,\V\ts\vid\ra \{\var\mapsto(\V,\isv)\} }
+\end{equation}}
+
+%
+\deletionPage{45}{\begin{equation}	% constant pattern
+%\label{conapat-dyn-rule1}
+\frac{\longcon=\strid_1.\cdots.\strid_k.\con\qquad\V=\con }
+     {\E,\V\ts\longcon\ra \emptymap}
+\end{equation}
+
+\begin{equation}
+\label{conapat-dyn-rule2}
+\frac{\longcon=\strid_1.\cdots.\strid_k.\con\qquad\V\neq\con}
+     {\E,\V\ts\longcon\ra\FAIL}
+\end{equation}}
+
+%
+\replacementPage{45}{\begin{equation}        % exception constant
+%\label{exconapat-dyn-rule1}
+\frac{\E(\longexn)=\V}
+     {\E,\V\ts\longexn\ra\emptymap}
+\end{equation}}{\begin{equation}        % exception constant
+%\label{exconapat-dyn-rule1}
+\frac{\E(\longvid)=(\V,\is)\qquad\is\neq\isv}
+     {\E,\V\ts\longvid\ra\emptymap}
+\end{equation}}
+
+%
+\replacementPage{45}{\begin{equation}	
+\label{exconapat-dyn-rule2}
+\frac{\E(\longexn)\neq\V}
+     {\E,\V\ts\longexn\ra\FAIL}\index{56.0}
+\end{equation}}{\begin{equation}	
+\label{exconapat-dyn-rule2}
+\frac{\E(\longvid)=(\V',\is)\qquad\is\neq\isv\qquad\V\neq\V'}
+     {\E,\V\ts\longvid\ra\FAIL}\index{56.0}
+\end{equation}}
+
+%
+\deletionPage{46}{(\ref{conapat-dyn-rule2}),}
+
+%
+\deletionPage{46}{rule~\ref{conapat-dyn-rule2},}
+
+%
+\replacementPage{46}{\begin{equation}	% construction pattern
+%\label{conpat-dyn-rule1}
+\frac{\begin{array}{c}
+       \longcon=\strid_1.\cdots.\strid_k.\con\neq\REF\qquad
+      \V=(\con,\V')\\
+      \E,\V'\ts\atpat\ra\VE/\fail
+      \end{array}}
+     {\E,\V\ts\conpat\ra \VE/\fail}
+\end{equation}}{\begin{equation}	% construction pattern
+%\label{conpat-dyn-rule1}
+\frac{\begin{array}{c}
+       \E(\longvid) = (\vid,\isc)\qquad\vid\neq\REF\qquad
+      \V=(\vid,\V')\\
+      \E,\V'\ts\atpat\ra\VE/\fail
+      \end{array}}
+     {\E,\V\ts\vidpat\ra \VE/\fail}
+\end{equation}}
+
+%
+\replacementPage{46}{\begin{equation}	% construction pattern
+\label{conpat-dyn-rule2}
+\frac{\longcon=\strid_1.\cdots.\strid_k.\con\neq\REF\qquad
+      \V\notin\{\con\}\times\Val}
+     {\E,\V\ts\conpat\ra \FAIL}
+\end{equation}}{\begin{equation}	% construction pattern
+\label{conpat-dyn-rule2}
+\frac{\E(\longvid) = (\vid,\isc)\qquad\vid\neq\REF\qquad
+      \V\notin\{\vid\}\times\Val}
+     {\E,\V\ts\vidpat\ra \FAIL}
+\end{equation}}
+
+%
+\replacementPage{46}{\begin{equation}        % exception construction
+%\label{exconpat-dyn-rule1}
+\frac{\begin{array}{c}
+      \E(\longexn)=\e\qquad\V=(\e,\V')\\
+      \E,\V'\ts\atpat\ra\VE/\FAIL
+      \end{array}
+     }
+     {\E,\V\ts\exconpat\ra\VE/\FAIL}
+\end{equation}}{\begin{equation}        % exception construction
+%\label{exconpat-dyn-rule1}
+\frac{\begin{array}{c}
+      \E(\longvid)=(\e,\ise)\qquad\V=(\e,\V')\\
+      \E,\V'\ts\atpat\ra\VE/\FAIL
+      \end{array}
+     }
+     {\E,\V\ts\vidpat\ra\VE/\FAIL}
+\end{equation}}
+
+%
+\replacementPage{46}{\begin{equation} 
+\label{exconpat-dyn-rule2}
+\frac{\E(\longexn)=\e\qquad\V\notin\{\e\}\times\Val}
+     {\E,\V\ts\exconpat\ra\FAIL}
+\end{equation}}{\begin{equation} 
+\label{exconpat-dyn-rule2}
+\frac{\E(\longvid)=(\e,\ise)\qquad\V\notin\{\e\}\times\Val}
+     {\E,\V\ts\vidpat\ra\FAIL}
+\end{equation}}
+
+%
+\replacementPage{47}{\begin{equation}	% layered pattern
+%\label{layeredpat-dyn-rule}
+\frac{\E,\V\ts\pat\ra\VE/\fail}
+     {\E,\V\ts\layeredpata\ra\{\var\mapsto\V\}+\VE/\fail}
+\end{equation}}{\begin{equation}	% layered pattern
+%\label{layeredpat-dyn-rule}
+\frac{\begin{array}{c}
+      \hbox{ $\vid\notin\Dom(\E)$ or $\of{\is}{\E(\vid)}=\isv$}\\
+      \E,\V\ts\pat\ra\VE/\fail
+      \end{array}}
+     {\E,\V\ts\layeredvidpata\ra\{\vid\mapsto(\V,\isv)\}+\VE/\fail}
+\end{equation}}
+
+%
+\deletionPage{47}{rule~\ref{conapat-dyn-rule2},}
+
+%
+\replacementPage{48}{Unlike types,
+it cannot ignore them completely; }{However,
+they cannot be ignored completely; }
+
+%
+\insertionPage{48}{ and 
+imposing identifier status on value identifiers}
+
+%
+\replacementPage{48}{However, the types
+and the sharing properties of structures and signatures are irrelevant to
+dynamic evaluation; the syntax is therefore
+reduced by the following transformations (in addition to those for the Core),
+for the purpose of the dynamic semantics of Modules:}{The syntax is therefore
+reduced by the following transformations (in addition to those for the Core),
+for the purpose of the dynamic semantics of Modules:}
+
+%
+\insertionPage{48}{constructor and}
+
+%
+\deletionPage{48}{\item Any specification of the form ``$\typespec$'', ``$\eqtypespec$'',
+``$\DATATYPE$\ $\datdesc$\,'' or
+``$\sharingspec$'' is replaced by the empty specification.}
+
+%
+\deletionPage{48}{The Modules phrase classes TypDesc, DatDesc, ConDesc and SharEq
+      are omitted.}
+
+%
+\insertionPage{48}{Any qualification \boxml{sharing type $\cdots$} on
+a specification or \boxml{where type $\cdots$} on a signature expression is omitted.}
+
+%
+\replacementPage{48}{$(\strid:\I,\strexp\langle:\I'\rangle,\B)$}{$(\strid:\I,\strexp,\B)$}
+
+%
+\replacementPage{48}{$(\StrExp\langle\times\Int\rangle)\times\Basis$}{$\StrExp\times\Basis$}
+
+%
+\replacementPage{48}{$(\IE,\vars,\exns)\ {\rm or}\ \I$}{$\I\ {\rm or}\ (\SI,\TI,\VI)$}
+
+%
+\replacementPage{48}{$\Int = \IntEnv\times\Fin(\Var)\times\Fin(\Exn)$}{$\Int = \StrInt\times\TyInt\times\ValInt$}
+
+%
+\replacementPage{48}{\IE}{\SI}
+
+%
+\replacementPage{48}{\IntEnv}{\StrInt}
+
+%
+\insertionPage{48}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&$#$\hfil&$#$\hfil\cr
+        \TI     & \in   & \TyInt =  \finfun{\TyCon}{\ValInt}\cr
+        \VI     & \in   & \ValInt = \finfun{\VId}{\IdStatus}\cr}\end{minipage}}
+
+%
+\replacementPage{48}{\IE}{\I}
+
+%
+\replacementPage{48}{\IntEnv}{\Int}
+
+%
+\insertionPage{48}{
+An {\sl interface} $\I\in\Int$ represents a ``view'' of a structure.
+Specifications and signature expressions will evaluate to interfaces;
+moreover, during the evaluation of a specification or signature expression, 
+structures (to which a specification or signature expression may
+refer via datatype replicating specifications) are represented 
+only by their interfaces.  To extract a value interface from
+a dynamic value environment we define the operation $\Inter: \ValEnv \to\ValInt$
+as follows:
+\[\Inter(\VE) = \{\vid\mapsto\is\;;\;\VE(\vid) = (\V,\is)\}\]
+In other words, $\Inter(\VE)$ is the value interface obtained from $\VE$ by
+removing all values from $\VE$. We then extend $\Inter$ to a function
+$\Inter:\Env\to\Int$ as follows:
+\[ \Inter(\SE,\TE,\VE)\ =\ (\SI,\TI,\VI)\]
+where $\VI$ = $\Inter(\VE)$ and 
+\begin{eqnarray*}
+\SI & = & \{\strid\mapsto\Inter\E\;;\;\SE(\strid) = \E\}\\
+\TI & = & \{\tycon\mapsto\Inter\VE'\;;\;\TE(\tycon) = \VE'\}
+\end{eqnarray*}
+An {\sl interface basis} $\IB=(\G,\I)$ is a value-free part of a basis, sufficient to
+evaluate signature expressions and specifications.
+The function $\Inter$ is extended to create an interface basis
+from a basis $\B$ as follows:
+\[ \Inter(\F,\G,\E)\ =\ (\G, \Inter\E) \]
+}
+
+%
+\deletionPage{49}{
+An {\sl interface} $\I\in\Int$ represents a ``view'' of a structure.
+Specifications and signature expressions will evaluate to interfaces; 
+moreover, during the evaluation of a specification or signature expression, 
+structures (to which a specification or signature expression may
+refer via ``$\OPEN$'') are represented only by their interfaces.  To extract an
+interface from a dynamic environment we define the operation
+\[ \Inter\ :\ \Env\to\Int \]
+as follows:
+\[ \Inter(\SE,\VE,\EE)\ =\ (\IE,\Dom\VE,\Dom\EE)\]
+where
+\[ \IE\ =\ \{\strid\mapsto\Inter\E\ ;\ \SE(\strid)=\E\}\ .\]
+An {\sl interface basis}\index{59.1} $\IB=(\G,\IE)$ is that part of a basis needed to
+evaluate signature expressions and specifications.
+The function $\Inter$ is extended to create an interface basis
+from a basis $\B$ as follows:
+\[ \Inter(\F,\G,\E)\ =\ (\G, \of{\IE}{(\Inter\E)}) \]}
+
+%
+\insertionPage{49}{
+A further operation
+\[ \downarrow\ :\ \Env\times\Int\to\Env\]
+is required, to cut down an environment $\E$ to a given interface $\I$,
+representing the effect of an explicit signature ascription. We first
+define $\downarrow: \ValEnv\times\ValInt\to\ValEnv$ by
+\[\VE\downarrow\VI = \{\vid\mapsto(\V,\is)\;;\;\VE(\vid) = (\V,\is')\ {\rm and}\ \VI(\vid) = \is\}\]
+(Note that the identifier status is taken from $\VI$.) 
+We then define $\downarrow: \StrEnv \times \StrInt \to \StrEnv$,
+$\downarrow: \TyEnv \times\TyInt\to\TyEnv$ and
+$\downarrow: \Env\times\Int\to\Env$ simultaneously as follows:
+\label{downarrowdef}
+\begin{center}
+ $\SE\downarrow\SI  =  \{\strid\mapsto\E\downarrow\I\ ;\
+          	\SE(\strid)=\E\ {\rm and}\ \SI(\strid)=\I\}$\\[6pt]
+ $ \TE\downarrow\TI =  \{\tycon\mapsto \VE'\downarrow\VI'\ ;\ 
+               \TE(\tycon) = \VE'\ {\rm and}\ \TI(\tycon) = \VI'\}$ \\[6pt]
+ $
+ (\SE,\TE,\VE)\downarrow(\SI,\TE,\VI)  = 
+               (\SE\downarrow\SI, \TE\downarrow\TI, \VE\downarrow\VI) $
+\end{center}}
+
+%
+\deletionPage{49}{
+A further operation
+\[ \downarrow\ :\ \Env\times\Int\to\Env\]
+is required, to cut down an environment $\E$ to a given interface $\I$,
+representing the effect of an explicit signature ascription.  It is defined
+as follows:
+\[ (\SE,\VE,\EE)\downarrow(\IE,\vars,\exns)\ =\ (\SE',\VE',\EE') \]
+where
+\[ \SE'\ =\ \{\strid\mapsto\E\downarrow\I\ ;\
+          \SE(\strid)=\E\ {\rm and}\ \IE(\strid)=\I\} \]
+and (taking $\downarrow$ now to mean restriction of a function domain)
+\[\VE'=\VE\downarrow\vars,\ \EE'=\EE\downarrow\exns.\]
+}
+
+%
+\replacementPage{49}{is also a projection of}{can
+also be obtained from}
+
+%
+\replacementPage{49}{omitting structure names $\m$ and type environments
+$\TE$,}{first replacing every type
+structure $(\typefcn, \VE)$
+in the range of every type environment $\TE$ by $\VE$}
+
+%
+\insertionPage{49}{then}
+
+%
+\replacementPage{49}{variable environment $\VE$ and each 
+exception environment $\EE$ by its domain.}{pair $(\sigma,\is)$ in the range
+of every value environment $\VE$ by $\is$.}
+
+%
+\replacementPage{49}{ or an interface basis}{, a signature environment}
+
+%
+\insertionPage{50}{\begin{equation}        % transparent signature constraint
+\frac{\B\ts\strexp\ra\E\qquad\Inter\B\ts\sigexp\ra\I}
+     {\B\ts\transpconstraint\ra\E\downarrow\I}
+\end{equation}
+
+\begin{equation}        % opaque signature constraint
+\frac{\B\ts\strexp\ra\E\qquad\Inter\B\ts\sigexp\ra\I}
+     {\B\ts\opaqueconstraint\ra\E\downarrow\I}
+\end{equation}}
+
+%
+\replacementPage{50}{\begin{equation}                % functor application
+\label{functor-application-dyn-rule}
+\frac{ \begin{array}{c}
+        \B(\funid)=(\strid:\I,\strexp'\langle:\I'\rangle,\B')\\
+        \B\ts\strexp\ra\E\qquad
+       \B'+\{\strid\mapsto\E\downarrow\I\}\ts\strexp'\ra\E'\\
+       \end{array}
+     }
+     {\B\ts\funappstr\ra\E'\langle\downarrow\I'\rangle}
+\end{equation}}{\begin{equation}                % functor application
+\label{functor-application-dyn-rule}
+\frac{ \begin{array}{c}
+        \B(\funid)=(\strid:\I,\strexp',\B')\\
+        \B\ts\strexp\ra\E\qquad
+       \B'+\{\strid\mapsto\E\downarrow\I\}\ts\strexp'\ra\E'\\
+       \end{array}
+     }
+     {\B\ts\funappstr\ra\E'}
+\end{equation}}
+
+%
+\replacementPage{51}{
+\begin{equation}                % structure binding
+\frac{ \begin{array}{cl}
+       \B\ts\strexp\ra\E\qquad\langle\Inter\B\ts\sigexp\ra\I\rangle\\
+       \langle\langle\B\ts\strbind\ra\SE\rangle\rangle
+       \end{array}
+     }
+     {\begin{array}{c}
+      \B\ts\strbinder\ra\\
+      \qquad\qquad\qquad\{\strid\mapsto\E\langle\downarrow\I\rangle\}
+      \ \langle\langle +\ \SE\rangle\rangle
+      \end{array}
+     }\index{61.1}
+\end{equation}
+\comment As in the static semantics, when present, $\sigexp$ constrains the
+``view'' of the structure. The restriction must be done in the
+dynamic semantics to ensure that any dynamic opening of the structure
+produces no more components than anticipated during the static
+elaboration.}{\begin{equation}                % structure binding
+\frac{ 
+       \B\ts\strexp\ra\E\qquad
+       \langle\B\ts\strbind\ra\SE\rangle
+     }
+     {
+      \B\ts\barestrbindera\ra\{\strid\mapsto\E\}
+      \ \langle +\ \SE\rangle
+     }\index{61.1}
+\end{equation}
+}
+
+%
+\deletionPage{51}{
+\begin{equation}        % empty signature declaration
+%\label{empty-sigdec-dyn-rule}
+\frac{}
+     { \IB\ts\emptysigdec\ra\emptymap }
+\end{equation}
+
+\begin{equation}        % sequential signature declaration
+%\label{sequence-sigdec-dyn-rule}
+\frac{ \IB\ts\sigdec_1\ra\G_1 \qquad \plusmap{\IB}{\G_1}\ts\sigdec_2\ra\G_2 }
+     { \IB\ts\seqsigdec\ra\plusmap{\G_1}{\G_2} }
+\end{equation}
+}
+
+%
+\replacementPage{51}{\begin{equation}        % value specification
+%\label{valspec-dyn-rule}
+\frac{ \ts\valdesc\ra\vars }
+     { \IB\ts\valspec\ra\vars\ \In\ \Int }\index{61.5}
+\end{equation}}{\begin{equation}        % value specification
+%\label{valspec-dyn-rule}
+\frac{ \ts\valdesc\ra\VI }
+     { \IB\ts\valspec\ra\VI\ \In\ \Int }\index{61.5}
+\end{equation}}
+
+%
+\insertionPage{51}{
+\begin{equation}
+\frac{\ts\typdesc\ra\TI}
+     {\IB\ts\typespec\ra\TI\ \In\ \Int}
+\end{equation}
+
+\begin{equation}
+\frac{\ts\typdesc\ra\TI}
+     {\IB\ts\eqtypespec\ra\TI\ \In\ \Int}
+\end{equation}}
+
+%
+\insertionPage{52}{
+\begin{equation}
+\frac{\ts\datdesc\ra\VI,\TI}
+     {\IB\ts\datatypespec\ra(\VI,\TI)\ \In\ \Int}
+\end{equation}
+}
+
+%
+\insertionPage{52}{
+\begin{equation}
+\frac{\IB(\longtycon) = \VI\qquad \TI = \{\tycon\mapsto\VI\}}
+     {\IB\ts\datatypereplspec\ra(\VI,\TI)\ \In\ \Int}
+\end{equation}
+}
+
+%
+\replacementPage{52}{
+\begin{equation}        % exception specification
+%\label{exceptionspec-dyn-rule}
+\frac{ \ts\exndesc\ra\exns}
+     { \IB\ts\exceptionspec\ra\exns\ \In\ \Int }
+\end{equation}}{\begin{equation}        % exception specification
+%\label{exceptionspec-dyn-rule}
+\frac{ \ts\exndesc\ra\VI}
+     { \IB\ts\exceptionspec\ra \VI\ \In\ \Int }
+\end{equation}}
+
+%
+\replacementPage{52}{\begin{equation}        % structure specification
+\label{structurespec-dyn-rule}
+\frac{ \IB\ts\strdesc\ra\IE }
+     { \IB\ts\structurespec\ra\IE\ \In\ \Int }\index{62.1}
+\end{equation}}{\begin{equation}        % structure specification
+\label{structurespec-dyn-rule}
+\frac{ \IB\ts\strdesc\ra\SI }
+     { \IB\ts\structurespec\ra\SI\ \In\ \Int }\index{62.1}
+\end{equation}}
+
+%
+\deletionPage{52}{
+\begin{equation}        % local specification
+\label{localspec-dyn-rule}
+\frac{ \IB\ts\spec_1\ra\I_1 \qquad
+       \plusmap{\IB}{\of{\IE}{\I_1}}\ts\spec_2\ra\I_2 }
+     { \IB\ts\localspec\ra\I_2 }
+\end{equation}}
+
+%
+\deletionPage{52}{
+\begin{equation}        % open specification
+%\label{openspec-dyn-rule}
+\frac{ \IB(\longstrid_1)=\I_1\quad\cdots\quad
+       \IB(\longstrid_n)=\I_n }
+     { \IB\ts\openspec\ra\I_1 + \cdots +\I_n }
+\end{equation}}
+
+%
+\replacementPage{52}{
+\begin{equation}        % include signature specification
+%\label{inclspec-dyn-rule}
+\frac{ \IB(\sigid_1)=\I_1 \quad\cdots\quad
+       \IB(\sigid_n)=\I_n }
+     { \IB\ts\inclspec\ra\I_1 + \cdots +\I_n }
+\end{equation}}{\begin{equation}        % include signature specification
+%\label{inclspec-dyn-rule}
+\frac{ \IB\ts\sigexp\ra\I}
+     { \IB\ts\singleinclspec\ra\I}
+\end{equation}}
+
+%
+\replacementPage{52}{\begin{equation}        % sequential specification
+\label{seqspec-dyn-rule}
+\frac{ \IB\ts\spec_1\ra\I_1
+       \qquad \plusmap{\IB}{\of{\IE}{\I_1}}\ts\spec_2\ra\I_2 }
+     { \IB\ts\seqspec\ra\plusmap{\I_1}{\I_2} }
+\end{equation}}{\begin{equation}        % sequential specification
+\label{seqspec-dyn-rule}
+\frac{ \IB\ts\spec_1\ra\I_1
+       \qquad \IB+\I_1\ts\spec_2\ra\I_2 }
+     { \IB\ts\seqspec\ra\plusmap{\I_1}{\I_2} }
+\end{equation}}
+
+%
+\deletionPage{52}{
+\noindent\comments
+\begin{description}
+\item{(\ref{localspec-dyn-rule}),(\ref{seqspec-dyn-rule})}
+Note that $\of{\vars}{\I_1}$ and $\of{\exns}{\I_1}$ are
+not needed for the evaluation of $\spec_2$.
+\end{description}}
+
+%
+\replacementPage{52}{\rulesec{Value Descriptions}{\ts\valdesc\ra\vars}}{\rulesec{Value Descriptions}{\ts\valdesc\ra\VI}}
+
+%
+\replacementPage{52}{\begin{equation}         % value description
+%\label{valdesc-dyn-rule}
+\frac{ \langle\ts\valdesc\ra\vars\rangle }
+     { \ts\var\ \langle\AND\ \valdesc\rangle\ra
+       \{\var\}\ \langle\cup\ \vars\rangle }\index{62.2}
+\end{equation}}{\begin{equation}         % value description
+%\label{valdesc-dyn-rule}
+\frac{ \langle\ts\valdesc\ra\VI\rangle }
+     { \ts\vid\ \langle\AND\ \valdesc\rangle\ra
+       \{\vid\mapsto\isv\}\ \langle+\,\VI\rangle }\index{62.2}
+\end{equation}}
+
+%
+\insertionPage{52}{
+\rulesec{Type Descriptions}{\ts\typdesc\ra\TI}
+\begin{equation}
+\frac{\langle\ts\typdesc\ra\TI\rangle}
+     {\ts\typdescription\ra\{\tycon\mapsto\emptymap\}\langle+\TI\rangle}
+\end{equation}
+}
+
+%
+\insertionPage{52}{
+\rulesec{Datatype Descriptions}{\ts\datdesc\ra\VI, \TI}
+\begin{equation}
+\frac{\ts\condesc\ra\VI\qquad\langle\ts\datdesc'\ra\VI',\TI'\rangle}
+     {\ts\datdescriptiona\ra\VI\,\langle+\,\VI'\rangle, \{\tycon\mapsto\VI\}\langle+\TI'\rangle}
+\end{equation}
+
+\rulesec{Constructor Descriptions}{\ts\condesc\ra\VI}
+\begin{equation}
+\frac{\langle\ts\condesc\ra\VI\rangle}
+     {\ts\shortconviddesc\ra\{\vid\mapsto\isc\}\,\langle+\VI\rangle}
+\end{equation}
+}
+
+%
+\replacementPage{53}{\rulesec{Exception Descriptions}{\ts\exndesc\ra\exns}}{\rulesec{Exception Descriptions}{\ts\exndesc\ra\VI}}
+
+%
+\replacementPage{53}{
+\begin{equation}         % exception description
+%\label{exndesc-dyn-rule}
+\frac{ \langle\ts\exndesc\ra\exns\rangle }
+     { \ts\exn\ \langle\exndesc\rangle\ra\{\exn\}\ \langle\cup\ \exns\rangle }\index{62.3}
+\end{equation}}{\begin{equation}         % exception description
+%\label{exndesc-dyn-rule}
+\frac{ \langle\ts\exndesc\ra\VI\rangle }
+     { \ts\vid\ \langle\boxml{and\ }\exndesc\rangle\ra\{\vid\mapsto\ise\}\ \langle+ \VI\rangle }\index{62.3}
+\end{equation}}
+
+%
+\replacementPage{53}{\rulesec{Structure Descriptions}{\IB\ts\strdesc\ra\IE}}{\rulesec{Structure Descriptions}{\IB\ts\strdesc\ra\SI}}
+
+%
+\replacementPage{53}{\begin{equation}
+%\label{strdesc-dyn-rule}
+\frac{ \IB\ts\sigexp\ra\I\qquad\langle\IB\ts\strdesc\ra\IE\rangle }
+     { \IB\ts\strdescription\ra\{\strid\mapsto\I\}\ \langle +\ \IE\rangle }\index{62.4}
+\end{equation}}{\begin{equation}
+%\label{strdesc-dyn-rule}
+\frac{ \IB\ts\sigexp\ra\I\qquad\langle\IB\ts\strdesc\ra\SI\rangle }
+     { \IB\ts\strdescription\ra\{\strid\mapsto\I\}\ \langle +\ \SI\rangle }\index{62.4}
+\end{equation}}
+
+%
+\replacementPage{53}{
+\begin{equation}        % functor binding
+%\label{funbind-dyn-rule}
+\frac{
+      \begin{array}{c}
+      \Inter\B\ts\sigexp\ra\I\qquad
+      \langle\Inter\B+\{\strid\mapsto\I\} \ts\sigexp'\ra\I'\rangle \\
+       \langle\langle\B\ts\funbind\ra\F\rangle\rangle
+      \end{array}
+     }
+     {
+      \begin{array}{c}
+       \B\ts\funstrbinder\ \optfunbind\ra\\
+       \qquad\qquad \qquad
+              \{\funid\mapsto(\strid:\I,\strexp\langle:\I'\rangle,\B)\}
+              \ \langle\langle +\ \F\rangle\rangle
+      \end{array}
+     }\index{62.5}
+\end{equation}}{\begin{equation}        % functor binding
+%\label{funbind-dyn-rule}
+\frac{
+      \Inter\B\ts\sigexp\ra\I\qquad
+      \langle\IB\ts\funbind\ra\F\rangle
+     }
+     {
+      \begin{array}{c}
+       \IB\ts\barefunstrbinder\ \optfunbinda\ra\\
+       \qquad\qquad \qquad
+              \{\funid\mapsto(\strid:\I,\strexp,\B)\}
+              \ \langle +\ \F\rangle
+      \end{array}
+     }\index{62.5}
+\end{equation}}
+
+%
+\deletionPage{53}{
+\vspace{6pt}
+\begin{equation}        % empty functor declaration
+%\label{emptyfundec-dyn-rule}
+\frac{}
+     { \B\ts\emptyfundec\ra\emptymap }
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}        % sequential functor declaration
+%\label{seqfundec-dyn-rule}
+\frac{ \B\ts\fundec_1\ra\F_1\qquad
+       \B+\F_1\ts\fundec_2\ra\F_2 }
+     { \B\ts\seqfundec\ra\plusmap{\F_1}{\F_2} }
+\end{equation}}
+
+%
+\replacementPage{53}{
+\begin{equation}        % structure-level declaration
+%\label{strdectopdec-dyn-rule}
+\frac{\B\ts\strdec\ra\E}
+     {\B\ts\strdec\ra\E\ \In\ \Basis
+     }\index{63.2}
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}        % signature declaration
+%\label{sigdectopdec-dyn-rule}
+\frac{\Inter\B\ts\sigdec\ra\G}
+     {\B\ts\sigdec\ra\G\ \In\ \Basis
+     }
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}        % functor declaration
+%\label{fundectopdec-dyn-rule}
+\frac{\B\ts\fundec\ra\F}
+     {\B\ts\fundec\ra\F\ \In\ \Basis
+     }
+\end{equation}}{\begin{equation}        % structure-level declaration
+%\label{strdectopdec-dyn-rule}
+\frac{\B\ts\strdec\ra\E\quad\B' =\E\ \In\ \Basis\quad\langle \B+\B'\ts\topdec\ra\B''\rangle }
+     {\B\ts\strdecintopdec\ra\B'\langle'\rangle
+     }\index{63.2}
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}        % signature declaration
+%\label{sigdectopdec-dyn-rule}
+\frac{\Inter\B\ts\sigdec\ra\G\quad B' = \G\ \In\ \Basis\quad
+       \langle \B + \B'\ts\topdec\ra\B''\rangle}
+     {\B\ts\sigdecintopdec\ra \B'\langle'\rangle 
+     }
+\end{equation}
+
+\vspace{6pt}
+\begin{equation}        % functor declaration
+%\label{fundectopdec-dyn-rule}
+\frac{\B\ts\fundec\ra\F\quad \B' = \F\ \In\ \Basis\quad
+       \langle \B + \B'\ts\topdec\ra\B''\rangle}
+     {\B\ts\fundecintopdec\ra\B'\langle'\rangle
+     }
+\end{equation}}
+
+%
+\deletionPage{54}{ or external intervention}
+
+%
+\deletionPage{55}{
+\item Omit\index{65.5} the {\OPEN} declaration from the syntax class of
+declarations $\dec$
+\item Restrict the long identifier classes to identifiers, i.e.
+omit qualified identifiers.}
+
+%
+\deletionPage{55}{
+This means that  several components of a basis, for example the
+signature and functor environments, are irrelevant to the execution
+of a core language program.}
+
+%
+\insertionPage{56}{\tyvarseq\ }
+
+%
+\insertionPage{56}{\tyvarseq\ }
+
+%
+\insertionPage{56}{\tyvarseq\ }
+
+%
+\insertionPage{56}{\tyvarseq\ }
+
+%
+\deletionPage{56}{
+These forms are currently more experimental than the bare syntax of modules, 
+but we recommend implementers to include them so that they can be
+tested in practice.
+In the derived forms for functor bindings and functor signature expressions,
+$\strid$ is a new structure identifier and
+the form of $\sigexp'$ depends
+on the form of $\sigexp$ as follows. 
+If $\sigexp$ is simply a signature identifier
+$\sigid$, then $\sigexp'$ is also $\sigid$; otherwise $\sigexp$ must take
+the form  ~$\SIG\ \spec_1\ \END$~,
+and then $\sigexp'$ is
+$\mbox{\SIG\ \LOCAL\ \OPEN\ \strid\ \IN\ $\spec_1$\ \END\ \END}$.
+%(where $\strid$ is new).
+}
+
+%
+\insertionPage{56}{
+Finally, Figure~\ref{spec-der-forms-fig} shows the derived forms for specifications.
+The last derived form for specifications allows sharing between structure
+identifiers as a shorthand for type sharing specifications. 
+%Standard ML no 
+%longer has a semantic notion of structure sharing; 
+%however, for compatability with Standard ML '90, a weaker form
+%of structure sharing specification is provided. 
+The phrase
+\[
+\boxml{$\spec$ sharing $\longstrid_1$ = $\cdots$ = $\longstrid_k$}
+\]
+is a derived form whose equivalent form is
+\pagebreak
+%\medskip
+
+\halign{\qquad\ignore{#}&#\hfil\cr
+\boxml{$\spec$ sharing $\longstrid_1$ = $\cdots$} & \boxml{$\spec$}\cr
+\boxml{\ \ \qquad\qquad\qquad\qquad\qquad = $\longstrid_k$} & \boxml{\ sharing type $\longtycon_{1}$ =  $\longtycon_{1}'$}\cr
+  & \boxml{\ $\cdots$}\cr
+  & \boxml{\ sharing type $\longtycon_{m}$ =  $\longtycon_{m}'$}\cr}
+\medskip
+
+\noindent
+determined as follows. 
+First, note that  $\spec$  specifies a set of 
+     (possibly long) type constructors and structure identifiers, either 
+     directly or via signature identifiers and $\INCLUDE$ specifications.  
+     Then the equivalent form contains all type-sharing constraints 
+     of the form 
+\[\boxml{sharing type $\longstrid_i.\longtycon$ = $\longstrid_j.longtycon$}\]
+     $(1\leq i<j\leq k)$,  such that both sides of the equation are long type 
+     constructors specified by  $\spec$. 
+
+     The meaning of the derived form does not depend on the order of the 
+     type-sharing constraints in the equivalent form.
+
+}
+
+%
+\replacementPage{57}{\begin{tabular}{|l|l|l}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} &
+\multicolumn{1}{c}{}\\
+\multicolumn{3}{c}{}\\
+\multicolumn{2}{l}{{\bf Expressions} \exp}\\
+%\multicolumn{2}{l}{EXPRESSIONS \exp}\\
+\cline{1-2}
+\ml{()}         & \ml{\lttbrace\ \rttbrace} \\
+\cline{1-2}
+\ml{(}$\exp_1$ \ml{,} $\cdots$ \ml{,} $\exp_\n$\ml{)}
+            & \ml{\lttbrace 1=}$\exp_1$\ml{,}\ $\cdots$\ml{,}\
+                             $\overline{n}$\ml{=}$\exp_\n$\ml{\rttbrace}
+                                                           & $(\n\geq 2)$\\
+\cline{1-2}
+\ml{\#}\ \lab      & \FN\ \ml{\lttbrace}\lab\ml{=}\var\ml{,...\rttbrace\  => }\var
+                                                           & (\var\ new)\\
+%\cline{1-2}
+%\RAISE\ \longexn    & \RAISE\ \longexn\ \WITH\ \ml{()} \\
+\cline{1-2}
+\CASE\ \exp\ \OF\ \match
+                & \ml{(}\FN\ \match\ml{)(}\exp\ml{)} \\
+\cline{1-2}
+\IF\ $\exp_1$\ \THEN\ $\exp_2$\ \ELSE\ $\exp_3$
+                & \CASE\ $\exp_1$\ \OF\ \TRUE\ \ml{=>}\ \exp$_2$\\
+                & \ \ \qquad\qquad\ml{|}\ \FALSE\ \ml{=>}\ \exp$_3$ \\
+\cline{1-2}
+\exp$_1$\ \ORELSE\ \exp$_2$
+                & \IF\ \exp$_1$\ \THEN\ \TRUE\ \ELSE\ \exp$_2$ \\
+\cline{1-2}
+\exp$_1$\ \ANDALSO\ \exp$_2$
+                & \IF\ \exp$_1$\ \THEN\ \exp$_2$\ \ELSE\ \FALSE \\
+\cline{1-2}
+\ml{(}$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$ \ml{;} \exp\ml{)}\
+                & \CASE\ \exp$_1$\ \OF\ \ml{(\_) =>}
+                                                           & $(\n\geq 1)$ \\
+                & \qquad$\cdots$ \\
+                & \CASE\ \exp$_n$\ \OF\ \ml{(\_) =>}\ \exp \\
+\cline{1-2}
+\LET\ \dec\ \IN
+                & \LET\ \dec\ \IN                          & $(\n\geq 2)$ \\
+\qquad$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$ \END
+                & \ \ \ml{(}$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$\ml{)}\
+                                                                         \END\\
+\cline{1-2}
+\WHILE\ \exp$_1$\ \DO\ \exp$_2$
+                & \LET\ \VAL\ \REC\ \var\ \ml{=}\ \FN\ \ml{() =>}
+                                                           & (\var\ new)\\
+                & \ \ \IF\ \exp$_1$\ \THEN\
+                    \ml{(}\exp$_2$\ml{;}\var\ml{())}\ \ELSE\ \ml{()} \\
+                & \ \ \IN\ \var\ml{()}\ \END\\
+\cline{1-2}
+\ml{[}$\exp_1$ \ml{,} $\cdots$ \ml{,} $\exp_\n$\ml{]}
+                & \exp$_1$\ \ml{::}\ $\cdots$\ \ml{::}\ \exp$_n$\
+                            \ml{::}\ \NIL                 & $(n\geq 0)$ \\
+\cline{1-2}
+\multicolumn{3}{c}{}\\
+\end{tabular}}{\begin{tabular}{|l|l|l}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} &
+\multicolumn{1}{c}{}\\
+\multicolumn{3}{c}{}\\
+\multicolumn{2}{l}{{\bf Expressions} \exp}\\
+%\multicolumn{2}{l}{EXPRESSIONS \exp}\\
+\cline{1-2}
+\ml{()}         & \ml{\lttbrace\ \rttbrace} \\
+\cline{1-2}
+\ml{(}$\exp_1$ \ml{,} $\cdots$ \ml{,} $\exp_\n$\ml{)}
+            & \ml{\lttbrace 1=}$\exp_1$\ml{,}\ $\cdots$\ml{,}\
+                             $\overline{n}$\ml{=}$\exp_\n$\ml{\rttbrace}
+                                                           & $(\n\geq 2)$\\
+\cline{1-2}
+\ml{\#}\ \lab      & \FN\ \ml{\lttbrace}\lab\ml{=}\vid\ml{,...\rttbrace\  => }\vid
+                                                           & (\vid\ new)\\
+%\cline{1-2}
+%\RAISE\ \longexn    & \RAISE\ \longexn\ \WITH\ \ml{()} \\
+\cline{1-2}
+\CASE\ \exp\ \OF\ \match
+                & \ml{(}\FN\ \match\ml{)(}\exp\ml{)} \\
+\cline{1-2}
+\IF\ $\exp_1$\ \THEN\ $\exp_2$\ \ELSE\ $\exp_3$
+                & \CASE\ $\exp_1$\ \OF\ \TRUE\ \ml{=>}\ \exp$_2$\\
+                & \ \ \qquad\qquad\ml{|}\ \FALSE\ \ml{=>}\ \exp$_3$ \\
+\cline{1-2}
+\exp$_1$\ \ORELSE\ \exp$_2$
+                & \IF\ \exp$_1$\ \THEN\ \TRUE\ \ELSE\ \exp$_2$ \\
+\cline{1-2}
+\exp$_1$\ \ANDALSO\ \exp$_2$
+                & \IF\ \exp$_1$\ \THEN\ \exp$_2$\ \ELSE\ \FALSE \\
+\cline{1-2}
+\ml{(}$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$ \ml{;} \exp\ml{)}\
+                & \CASE\ \exp$_1$\ \OF\ \ml{(\_) =>}
+                                                           & $(\n\geq 1)$ \\
+                & \qquad$\cdots$ \\
+                & \CASE\ \exp$_n$\ \OF\ \ml{(\_) =>}\ \exp \\
+\cline{1-2}
+\LET\ \dec\ \IN
+                & \LET\ \dec\ \IN                          & $(\n\geq 2)$ \\
+\qquad$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$ \END
+                & \ \ \ml{(}$\exp_1$ \ml{;} $\cdots$ \ml{;} $\exp_\n$\ml{)}\
+                                                                         \END\\
+\cline{1-2}
+\WHILE\ \exp$_1$\ \DO\ \exp$_2$
+                & \LET\ \VAL\ \REC\ \vid\ \ml{=}\ \FN\ \ml{() =>}
+                                                           & (\vid\ new)\\
+                & \ \ \IF\ \exp$_1$\ \THEN\
+                    \ml{(}\exp$_2$\ml{;}\vid\ml{())}\ \ELSE\ \ml{()} \\
+                & \ \ \IN\ \vid\ml{()}\ \END\\
+\cline{1-2}
+\ml{[}$\exp_1$ \ml{,} $\cdots$ \ml{,} $\exp_\n$\ml{]}
+                & \exp$_1$\ \ml{::}\ $\cdots$\ \ml{::}\ \exp$_n$\
+                            \ml{::}\ \NIL                 & $(n\geq 0)$ \\
+\cline{1-2}
+\multicolumn{3}{c}{}\\
+\end{tabular}}
+
+%
+\replacementPage{58}{
+\id$\langle$\ml{:}\ty$\rangle
+    \ \langle\AS\ \pat\rangle
+    \ \langle$\ml{,} \labpats$\rangle$
+                }{\vid$\langle$\ml{:}\ty$\rangle
+    \ \langle\AS\ \pat\rangle
+    \ \langle$\ml{,} \labpats$\rangle$}
+
+%
+\replacementPage{58}{\id\ml{ = }\id$\langle$\ml{:}\ty$\rangle
+                                 \ \langle\AS\ \pat\rangle
+                                 \ \langle$\ml{,} \labpats$\rangle$}{\vid\ml{ = }\vid$\langle$\ml{:}\ty$\rangle
+                                 \ \langle\AS\ \pat\rangle
+                                 \ \langle$\ml{,} \labpats$\rangle$}
+
+%
+\replacementPage{58}{
+\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Function-value Bindings} \fvalbind}\\
+%\multicolumn{2}{l}{FUNCTION-VALUE BINDINGS \fvalbind}\\
+\hline
+               & $\langle\OP\rangle$\var\ \ml{=} \FN\ \var$_1$\ml{=>} $\cdots$
+                              \FN\ \var$_n$\ml{=>} \\
+               & \CASE\
+                 \ml{(}\var$_1$\ml{,} $\cdots$ \ml{,} \var$_n$\ml{)} \OF \\
+\ \ $\langle\OP\rangle\var\ \atpat_{11}\cdots\atpat_{1n}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_1$
+               & \ \ \ml{(}\atpat$_{11}$\ml{,}$\cdots$\ml{,}\atpat$_{1n}$
+                             \ml{)=>}\exp$_1\langle$\ml{:}\ty$\rangle$\\
+\ml{|}$\langle\OP\rangle\var\ \atpat_{21}\cdots\atpat_{2n}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_2$
+               & \ml{|(}\atpat$_{21}$\ml{,}$\cdots$\ml{,}\atpat$_{2n}$
+                             \ml{)=>}\exp$_2\langle$\ml{:}\ty$\rangle$\\
+\ml{|}\qquad$\cdots\qquad\cdots$
+               & \ml{|}\qquad$\cdots\qquad\cdots$\\
+\ml{|}$\langle\OP\rangle\var\ \atpat_{m1}\cdots\atpat_{mn}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_m$
+               & \ml{|(}\atpat$_{m1}$\ml{,}$\cdots$\ml{,}\atpat$_{mn}$
+                             \ml{)=>}\exp$_m\langle$\ml{:}\ty$\rangle$\\
+\qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$
+               & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$\\
+\hline
+\multicolumn{2}{r}{($m,n\geq1$; $\var_1,\cdots,\var_n$ distinct and new)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Declarations} \dec}\\
+%\multicolumn{2}{l}{DECLARATIONS \dec}\\
+\hline
+\FUN\  \fvalbind
+               & \VAL\ \REC\ \fvalbind  \\
+\hline
+\DATATYPE\ \datbind\ \WITHTYPE\ \typbind
+               & \DATATYPE\ \datbind$\/'$\ \ml{;}\ \TYPE\ \typbind \\
+\hline
+\ABSTYPE\ \datbind\ \WITHTYPE\ \typbind
+               & \ABSTYPE\ \datbind$\/'$ \\
+\qquad\qquad\WITH\ \dec\ \END
+               & \qquad\WITH\ \TYPE\ \typbind\ \ml{;}\ \dec\ \END\\
+\hline
+\multicolumn{2}{r}{(see note in text concerning \datbind$\/'$)}\\
+\multicolumn{2}{c}{}\\
+\end{tabular}}{\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Function-value Bindings} \fvalbind}\\
+%\multicolumn{2}{l}{FUNCTION-VALUE BINDINGS \fvalbind}\\
+\hline
+               & $\langle\OP\rangle$\vid\ \ml{=} \FN\ \vid$_1$\ml{=>} $\cdots$
+                              \FN\ \vid$_n$\ml{=>} \\
+               & \CASE\
+                 \ml{(}\vid$_1$\ml{,} $\cdots$ \ml{,} \vid$_n$\ml{)} \OF \\
+\ \ $\langle\OP\rangle\vid\ \atpat_{11}\cdots\atpat_{1n}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_1$
+               & \ \ \ml{(}\atpat$_{11}$\ml{,}$\cdots$\ml{,}\atpat$_{1n}$
+                             \ml{)=>}\exp$_1\langle$\ml{:}\ty$\rangle$\\
+\ml{|}$\langle\OP\rangle\vid\ \atpat_{21}\cdots\atpat_{2n}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_2$
+               & \ml{|(}\atpat$_{21}$\ml{,}$\cdots$\ml{,}\atpat$_{2n}$
+                             \ml{)=>}\exp$_2\langle$\ml{:}\ty$\rangle$\\
+\ml{|}\qquad$\cdots\qquad\cdots$
+               & \ml{|}\qquad$\cdots\qquad\cdots$\\
+\ml{|}$\langle\OP\rangle\vid\ \atpat_{m1}\cdots\atpat_{mn}
+                                              \langle$\ml{:}\ty$\rangle$
+                                              \ml{=} \exp$_m$
+               & \ml{|(}\atpat$_{m1}$\ml{,}$\cdots$\ml{,}\atpat$_{mn}$
+                             \ml{)=>}\exp$_m\langle$\ml{:}\ty$\rangle$\\
+\qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$
+               & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$\\
+\hline
+\multicolumn{2}{r}{($m,n\geq1$; $\vid_1,\cdots,\vid_n$ distinct and new)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Declarations} \dec}\\
+%\multicolumn{2}{l}{DECLARATIONS \dec}\\
+\hline
+\FUN\ \tyvarseq\ \fvalbind
+               & \VAL\ \tyvarseq\ \REC\ \fvalbind  \\
+\hline
+\DATATYPE\ \datbind\ \WITHTYPE\ \typbind
+               & \DATATYPE\ \datbind$\/'$\ \ml{;}\ \TYPE\ \typbind \\
+\hline
+\ABSTYPE\ \datbind\ \WITHTYPE\ \typbind
+               & \ABSTYPE\ \datbind$\/'$ \\
+\qquad\qquad\WITH\ \dec\ \END
+               & \qquad\WITH\ \TYPE\ \typbind\ \ml{;}\ \dec\ \END\\
+\hline
+\multicolumn{2}{r}{(see note in text concerning \datbind$\/'$)}\\
+\multicolumn{2}{c}{}\\
+\end{tabular}}
+
+%
+\replacementPage{59}{
+\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} \\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Structure  Expressions} \strexp}\\
+%\multicolumn{2}{l}{STRUCTURE EXPRESSIONS \strexp}\\
+\cline{1-2}
+\funappdec & \mbox{\funid\ \ml{(} \STRUCT\ \strdec\ \END\ \ml{)}}\\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+%\multicolumn{2}{l}{FUNCTOR BINDINGS \funbind}\\
+\multicolumn{2}{l}{{\bf Functor Bindings} \funbind}\\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\ \spec\ \ml{)}\ $\langle$\ml{:}\ \sigexp$\rangle$\ \ml{=}}&
+\mbox{\funid\ \ml{(}\ \strid\ \ml{:} \SIG\ \spec\ \END\ \ml{)} 
+              $\langle$\ml{:}\ $\sigexp'\rangle$\ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \LET\ \OPEN\ \strid\ \IN\ \strexp\ \END\ $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}
+\multicolumn{2}{r}{($\strid$ new; see note in text concerning $\sigexp'$)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Functor Signature Expressions} \funsigexp}\\
+%\multicolumn{2}{l}{FUNCTOR SIGNATURES \funsigexp}\\
+\cline{1-2}
+\longfunsigexp & \mbox{\ml{(} \strid\ \ml{:}\ \SIG\ \spec\ \END\ \ml{)}
+                \ml{:}\ \sigexp$'$} \\
+\cline{1-2}
+\multicolumn{2}{r}{($\strid$ new; see note in text concerning $\sigexp'$)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Top-level Declarations} \topdec}\\
+\cline{1-2}
+\exp           & \VAL\ \ml{it =} \exp  \\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+\end{tabular}}{
+\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} \\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Structure  Bindings} \strbind}\\
+\cline{1-2}
+\derivedstrbinder & \equivalentstrbinder\\
+\cline{1-2}
+\derivedabststrbinder & \equivalentabststrbinder\\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Structure  Expressions} \strexp}\\
+\cline{1-2}
+\funappdec & \mbox{\funid\ \ml{(} \STRUCT\ \strdec\ \END\ \ml{)}}\\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+%\multicolumn{2}{l}{FUNCTOR BINDINGS \funbind}\\
+\multicolumn{2}{l}{{\bf Functor Bindings} \funbind}\\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\strid\ml{:}\sigexp\ml{)}\ml{:} $\sigexp'$ \ml{=}}&
+\mbox{\funid\ \ml{(}\strid\ \ml{:} \sigexp\ml{)} \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \strexp\ml{:}$\sigexp'$\  $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\strid\ml{:}\sigexp\ml{)}\ABSTRACT $\sigexp'$ \ml{=}}&
+\mbox{\funid\ \ml{(}\strid\ \ml{:} \sigexp\ml{)} \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \strexp\ABSTRACT$\sigexp'$\  $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\ \spec\ \ml{)}\ $\langle$\ml{:}\ \sigexp$\rangle$\ \ml{=}}&
+\mbox{\funid\ \ml{(}\ $\strid_\nu$\ \ml{:} \SIG\ \spec\ \END\ \ml{)} 
+              \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \LET\ \OPEN\ $\strid_\nu$ \IN\ \strexp$\langle$\ml{:}\ $\sigexp\rangle$}\\
+& \mbox{\ \ \END\ $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}        
+\mbox{\funid\ \ml{(}\ \spec\ \ml{)}\ $\langle$\ABSTRACT\ \sigexp$\rangle$\ \ml{=}}&
+\mbox{\funid\ \ml{(}\ $\strid_\nu$\ \ml{:} \SIG\ \spec\ \END\ \ml{)} 
+              \ \ml{=}}\\
+\mbox{\ \ \strexp\ $\langle$\AND\ \funbind$\rangle$} &
+  \mbox{\ \ \LET\ \OPEN\ $\strid_\nu$ \IN\ \strexp$\langle$\ABSTRACT $\sigexp\rangle$}\\
+& \mbox{\ \ \END\ $\langle$\AND\ \funbind$\rangle$} \\
+\cline{1-2}
+\multicolumn{2}{r}{($\strid_\nu$ new)}\\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Programs} \program}\\
+\cline{1-2}
+$\exp\boxml{;}\langle\program\rangle$           & $\VAL\ \boxml{it =}\; \exp\boxml{;}\langle\program\rangle$\\
+\cline{1-2}
+\multicolumn{2}{c}{}\\
+\end{tabular}}
+
+%
+\insertionPage{60}{
+\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Derived Form} & \multicolumn{1}{c}{Equivalent Form} \\
+\multicolumn{2}{c}{}\\
+\multicolumn{2}{l}{{\bf Specifications} \spec}\\ 
+\cline{1-2}
+$\TYPE\;\tyvarseq\;\tycon\,\boxml{=}\,\ty$ & \boxml{include}\\
+ &\boxml{\ sig $\TYPE\;\tyvarseq\;\tycon$}\\
+ &\boxml{\ end where type $\tyvarseq\;\tycon\,\boxml{=}\,\ty$} \\
+\cline{1-2}
+\boxml{type $\tyvarseq_1\;\tycon_1$ = $\ty_1$} & \boxml{type $\tyvarseq_1\;\tycon_1$ = $\ty_1$}\\
+\boxml{ and $\cdots$} & \boxml{type $\cdots$}\\
+\boxml{ $\cdots$} & \boxml{ $\cdots$}\\
+\boxml{ and $\tyvarseq_n\;\tycon_n$ = $\ty_n$} & \boxml{type $\tyvarseq_n\;\tycon_n$ = $\ty_n$}\\
+\cline{1-2}
+$\inclspec$ ${}_{(n\geq2)}$ & $\INCLUDE\,\sigid_1; \cdots\, ; \INCLUDE \,sigid_n$\\
+\cline{1-2}
+\boxml{$\spec$ sharing $\longstrid_1$ = $\cdots$} & \boxml{$\spec$}\\
+\boxml{\ \ \qquad\qquad\qquad\qquad\qquad = $\longstrid_k$} & \boxml{\ sharing type $\longtycon_{1}$ = }\\
+  & \boxml{\ \ \ \ \ \qquad\qquad\qquad\qquad $\longtycon_{1}'$}\\
+  & \boxml{\ $\cdots$}\\
+  & \boxml{\ sharing type $\longtycon_{m}$ = }\\
+  & \boxml{\ \ \ \ \ \qquad\qquad\qquad\qquad  $\longtycon_{m}'$}\\
+\cline{1-2}
+\multicolumn{2}{r}{\vrule height14pt depth0pt width0pt(see note in text concerning $\longtycon_{1},\ldots,\longtycon_{m}'$)}\\
+%\multicolumn{2}{r}{($n\geq 1$)}\\
+\multicolumn{2}{c}{}\\
+\end{tabular}}
+
+%
+\replacementPage{61}{Figure~\ref{functor-der-forms-fig}}{Figures~\ref{functor-der-forms-fig} and \ref{spec-der-forms-fig}}
+
+%
+\deletionPage{63}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&$#$\hfil&#\hfil\cr
+        & 	& \opp\longvar	& value variable\cr
+	&	& \opp\longcon	& value constructor\cr
+        &       & \opp\longexn  & exception constructor\cr}\end{minipage}}
+
+%
+\insertionPage{63}{$\opp\longvid$\quad value identifier}
+
+%
+\replacementPage{63}{$\inexp_1$\ \id\ $\inexp_2$}{$\inexp_1$\ \vid\ $\inexp_2$}
+
+%
+\replacementPage{64}{\valdec}{\explicitvaldec}
+
+%
+\replacementPage{64}{\FUN\ \fvalbind}{\FUN\ \tyvarseq\  \fvalbind}
+
+%
+\insertionPage{64}{$\datatyperepldecb$\quad datatype replication}
+
+%
+\replacementPage{64}{\longinfix}{\newlonginfix}
+
+%
+\replacementPage{64}{\longinfixr}{\newlonginfixr}
+
+%
+\replacementPage{64}{\longnonfix}{\newlongnonfix}
+
+%
+\deletionPage{64}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&#\hfil&#\hfil\cr
+\fvalbind& ::=  & \ \ $\langle\OP\rangle\var\ \atpat_{11}\cdots\atpat_{1n}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_1$ & $m,n\geq 1$\cr
+        &       & \ml{|}$\langle\OP\rangle\var\ \atpat_{21}\cdots\atpat_{2n}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_2$ & See also note
+                                                                     below\cr
+        &       & \ml{|}\qquad$\cdots\qquad\cdots$ &\cr
+        &       & \ml{|}$\langle\OP\rangle\var\ \atpat_{m1}\cdots\atpat_{mn}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_m$ &\cr
+        &       & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$ &\cr}\end{minipage}}
+
+%
+\insertionPage{64}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&#\hfil&#\hfil\cr
+\fvalbind& ::=  & \ \ $\langle\OP\rangle\vid\ \atpat_{11}\cdots\atpat_{1n}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_1$ & $m,n\geq 1$\cr
+        &       & \ml{|}$\langle\OP\rangle\vid\ \atpat_{21}\cdots\atpat_{2n}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_2$ & See also note
+                                                                     below\cr
+        &       & \ml{|}\qquad$\cdots\qquad\cdots$ &\cr
+        &       & \ml{|}$\langle\OP\rangle\vid\ \atpat_{m1}\cdots\atpat_{mn}
+                  \langle$\ml{:}\ty$\rangle$\ml{=}\exp$_m$ &\cr
+        &       & \qquad\qquad\qquad$\langle\AND\ \fvalbind\rangle$ &\cr}\end{minipage}}
+
+%
+\replacementPage{64}{\opp\longconstrs}{\opp\longvidconstrs}
+
+%
+\replacementPage{64}{\generativeexnbind}{\generativeexnvidbind}
+
+%
+\replacementPage{64}{\eqexnbind}{\eqexnvidbind}
+
+%
+\replacementPage{64}{In the $\fvalbind$ form, if $\var$ has infix status then either
+~\OP~ must be present, or $\var$ must be infixed.  Thus, at the start of
+any clause, ``~\OP\ \var\ \ml{(}\atpat\ml{,}\atpat$'$\ml{)} $\cdots$'' may be
+written
+``\ml{(}\atpat\ \var\ \atpat$'$\ml{)} $\cdots$''; the parentheses may also be
+dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.}{In the $\fvalbind$ form, if $\vid$ has infix status then either
+~\OP~ must be present, or $\vid$ must be infixed.  Thus, at the start of
+any clause, ``~\OP\ \vid\ \ml{(}\atpat\ml{,}\atpat$'$\ml{)} $\cdots$'' may be
+written
+``\ml{(}\atpat\ \vid\ \atpat$'$\ml{)} $\cdots$''; the parentheses may also be
+dropped if ``\ml{:}\ty'' or ``\ml{=}'' follows immediately.}
+
+%
+\deletionPage{65}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&$#$\hfil&$#$\hfil\cr
+  	&	& \opp\var  	& variable\cr
+	&	& \opp\longcon  & constant\cr
+        &       & \opp\longexn  & exception constant\cr}\end{minipage}}
+
+%
+\insertionPage{65}{$\opp\longvid$\quad value identifier}
+
+%
+\replacementPage{65}{\id}{\vid}
+
+%
+\deletionPage{65}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&$#$\hfil&#\hfil\cr
+	&	& \opp\conpat	& value construction\cr
+        &       & \opp\exconpat  & exception construction\cr
+	&	& \infpat       & infixed value construction\cr
+        &       & \infexpat     & infixed exception construction\cr
+	&	& \typedpat	& typed\cr
+	&	& \opp\layeredpat	& layered\cr}\end{minipage}}
+
+%
+\insertionPage{65}{\begin{minipage}{\textwidth}\halign{\indent$#$\hfil&$#$\hfil&$#$\hfil&#\hfil\cr
+	&	& \opp\vidpat	& constructed value\cr
+	&	& \vidinfpat       & constructed value (infix)\cr
+	&	& \typedpat	& typed\cr
+	&	& \opp\layeredvidpat	& layered\cr}\end{minipage}}
+
+%
+\insertionPage{65}{(R)}
+
+%
+\insertionPage{66}{
+In this appendix (and the next) we define a minimal initial basis for
+execution. Richer bases may be provided by libraries.}
+
+%
+\insertionPage{66}{
+We\index{73.1} shall indicate components of the initial basis by the subscript 0.
+The initial static basis is
+$\B_0 = \T_0,\F_0,\G_0,\E_0$,
+where $F_0 = \emptymap$, $\G_0 = \emptymap$ and 
+$$\T_0\ =\ \{\BOOL,\INT,\REAL,\STRING,\CHAR,\WORD,\LIST,\REF,\EXCN\}$$
+The members of $\T_0$ are type names, not type constructors; for convenience
+we have used type-constructor identifiers
+to stand also for the type names which are bound to them in the initial
+static type environment $\TE_0$.  Of these type names,
+~\LIST~ and ~\REF~
+have arity 1, the rest have arity 0;  
+all except $\EXCN$ admit equality.
+Finally, $\E_0 = (\SE_0,\TE_0,\VE_0)$, where $\SE_0 = \emptymap$, 
+while $\TE_0$ and $\VE_0$ are shown in Figures~\ref{stat-te} and \ref{stat-ve},
+respectively.
+}
+
+%
+\deletionPage{66}{
+We\index{73.1} shall indicate components of the initial basis by the subscript 0.
+The initial static basis is
+\[ \B_0\ =\ (\M_0,\T_0),\F_0,\G_0,\E_0\]
+where
+\begin{itemize}
+\item $\M_0\ =\ \emptyset$
+\item $\T_0\ =\ \{\BOOL,\INT,\REAL,\STRING,\LIST,\REF,\EXCN,\INSTREAM,\OUTSTREAM\}$
+\item $\F_0\ =\ \emptymap$
+\item $\G_0\ =\ \emptymap$
+\item $\E_0\ =\ \longE{0}$
+\end{itemize}
+The members of $\T_0$ are type names, not type constructors; for convenience
+we have used type-constructor identifiers
+to stand also for the type names which are bound to them in the initial
+static type environment $\TE_0$.  Of these type names,
+~\LIST~ and ~\REF~
+have arity 1, the rest have arity 0;  
+all except \EXCN, \INSTREAM~ 
+and ~\OUTSTREAM~ admit equality.
+
+The components of $\E_0$ are as follows:
+\begin{itemize}
+\item $\SE_0\ =\ \emptymap$
+\item $\VE_0$ is shown in Figures~\ref{stat-ve} and \ref{stat-veio}.
+Note that
+      $\Dom\VE_0$  contains those identifiers 
+      ({\tt true}, {\tt false}, {\tt nil},
+      \verb+::+, {\tt ref}) which are basic value constructors,
+      for reasons discussed in Section~\ref{stat-proj}. 
+      $\VE_0$ also includes $\EE_0$, for the same reasons.
+\item $\TE_0$ is shown in Figure~\ref{stat-te}. Note that the type
+      structures in $\TE_0$ contain the type schemes of all basic value
+      constructors.
+\item $\Dom\EE_0\ =\ \BasExc$~, the set of basic exception names listed in
+Section~\ref{bas-exc}.
+In each case the associated type is ~\EXCN~, except that
+~$\EE_0({\tt Io})=\STRING\rightarrow\EXCN$.
+\end{itemize}
+}
+
+%
+\deletionPage{66}{
+\begin{figure}
+\begin{center}
+\begin{tabular}{|rl|}
+\hline
+$\var$            & $\mapsto\ \tych$\\
+\hline
+{\tt std\_in}     & $\mapsto\ \INSTREAM$\\
+{\tt open\_in}    & $\mapsto\ \STRING\to\INSTREAM$\\
+{\tt input}       & $\mapsto\ \INSTREAM\ \ast\ \INT\to\STRING$\\
+{\tt lookahead}   & $\mapsto\ \INSTREAM\to\STRING$\\
+{\tt close\_in}   & $\mapsto\ \INSTREAM\to\UNIT$\\
+{\tt end\_of\_stream}
+                  & $\mapsto\ \INSTREAM\to\BOOL$\\
+\multicolumn{2}{|c|}{}\\
+{\tt std\_out}    & $\mapsto\ \OUTSTREAM$\\
+{\tt open\_out}   & $\mapsto\ \STRING\to\OUTSTREAM$\\
+{\tt output}      & $\mapsto\ \OUTSTREAM\ \ast\ \STRING\to\UNIT$\\
+{\tt close\_out}  & $\mapsto\ \OUTSTREAM\to\UNIT$\\
+\hline
+\end{tabular}
+\end{center}
+\vspace{3pt}
+\caption{Static $\VE_0$ (Input/Output)\index{75.1}}
+\label{stat-veio}
+\end{figure}}
+
+%
+\insertionPage{66}{
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{|rll|}
+\hline
+$\tycon$   & $\mapsto\ (\ \typefcn$, & $\{\vid_1\mapsto(\tych_1,\is_1),\ldots,\vid_n\mapsto(\tych_n,\is_n)\}\ )\quad (n\geq0)$\\
+\hline
+\UNIT      & $\mapsto\ (\ \Lambda().\{ \}$,
+                                      & $\emptymap\ )$ \\
+\BOOL      & $\mapsto\ (\ \BOOL$,    & $\{\TRUE\mapsto(\BOOL,\isc),
+                                         \ \FALSE\mapsto(\BOOL,\isc)\}\ )$\\
+\INT       & $\mapsto\ (\ \INT$,     & $\{\}\ )$\\
+\WORD       & $\mapsto\ (\ \WORD$,     & $\{\}\ )$\\
+\REAL      & $\mapsto\ (\ \REAL$,    & $\{\}\ )$\\
+\STRING    & $\mapsto\ (\ \STRING$,  & $\{\}\ )$\\
+%\UNISTRING    & $\mapsto\ (\ \UNISTRING$,  & $\{\}\ )$\\
+\CHAR    & $\mapsto\ (\ \CHAR$,  & $\{\}\ )$\\
+%\UNICHAR    & $\mapsto\ (\ \UNICHAR$,  & $\{\}\ )$\\
+\LIST      & $\mapsto\ (\ \LIST$,    & $\{\NIL\mapsto(\forall\atyvar\ .\ \atyvar\ \LIST, \isc)$,\\
+           &                          & \ml{::}$\mapsto(\forall\atyvar\ .
+                                           \ \atyvar\ast\atyvar\ \LIST
+                                           \to\atyvar\ \LIST, \isc)\}\ )$\\
+\REF       & $\mapsto\ (\ \REF$,     & $\{\REF\mapsto(\forall\ \atyvar\ .\ 
+                                           \atyvar\to\atyvar\ \REF,\isc)\}\ )$\\
+\EXCN      & $\mapsto\ (\ \EXCN$,     & $\emptymap\ )$\\
+\hline
+\end{tabular}
+\end{center}
+\vskip-3mm
+\caption{Static $\TE_0$\index{75.2}}
+\vskip-3mm
+\label{stat-te}
+\end{figure}}
+
+%
+\notePage{66}{Figure (Static $VE_0$): many entries removed (now in library/basis)}
+
+%
+\insertionPage{66}{Inserted figure with caption: Static $\VE_0$\index{74}}
+%
+\insertionPage{67}
+The initial dynamic basis is $\B_0 = \F_0,\G_0,\E_0$, 
+where $\F_0 = \emptymap$, $\G_0 = \emptymap$ and $\E_0 = (\SE_0, \TE_0,\VE_0)$,
+where $\SE_0 = \emptymap$, $\TE_0$ is shown in Figure~\ref{dynTE0.fig}
+
+%
+\deletionPage{67}{
+The initial dynamic basis is
+\[ \B_0\ =\ \F_0,\G_0,\E_0\]
+where
+\begin{itemize}
+\item $\F_0\ =\ \emptymap$
+\item $\G_0\ =\ \emptymap$
+\item $\E_0\ =\ \E_0'+\E_0''$
+\end{itemize}
+$\E_0'$ contains bindings of identifiers to the basic values BasVal and
+basic exception names \BasExc; in fact
+~$\E_0'\ =\ \SE_0',\VE_0',\EE_0'$~, where:
+\begin{itemize}
+\item $\SE_0'\ =\ \emptymap$
+\item $\VE_0' = \{{\it id}\mapsto{\it id}\ ;\ {\it id}\in\hbox{BasVal}\}
+       +\{\hbox{\boxml{:=}}\mapsto\hbox{\boxml{:=}}\} +\EE_0'$\\
+       \vrule height0pt width3mm depth 0pt$+\;\{\boxml{true}\mapsto\boxml{true},\,\boxml{false}\mapsto\boxml{false},\,\boxml{nil}\mapsto\boxml{nil},\,
+\hbox{\boxml{::}}\mapsto\hbox{\boxml{::}},\,
+\hbox{\boxml{ref}}\mapsto\hbox{\boxml{ref}}\}$
+\item $\EE_0'\ =\ \{\id\mapsto\id\ ;\ \id\in$ \BasExc$\}$
+\end{itemize}
+}
+
+%
+\deletionPage{67}{Note that $\VE_0'$ is the identity function on BasVal; this is because
+we have chosen to denote these values by the names of variables 
+to which they are initially bound.
+The semantics of these basic values (most of which are functions)
+lies principally in their behaviour under APPLY, which we describe below.
+On the other hand the semantics of \boxml{:=} is provided by a special
+semantic rule, rule~\ref{assapp-dyn-rule}.
+Similarly, $\EE_0'$ is the identity function on \BasExc, the set of
+basic exception names, because we have also chosen
+these names to be just those exception constructors to which they
+are initially bound.
+These exceptions are raised by APPLY as described below.
+
+ $\E_0''$ contains initial variable bindings which, unlike BasVal, are
+ definable in ML; it is the result of evaluating
+ the following declaration in the basis $\F_0,\G_0,\E_0'$.  For convenience,
+ we have also included all basic infix directives in this declaration.
+
+ [omitted]
+
+}
+
+%
+\insertionPage{67}{
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{|rll|}
+\hline
+$\tycon$   & $\mapsto$  & $\{\vid_1\mapsto\V_1,\ldots,\vid_n\mapsto\V_n\}\quad (n\geq0)$\\
+\hline
+\UNIT      & $\mapsto $ &  $\emptymap$ \\
+\BOOL      & $\mapsto $ & $\{\TRUE\mapsto\TRUE
+                                         \ \FALSE\mapsto\FALSE\}$\\
+\INT       & $\mapsto $ & $\{\}$\\
+\WORD      & $\mapsto $ & $\{\}$\\
+\REAL      & $\mapsto $ & $\{\}$\\
+\STRING    & $\mapsto $ & $\{\}$\\
+%\UNISTRING & $\mapsto $ & $\{\}$\\
+\CHAR      & $\mapsto $ & $\{\}$\\
+%\UNICHAR   & $\mapsto $ & $\{\}$\\
+\LIST      & $\mapsto $ & $\{\NIL\mapsto\NIL,\ml{::}\mapsto\ml{::}\}$\\
+\REF       & $\mapsto $ & $\{\REF\mapsto\REF\}$\\
+\EXCN      & $\mapsto $ & $\emptymap$\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Dynamic $\TE_0$}
+\label{dynTE0.fig}
+\end{figure}}
+
+%
+\insertionPage{68}{
+\section{Overloading}
+\label{overload.sec}
+Two forms of overloading are available:
+\begin{itemize}
+\item Certain special constants are overloaded.  For example,
+{\tt 0w5} may have type $\WORD$ or some other type, depending on
+the surrounding program text;
+\item Certain operators are overloaded. For example,
+{\tt +} may have type $\INT\ast\INT\to\INT$ or
+$\REAL\ast\REAL\to\REAL$, depending on
+the surrounding program text;
+\end{itemize}
+Programmers cannot define their own overloaded constants or operators.
+
+Although a formal treatment of overloading is outside the scope
+of this document, we do give a complete list of the overloaded operators
+and of types with overloaded special constants.
+This list is consistent with the Basis Library\cite{mllib96}.
+
+Every overloaded constant and value identifier has among its types a 
+{\em default type},
+which is ascribed to it, when the surrounding text does not resolve the overloading.
+For this purpose, the surrounding text is no larger than the smallest
+enclosing structure-level declaration; an implementation may require
+that a smaller context determines the type.
+
+\subsection{Overloaded special constants}
+Libraries may extend the set $\T_0$ of
+Appendix~\ref{init-stat-bas-app} with additional type names. Thereafter, certain
+subsets of $T_0$ have a special significance;
+they are called {\sl overloading classes}
+and they are:\medskip
+
+\halign{\indent#\ \hfil&\ $#$\ &\ $#$\hfil\cr
+\Int &\supseteq&\{\INT\}\cr
+\Real &\supseteq&\{\REAL\}\cr
+\Word &\supseteq&\{\WORD\}\cr
+\String&\supseteq&\{\STRING\}\cr
+\Char&\supseteq&\{\CHAR\}\cr
+\WordInt&=&\Word\cup\INt\cr
+\RealInt&=&\Real\cup\INt\cr
+\Num&=&\Word\cup\Real\cup\INt\cr
+\NumTxt&=&\Word\cup\Real\cup\INt\cup\String\cup\Char\cr}
+\medskip
+
+\noindent 
+Among these, the five first ($\Int$, $\Real$, $\Word$, $\String$ and $\Char$) are said to be
+{\sl basic}; the remaining are said to be {\sl composite}.
+The reason that the basic classes are specified using
+$\supseteq$ rather than $=$ is that libraries may extend 
+each of the  basic overloading
+classes with further type names.  Special constants are overloaded
+within each of the basic overloading classes.  However, the basic
+overloading classes must be arranged so that every special constant can be
+ascribed types from at most one of the basic overloading classes.  For
+example, to \boxml{0w5} may be ascribed type $\WORD$, or
+some other member of $\Word$, depending on the surrounding text.  If
+the surrounding text does not determine the type of the constant, a
+default type is used. The default types for the five sets are $\INT$,
+$\REAL$, $\WORD$, $\STRING$ and $\CHAR$ respectively.
+
+       Once overloading resolution has determined the type of a special constant,
+       it is a compile-time error if the constant does not make sense or does not 
+       denote a value within the machine representation chosen for the type.
+       For example, an escape sequence of the form $\uconst$ in a string constant
+       of 8-bit characters only makes sense if $xxxx$  denotes
+       a number in the range $[0, 255]$. 
+
+
+\subsection{Overloaded value identifiers}
+Overloaded identifiers all have identifier status $\isv$. An
+overloaded identifier may be re-bound with any status ($\isv$, $\isc$
+and $\ise$) but then it is not overloaded within the scope of
+the binding.
+
+\begin{figure}
+\begin{center}
+\vskip-12pt
+\begin{tabular}{|rl|rl|}
+\multicolumn{2}{c}{NONFIX}&     \multicolumn{2}{c}{INFIX}\\
+\hline
+$\var$     & $\mapsto\ \hbox{set of monotypes}$    
+                          & $\var$ & $\mapsto\ \hbox{set of monotypes}$\\
+\hline
+\boxml{abs} & $\mapsto \REALINT\to\REALINT$ 
+                       & \multicolumn{2}{l|}{Precedence 7, left associative :} \\
+\NEG    & $\mapsto \REALINT\to\REALINT $                      &
+                            \boxml{div} & $\mapsto \WORDINT\ \ast\ \WORDINT
+                                                                 \to\WORDINT$\\
+ &  
+                                             &
+                            \boxml{mod} & $\mapsto \WORDINT\ \ast\ \WORDINT
+                                                                 \to\WORDINT$\\
+  &                       &
+                            \boxml{*} &$\mapsto \NUM\ \ast\ \NUM
+                                                                 \to\NUM$\\
+  &                       &
+                            \boxml{/} &$\mapsto \RREAL\ \ast\ \RREAL
+                                                                 \to\RREAL$\\
+  & &
+                            \multicolumn{2}{l|}{Precedence 6, left associative :} \\
+  &                       &
+                            \boxml{+} &$\mapsto \NUM\ \ast\ \NUM
+                                                                 \to\NUM$\\
+  &                       &
+                            \boxml{-} &$\mapsto \NUM\ \ast\ \NUM\to\NUM$\\
+  & 
+                          & \multicolumn{2}{l|}{Precedence 4, left associative :}\\
+              &           &
+                            \boxml{<} & $\mapsto\NUMTEXT *\NUMTEXT \to \NUMTEXT$\\
+              &           &
+                            \boxml{>} & $\mapsto\NUMTEXT *\NUMTEXT \to \NUMTEXT$\\
+              &           &
+                            \boxml{<=} & $\mapsto\NUMTEXT *\NUMTEXT \to \NUMTEXT$\\
+              &           &
+                            \boxml{>=} & $\mapsto\NUMTEXT *\NUMTEXT \to \NUMTEXT$\\
+\hline
+\end{tabular}
+\end{center}
+\vskip-15pt
+\caption{Overloaded identifiers}
+\label{overload.fig}
+\end{figure}
+}
+
+%
+\notePage{70}{This appendix has been revised and extended in 
+several ways. A detailed list of changes is not available.}
+
+%
+\notePage{77}{This appendix is new!}
+
+%
+\notePage{94}{The Index has been revised; it is not accurate for
+the version that has marginal notes.}

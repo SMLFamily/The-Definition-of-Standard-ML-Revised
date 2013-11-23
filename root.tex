@@ -1,48 +1,135 @@
 % this is file `root', the root of the whole semantics
-\documentclass[a4,12pt,twoside]{article}
-\title{The Definition of Standard ML}
-\author{Robin Milner \and Mads Tofte \and Robert Harper \\
-Laboratory for Foundations of Computer Science\\
-Department of Computer Science\\
-University of Edinburgh}
-%Edinburgh EH9 3JZ, Scotland}
-\date{%\today}
-}
+%\documentclass[12pt,twoside]{article}
+%\usepackage{a4}
+\documentstyle[12pt,a4,twoside]{article}
+\title{The Definition of ML\thanks{This document is derived from
+Milner, Tofte and Harper: ``The Definition of Standard ML'', MIT Press, 1990.}}
+\author{Mads Tofte (ed.)}
+\date{\today}
+%\includeonly{mac,syncor}
 \include{mac} % macros
 \makeindex
 %
-%\includeonly{intro,syncor,statcor,statmod}
+%\includeonly{dynmod,overloading}
 %for agfa: \voffset -12mm
 %4 Sept. 89, for lw16:
-\advance\hoffset by -8mm
+%\advance\hoffset by -8mm
+%AT DIKU:
+%\addtolength{\textwidth}{-13mm}
+%\addtolength{\textheight}{0.4mm}
+\nofiles
 \begin{document}
+\bibliographystyle{plain}
 \pagestyle{empty}
-\maketitle
+\begin{flushleft}
+{\Large\bf The Definition of Standard ML}
+\end{flushleft}
 \cleardoublepage
-\pagestyle{plain}
-\setcounter{page}{3}
+\begin{flushleft}
+{\Large\bf The Definition of Standard ML\\[2mm]
+(Revised)\\[20mm]
+\normalsize\bf Robin Milner, Mads Tofte, Robert Harper and David MacQueen}
+\end{flushleft}
+\vfill
+\begin{flushleft}
+\normalsize\bf The MIT Press\\
+Cambridge, Massachusetts\\
+London, England
+\end{flushleft}
+\vspace*{1cm}
+\clearpage
+\noindent\copyright 1997 Robin Milner
+\bigskip
+
+\noindent 
+All rights reserved. No part of this book may be reproduced in any
+form by any electronic or mechanical means (including photocopying,
+recording, or information storage and retrieval) without permission
+in writing from the publisher.
+\bigskip
+
+\noindent
+Printed and bound in the United States of America.
+\bigskip
+
+\noindent
+Library of Congress Cataloging-in-Publication Data
+\medskip
+\begin{flushleft}
+The definition of standard ML: revised / Robin Milner $\ldots$ et al.\\
+\quad\quad p.\quad cm.\\
+\quad Includes bibliographical references and index.\\
+\quad ISBN 0-262-63181-4 (alk. paper)\\
+\quad1. ML (Computer program language)\quad I. Milner, R. (Robin), 1934-\\
+QA76.73.M6D44\quad1997\\
+$005.13'3$---dc21
+\end{flushleft}
+\begin{flushright}
+97-59\\
+CIP
+\end{flushright}
+\clearpage
+\pagestyle{headings}
+\thispagestyle{empty}
+\setcounter{page}{5}
 \renewcommand{\thepage}{\roman{page}}
-\include{preface}
 \tableofcontents
-\cleardoublepage
+\clearpage
+\pagestyle{empty}
+\ \clearpage
+\pagestyle{myheadings}
+\pagestyle{empty}
+\include{preface}
+\clearpage
+\pagestyle{empty}
+\ \clearpage
 \pagestyle{headings}
 \setcounter{page}{1}
 \renewcommand{\thepage}{\arabic{page}}
+\thispagestyle{empty}
 \include{intro}
+\thispagestyle{empty}
 \include{syncor}
+\thispagestyle{empty}
 \include{synmod}
+\thispagestyle{empty}
 \include{statcor}
+\thispagestyle{empty}
 \include{statmod}
+\thispagestyle{empty}
 \include{dyncor}
+\thispagestyle{empty}
 \include{dynmod}
+\thispagestyle{empty}
 \include{prog}
 \appendix
+\thispagestyle{empty}
 \include{app1}
+\blankPage
+\thispagestyle{empty}
 \include{app2}
+\blankPage
+\thispagestyle{empty}
 \include{app3}
+\blankPage
+\thispagestyle{empty}
 \include{app4}
+\blankPage
+\thispagestyle{empty}
+\include{overloading}
+\thispagestyle{empty}
 \include{app5}
-%\include{index}
+\blankPage
+\thispagestyle{empty}
+\include{whatisnew}
+\blankPage
+\addcontentsline{toc}{section}{\protect\numberline{}{\vrule width0pt height2cm depth0pt References}}
+\thispagestyle{empty}
+\bibliography{tofte,bob}
+\clearpage
+\blankPage
+\thispagestyle{empty}
+\include{index}
 \end{document}
 
  HOW TO REVISE THE INDEX 

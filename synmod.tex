@@ -3,29 +3,36 @@
 For Modules there are further reserved words, identifier classes and derived
 forms. There are no further special constants; 
 comments and lexical analysis are as for the Core.
-The derived forms for modules concern functors and appear in 
-Appendix~\ref{derived-forms-app}.
+\replacement{\thenostrsharing}{The derived forms for modules concern functors and  appear in 
+Appendix~\ref{derived-forms-app}.}{The derived forms for modules  appear in 
+Appendix~\ref{derived-forms-app}.}
 
 %For Modules there are further keywords and identifier classes, but no
 %further special constants and at present no further derived forms.  
 %Comments and lexical analysis are as for the Core.
 
 \subsection{Reserved Words}
-The\index{14.1} following are the additional reserved words used in Modules.
+The\index{14.1} following are the additional reserved words used in Modules.\note{\thenostrsharing}{Inserted new keywords  {\tt where} and {\tt :>}}
+% \begin{verbatim}
+%              eqtype  functor    include   sharing
+%              sig     signature  struct  structure
+% \end{verbatim}
 \begin{verbatim}
-             eqtype  functor    include   sharing
-             sig     signature  struct  structure
+             eqtype    functor   include   sharing   sig
+             signature   struct   structure   where   :>
 \end{verbatim}
-
 \subsection{Identifiers}
 \label{syn-mod-identifiers-sec}
-The additional syntax classes for Modules are SigId (signature identifiers)
-and FunId (functor identifiers); they may be either alphanumeric -- not
-starting with a prime -- or symbolic.  The class of each identifier occurrence
-is determined by the grammatical rules which follow.  Henceforth, therefore,
+The additional \replacement{\thefixtypos}{syntax}{identifier} classes for Modules are SigId (signature identifiers)
+and FunId (functor identifiers)\replacement{\theidstatus}{; they may be either alphanumeric -- not
+starting with a prime -- or symbolic}{. Functor and signature identifiers
+must be alphanumeric, not starting with a prime.}  The class of each identifier occurrence
+is determined by the grammatical rules which follow.  
+Henceforth, therefore,
 we consider all identifier classes to be disjoint.
 
 \subsection{Infixed operators}
+\label{infixopmod.sec}
 In addition to the scope rules for fixity directives given for the Core syntax,
 there is a further scope limitation:
 if $\dir$ occurs in a structure-level declaration $\strdec$ in any of the 
@@ -35,14 +42,15 @@ phrases
 \[ \STRUCT\ \strdec\ \END \]
 then the scope of $\dir$ does not extend beyond the phrase.
 
-One effect of this limitation is that fixity is local to a generative
-structure expression -- in particular, to such an expression occurring
-as a functor body.  A more liberal scheme (which is under consideration)
+One effect of this limitation is that fixity is local to a \replacement{\thenostrsharing}{generative}{basic}
+structure expression --- in particular, to such an expression occurring
+as a functor body. 
+\deletion{\thenoinfixinspec}{A more liberal scheme (which is under consideration)
 would allow fixity directives to appear also as specifications, so that
 fixity may be dictated by a signature expression; furthermore, it would allow an ~$\OPEN$~
 or ~$\INCLUDE$~ construction to restore the fixity which prevailed
 in the structures being opened, or in the signatures being included.
-This scheme is not adopted at present.
+This scheme is not adopted at present.}
 
 
 \subsection{Grammar for Modules}
@@ -50,7 +58,7 @@ This scheme is not adopted at present.
 The\index{14.2} phrase classes for Modules are shown in Figure~\ref{mod-phr}.
 We use the variable $\strexp$ to range over StrExp, etc.
 The conventions adopted in presenting the grammatical 
-\pagebreak
+%\pagebreak
 \begin{figure}[t]
 \vspace{4pt}
 \makeatletter{}
@@ -72,14 +80,13 @@ DatDesc & datatype descriptions\cr
 ConDesc & constructor descriptions\cr
 ExDesc & exception descriptions\cr
 StrDesc & structure descriptions\cr
-SharEq & sharing equations\cr
+%\ adhocinsertion{\thetypabbr}{2mm}{WhereBind & where bindings\cr}
+\adhocdeletion{\thetypabbr}{2mm}{SharEq & sharing equations\cr}
 \cr
 FunDec & functor declarations\cr
-FunBind & functor bindings\cr
-FunSigExp & functor signature expressions\cr
+FunBind & functor bindings\cr\adhocdeletion{\thenofuncspec}{3mm}{FunSigExp & functor signature expressions\cr
 FunSpec & functor specifications\cr
-FunDesc & functor descriptions\cr
-TopDec  & top-level declarations\cr
+FunDesc & functor descriptions\cr}TopDec  & top-level declarations\cr
 }
 \makeatother
 \caption{Modules Phrase Classes\index{15.1}}
@@ -90,7 +97,7 @@ are the same as for the Core.
 The grammatical rules are shown in Figures~\ref{str-syn},
 \ref{spec-syn} and \ref{prog-syn}.
 
-It should be noted that functor specifications (FunSpec) cannot
+\deletion{\thenofuncspec}{It should be noted that functor specifications (FunSpec) cannot
 occur in programs;
 neither can the associated functor descriptions (FunDesc)
 and functor signature expressions (FunSigExp).  The purpose of a $\funspec$
@@ -107,53 +114,71 @@ the semantics for Modules it is defined when a
 declared functor matches a functor signature specified for it. This determines
 exactly those functor environments (containing declared functors
 such as $f$) into which the separately compiled ``chunk''
-containing the declaration of $g$ may be loaded.
-\newpage
+containing the declaration of $g$ may be loaded.}
+%\newpage
 \begin{figure}[h]
 \vspace{4pt}
 \makeatletter{}
 \tabskip\@centering
 \halign to\textwidth
 {#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
-\strexp & ::=	& \encstrexp	& generative\cr
-	&	& \longstrid	& structure identifier\cr
-	&	& \funappstr	& functor application\cr
+\strexp & ::=   & \encstrexp    & \adhocreplacementl{\thenostrsharing}{-4cm}{generative}{basic}\cr
+        &       & \longstrid    & structure identifier\cr
+\adhocinsertion{\thenostrsharing}{0mm}{ && \transpconstraint & transparent constraint\cr}
+\adhocinsertion{\thenostrsharing}{0mm}{ && \opaqueconstraint & opaque constraint\cr}
+        &       & \funappstr    & functor application\cr
         &       & \letstrexp    & local declaration\cr
 \noalign{\vspace{6pt}}
 %
-\strdec	& ::=	& \dec                          & declaration \cr
-        &       & \singstrdec    		& structure \cr
+\strdec & ::=   & \dec                          & declaration \cr
+        &       & \singstrdec                   & structure \cr
         &       & \localstrdec                  & local \cr
         &       & \emptystrdec                  & empty \cr
-	&	& \seqstrdec			& sequential\cr
+        &       & \seqstrdec                    & sequential\cr
 \noalign{\vspace{6pt}}
-\strbind & ::=   & \strbindera \cr
+\strbind & ::=   & \adhocreplacementl{\thenostrsharing}{3cm}{\strbindera}{\barestrbindera} \cr
 \noalign{\vspace{6pt}}
-\sigexp	& ::=	& \encsigexp    	& generative\cr
-	&	& \sigid		& signature identifier\cr
+\sigexp & ::=   & \encsigexp            & \adhocreplacementl{\thenostrsharing}{-4cm}{generative}{basic}\cr
+        &       & \sigid                & signature identifier\cr
+\adhocinsertion{\thenostrsharing}{0mm}{&&\rlap{$\sigexp$}\hskip13mm \boxml{where type} & type realisation\cr
+        &       & \hskip13mm \boxml{$\tyvarseq$ $\longtycon$ =  $\ty$}\cr}
 \noalign{\vspace{6pt}}
-\sigdec & ::=   & \singsigdec           & single\cr
-        &       & \emptysigdec          & empty\cr
-        &       & \seqsigdec            & sequential\cr
-\noalign{\vspace{6pt}}
+\sigdec & ::=   & \singsigdec           & \adhocdeletion{\thenostrsharing}{0mm}{single}\cr\noalign{\vspace{6pt}}\adhocdeletion{\thenostrsharing}{0mm}{        &       & \emptysigdec          & empty\cr
+        &       & \seqsigdec            & sequential\cr}%\noalign{\vspace{6pt}}
 \sigbind & ::=   & \sigbinder \cr
 \noalign{\vspace{6pt}}
 }
 \makeatother
-\vspace{3pt}
+\vspace{6pt}
 \caption{Grammar: Structure and Signature Expressions\index{16.1}}
 \label{str-syn}
 \end{figure}
 
 \subsection{Syntactic Restrictions}
+\label{synresmod.sec}
 \begin{itemize}
 \item No\index{16.2} binding $\strbind$, $\sigbind$, or $\funbind$ may bind the
       same identifier twice.
 \item No description $\valdesc$, $\typdesc$, $\datdesc$, 
-      $\exndesc$, $\strdesc$ or $\fundesc$ may describe the same identifier
-      twice; this applies also to value constructors within a $\datdesc$.
+      $\exndesc$
+      \replacement{\thenofuncspec}{, $\strdesc$ or $\fundesc$}{or $\strdesc$}
+      may describe the same identifier
+      twice; this applies also to value \replacement{\theidstatus}{constructors}{identifiers} within a $\datdesc$.
+\insertion{\thecommentary}{
+\item No ${\it tyvarseq}$ may contain the same ${\it tyvar}$ twice.}
+\insertion{\thenostrsharing}{
+\item 
+      Any $\tyvar$ occurring on the right side of a $\datdesc$ of the form
+ $\tyvarseq \;\tycon\;\boxml{=}$ $\cdots$ must occur
+      in the $\tyvarseq$; similarly, in signature expressions of the form\hfill\break $\sigexp\ \boxml{where type}\, \tyvarseq\,\longtycon\,$
+$\boxml{=}\,\ty$, any $\tyvar$ occurring in $\ty$ must occur in $\tyvarseq$.}
+\insertion{\thecommentary}{\item No $\datdesc$, $\valdesc$ 
+or $\exndesc$ may describe 
+$\TRUE$, $\FALSE$, $\NIL$, \boxml{::} or $\REF$.
+No $\datdesc$ or $\exndesc$ may describe {\tt it}.
+}
 \end{itemize}
-\clearpage %containing figure 'Grammar: Specifications'
+%\clearpage %containing figure 'Grammar: Specifications'
 \begin{figure}[m]
 \vspace{4pt}
 \makeatletter{}
@@ -162,88 +187,116 @@ containing the declaration of $g$ may be loaded.
 {#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
 \spec	& ::=	& \valspec		& value\cr
 	&	& \typespec		& type\cr
-	&	& \eqtypespec		& eqtype\cr
+	&	& \eqtypespec		& eqtype\cr 
 	&	& \datatypespec		& datatype\cr
+\adhocinsertion{\thedatatyperepl}{2cm}{&	& \datatypereplspec		& replication\cr}
 	&       & \exceptionspec        & exception\cr
-        &	& \structurespec	& structure\cr
-	&	& \sharingspec	        & sharing\cr
+        &	& \structurespec	& structure\cr\adhocdeletion{\thetypabbr}{15mm}{&	& \sharingspec	        & sharing
 	&	& \localspec    	& local\cr
-        &       & \openspec             & open ($n\geq 1$) \cr
-        &       & \inclspec             & include ($n\geq 1$) \cr
+        &       & \openspec             & open ($n\geq 1$)\cr }\adhocreplacementtexl{\thesingleincludespec}{0mm}{        &       & \inclspec           
+  & include ($n\geq 1$)\cr}{        &       & \singleinclspec             & include \cr} 
         &       & \emptyspec            & empty \cr
- 	&	& \seqspec		& sequential\cr
+        &       & \seqspec              & sequential\cr
+\adhocinsertion{\thetypabbr}{0mm}{&     & \boxml{$\spec$ sharing type}      &  sharing\cr &&\boxml{\qquad$\longtycon_1$ = $\cdots$ = $\longtycon_n$}& $(n\geq 2)$\cr}
 \noalign{\vspace{6pt}}
-\valdesc & ::=   & \valdescription \cr
+\valdesc & ::=   & \adhocreplacementl{\theidstatus}{3cm}{\valdescription}{\valviddescription} \cr
 \noalign{\vspace{6pt}}
 \typdesc & ::=   & \typdescription \cr
 \noalign{\vspace{6pt}}
 \datdesc & ::=   & \datdescription \cr
 \noalign{\vspace{6pt}}
-\condesc & ::=   & \condescription \cr
+\condesc & ::=   & \adhocreplacementl{\theidstatus}{3cm}{\condescription}{\conviddescription} \cr
 \noalign{\vspace{6pt}}
-\exndesc & ::=   & \exndescription \cr
+\exndesc & ::=   & \adhocreplacementl{\theidstatus}{3cm}{\exndescription}{\exnviddescription} \cr
 \noalign{\vspace{6pt}}
 \strdesc & ::=   & \strdescription \cr
 \noalign{\vspace{6pt}}
-\shareq & ::=   & \strshareq            & structure sharing\cr
+\adhocdeletion{\thenostrsharing}{0mm}{\shareq & ::=   & \strshareq            & structure sharing\cr
         &       &                       & \qquad ($n\geq 2$) \cr
         &       & \typshareq            & type sharing \cr
         &       &                       & \qquad ($n\geq 2$) \cr
-        &       & \multshareq           & multiple\cr
-\noalign{\vspace{6pt}}
-}
+        &       & \multshareq           & multiple\cr\noalign{\vspace{6pt}}
+\noalign{\vspace{6pt}}}
+\cr}
 \makeatother
 \vspace{3pt}
 \caption{Grammar: Specifications\index{17}}
 \label{spec-syn}
 \end{figure}
-\clearpage %starting with Figure 'Grammar: Functors and Top-level declarations'
-\begin{figure}[t]
+%\clearpage %starting with Figure 'Grammar: Functors and Top-level declarations'
+
+\note{\thenofuncspec}{Figure 8: Functor signature expressions and
+functor specifications have been removed. Sequential and empty
+functor declarations and signature declarations have been removed.
+The grammar for $\topdec$ now allows sequencing (without semicolon) 
+of structure-level declarations, signature declarations and functor
+declarations.}
+%
+%   1990 Definition: 
+%
+%\begin{figure}[h]
+%\vspace{4pt}
+%\makeatletter{}
+%\tabskip\@centering
+%\halign to\textwidth
+%{#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
+%\fundec & ::=  & \singfundec           & single\cr
+%        &      & \emptyfundec          & empty\cr
+%        &      & \seqfundec            & sequence\cr\cr
+%\noalign{\vspace{6pt}}
+%\funbind & ::= & \funstrbinder        & functor binding \cr
+%         &     & \qquad\qquad\qquad\qquad\optfunbinda \cr}
+%\vspace*{6pt}
+%\halign to\textwidth
+%{#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
+%\funsigexp & ::= & \longfunsigexpa       & functor signature expression\cr
+%\noalign{\vspace{6pt}}
+%\funspec & ::= & \singfunspec          & functor specification\cr
+%        &     & \emptyfunspec           & empty\cr
+%        &     & \seqfunspec             & sequence\cr
+%\noalign{\vspace{6pt}}
+%\fundesc & ::= & \longfundesc\cr
+%\noalign{\vspace{6pt}}
+%\topdec  & ::= & \strdec               & structure-level declaration\cr
+%         &     & \sigdec               & signature declaration\cr
+%         &     & \fundec               & functor declaration\cr}
+%\noalign{\vspace{12pt}\hskip1cm\parbox{14cm}{{\sl Note:}\/  No $\topdec$ may
+%contain, as an initial segment, a shorter top-level declaration followed by a semicolon.}
+%}
+%}
+%\makeatother
+%\vspace{6pt}
+%\caption{Grammar: Functors and Top-level Declarations\index{18.1}}
+%\label{prog-syn}
+%\end{figure}
+
+
+\begin{figure}[h]
 \vspace{4pt}
 \makeatletter{}
 \tabskip\@centering
 \halign to\textwidth
-{#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
-\fundec & ::=  & \singfundec           & single\cr
-        &      & \emptyfundec          & empty\cr
-        &      & \seqfundec            & sequence\cr
+{#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&\quad#\hfil\tabskip\@centering\cr
+\fundec & ::=  & \singfundec           & \cr
 \noalign{\vspace{6pt}}
-\funbind & ::= & \funstrbinder           & functor binding \cr
-         &     & \qquad\qquad\qquad\qquad\optfunbinda \cr}
-\vspace*{6pt}
-\halign to\textwidth
-{#\hfil\tabskip1em&\hfil$#$\hfil&#\hfil&#\hfil\tabskip\@centering\cr
-
-\funsigexp & ::= & \longfunsigexpa       & functor signature expression\cr
-\noalign{\vspace{6pt}}
- \funspec & ::= & \singfunspec          & functor specification\cr
-        &     & \emptyfunspec		& empty\cr
-        &     & \seqfunspec		& sequence\cr
- \noalign{\vspace{6pt}}
- \fundesc & ::= & \longfundesc\cr
- \noalign{\vspace{6pt}}
-
-\topdec  & ::= & \strdec               & structure-level declaration\cr
-         &     & \sigdec               & signature declaration\cr
-         &     & \fundec               & functor declaration\cr
-% \noalign{\vspace{6pt}}
-%\program & ::= & \longprog             & \cr
-%from version 1:
-%\program & ::= & \strdec               & structure-level declaration\cr
-%         &     & \sigdec               & signature declaration\cr
-%         &     & \fundec               & functor declaration\cr
-%         &     & \seqprog              & sequence\cr
-\noalign{\vspace{6pt}\parbox{12cm}{{\sl Note:}\/ No $\topdec$ may
-contain, as an initial segment, a shorter top-level declaration followed by a semicolon.}
+\funbind & ::= & \barefunstrbinder     & functor binding \cr
+         &     & \qquad\qquad\qquad\qquad\optfunbinda \cr
+\noalign{\vspace*{6pt}}
+\topdec  & ::= & \strdecintopdec               & structure-level declaration\cr
+         &     & \sigdecintopdec               & signature declaration\cr
+         &     & \fundecintopdec               & functor declaration\cr
+\noalign{\vspace{12pt}\hskip1cm\parbox{14cm}{{\sl Restriction:}\/  No $\topdec$ may
+contain, as an initial segment, a $\strdec$ followed by a semicolon.}
 }
 }
 \makeatother
-\vspace{3pt}
+\vspace{6pt}
 \caption{Grammar: Functors and Top-level Declarations\index{18.1}}
 \label{prog-syn}
 \end{figure}
 
 
+\deletion{\thenoclosurerestriction}{
 \subsection{Closure Restrictions}
 \label{closure-restr-sec}
 The\index{18.2} semantics presented in later sections requires no restriction on
@@ -305,6 +358,6 @@ across separately compiled modules. On the other hand,
 imposing these restrictions may force the programmer to write
 many more sharing equations than is needed if functors
 and signature expressions can refer to free structures.
-
+}
 
 

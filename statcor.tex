@@ -1,4 +1,5 @@
 \section{Static Semantics for the Core}
+\label{statcor.sec}
 Our\index{20.1} first task in presenting the semantics -- whether for Core or Modules,
 static or dynamic -- is to define the objects concerned. In addition
 to the class of {\em syntactic} objects, which we have already defined, 
@@ -9,30 +10,60 @@ kind. Other classes contain {\em compound} semantic objects, such as
 types or environments, which are constructed from component objects.
 
 \subsection{Simple Objects}
-All semantic objects in the static semantics of the entire 
+%\ replacement{\thenostrsharing}{All semantic objects in the static semantics of the entire 
+%language are built from identifiers and two further kinds of simple objects: 
+%type constructor names and structure names.}{All semantic objects in 
+%the static semantics of the entire 
+%language are built from identifiers and one further kind of simple objects: 
+%type constructor names.}
+\replacement{\theidstatus}{All semantic objects in the static semantics of the entire 
 language are built from identifiers and two further kinds of simple objects: 
-type constructor names and structure names.
+type constructor names and structure names.}{All semantic objects in 
+the static semantics of the entire 
+language are built from identifiers and two further kinds of simple objects: 
+type constructor names and identifier status descriptors.}
 Type constructor names are the values taken by type constructors; we shall
 usually refer to them briefly as type names, but they are to be clearly
 distinguished from type variables and type constructors. 
-Structure names play an active role only in
+\deletion{\thenostrsharing}{Structure names play an active role only in
 the Modules semantics; they enter the Core semantics only because
 they appear in structure environments, which (in turn) are needed in the Core
-semantics only to determine the values of long identifiers. The simple object
+semantics only to determine the values of long identifiers.} The simple object
 classes, and the variables ranging over them, are shown in
 Figure~\ref{simple-objects}. We have included $\TyVar$ in the table to
 make visible the use of $\alpha$ in the semantics to range over $\TyVar$.\index{20.2}
 
-\vspace{-7mm}
+%\vspace{-7mm}
+%\vspace{-8mm}
 \begin{figure}[h]
 \vspace{2pt}
+% \ adhocreplacementl{\thenostrsharing}{1cm}{
+% \begin{displaymath}
+% \begin{array}{rclr}
+% \alpha\ {\rm or}\ \tyvar & \in   & \TyVar       & \mbox{type variables}\\
+% \t               & \in   & \TyNames     & \mbox{type names}\\ 
+% \m              & \in   & \StrNames     & \mbox{structure names}
+% \end{array}
+% \end{displaymath}}{\begin{displaymath}
+% \begin{array}{rclr}
+% \alpha\ {\rm or}\ \tyvar & \in   & \TyVar       & \mbox{type variables}\\
+% \t               & \in   & \TyNames     & \mbox{type names}
+% \end{array}
+% \end{displaymath}}
+\adhocreplacementl{\theidstatus}{1cm}{
 \begin{displaymath}
 \begin{array}{rclr}
-\alpha\ {\rm or}\ \tyvar & \in   & \TyVar	& \mbox{type variables}\\
-\t               & \in   & \TyNames	& \mbox{type names}\\
-\m		& \in	& \StrNames	& \mbox{structure names}
+\alpha\ {\rm or}\ \tyvar & \in   & \TyVar       & \mbox{type variables}\\
+\t               & \in   & \TyNames     & \mbox{type names}\\ 
+\m              & \in   & \StrNames     & \mbox{structure names}
 \end{array}
-\end{displaymath}
+\end{displaymath}}{\begin{displaymath}
+\begin{array}{rcll}
+\alpha\ {\rm or}\ \tyvar & \in   & \TyVar       & \mbox{type variables}\\
+\t               & \in   & \TyNames     & \mbox{type names}\\
+\is              & \in   & \IdStatus = \{\isc,\ise,\isv\}    & \mbox{identifier status descriptors}
+\end{array}
+\end{displaymath}}
 \caption{Simple Semantic Objects}
 \label{simple-objects}
 %\vspace{3pt}
@@ -44,18 +75,22 @@ it is a member of EtyVar (defined on page~\pageref{etyvar-lab}).
 %-- in which case we
 %also say that it is an {\sl equality} type variable. 
 %poly 
-Independently hereof, each $\alpha$ possesses a boolean attribute,
+\deletion{\thenoimptypes}{Independently hereof, each $\alpha$ possesses a boolean attribute,
 the {\sl imperative} attribute, which determines whether it is imperative,
 i.e. whether it is a member of $\ImpTyVar$ (defined on page~\pageref{etyvar-lab})
-or not.
+or not.}
 
 Each $\t\in\TyNames$ has
 an arity $k\geq 0$, and also possesses an equality attribute.
 We denote the class of type names with arity $k$ by $\TyNamesk$.
 
 With\index{20.35} each special constant {\scon} we associate a type
-name $\scontype(\scon)$ which is either {\INT}, {\REAL} or {\STRING}
+name $\scontype(\scon)$ which is either \replacement{\thescon}{{\INT}, {\REAL} 
+ or {\STRING}}{{\INT}, {\REAL}, {\WORD}, {\CHAR}
+ or {\STRING}}
 as indicated by Section~\ref{cr:speccon}.
+\insertion{\thelibrary}{(However, see Appendix~\ref{overload.sec} 
+concerning types of overloaded special constants.)}
 
 \subsection{Compound Objects}
 When\index{20.4} $A$ and $B$ are sets $\Fin A$ denotes the set of finite subsets of $A$,
@@ -87,35 +122,32 @@ classes to be disjoint.
 %\vspace{2pt}
 \begin{displaymath}
 \begin{array}{rcl}
-        \tau	&\in	&\Type = \TyVar\cup\RecType\cup\FunType
+        \tau    &\in    &\Type = \TyVar\cup\adhocreplacementl{\theidstatus}{6cm}{\RecType}{\RowType}\cup\FunType
                                  \cup\ConsType\\
  \longtauk\ {\rm or}\ \tauk
                 & \in   & \Type^k\\
  \longalphak\ {\rm or}\ \alphak
                 & \in   & \TyVar^k\\
- \varrho        & \in   & \RecType = \finfun{\Lab}{\Type} \\
+ \varrho        & \in   & \adhocreplacementl{\theidstatus}{4cm}{\RecType}{\RowType} = \finfun{\Lab}{\Type} \\
  \tau\rightarrow\tau'
                 & \in   & \FunType = \Type\times\Type \\
                 &       & \ConsType = \cup_{k\geq 0}\ConsType^{(k)}\\
-        \tauk\t & \in 	& \ConsType^{(k)} = \Type^k\times\TyNamesk  \\
+        \tauk\t & \in   & \ConsType^{(k)} = \Type^k\times\TyNamesk  \\
 \typefcn\ {\rm or}\ \typefcnk
-        	& \in	& \TypeFcn = \cup_{k\geq 0}\TyVar^k\times\Type\\
+                & \in   & \TypeFcn = \cup_{k\geq 0}\TyVar^k\times\Type\\
 \tych\ {\rm or}\ \longtych
-        	& \in	& \TypeScheme = \cup_{k\geq 0}\TyVar^k\times\Type\\
-\S\ {\rm or}\ (\m,\E)
-        	& \in	& \Str = \StrNames\times\Env \\
-(\theta,\CE)    & \in   & \TyStr = \TypeFcn\times\ConEnv\\
-\SE		& \in	& \StrEnv = \finfun{\StrId}{\Str}\\
-\TE		& \in	& \TyEnv = \finfun{\TyCon}{\TyStr}\\
-\CE             & \in   & \ConEnv = \finfun{\Con}{\TypeScheme}\\
-\VE		& \in	& \VarEnv = \finfun{(\Var\cup\Con\cup\Exn)}{\TypeScheme}\\
-\EE		& \in	& \ExnEnv = \finfun{\Exn}{\Type}\\
-\E\ {\rm or}\ \longE{}
-                & \in	& \Env = \StrEnv\times\TyEnv\times\VarEnv
-                                         \times\ExnEnv\\
+                & \in   & \TypeScheme = \cup_{k\geq 0}\TyVar^k\times\Type\\
+\adhocdeletion{\thenostrsharing}{4cm}{\S\ {\rm or}\ (\m,\E)
+                & \in   & \Str = \StrNames\times\Env  \\ }
+(\theta,\adhocreplacementl{\thece}{2cm}{\CE}{\VE})    & \in   & \adhocreplacementl{\thece}{-8cm}{\TyStr = \TypeFcn\times\ConEnv}{\TyStr = \TypeFcn\times\ValEnv}\\
+\SE             & \in   & \adhocreplacementl{\thenostrsharing}{3cm}{\StrEnv = \finfun{\StrId}{\Str}}{\StrEnv = \finfun{\StrId}{\Env}}\\
+\TE             & \in   & \TyEnv = \finfun{\TyCon}{\TyStr}\\
+\adhocdeletion{\thece}{4cm}{\CE             & \in   & \ConEnv = \finfun{\Con}{\TypeScheme}\\ }\VE             & \in   & \adhocreplacementl{\theidstatus}{3cm}{\VarEnv = \finfun{(\Var\cup\Con\cup\Exn)}{\TypeScheme}}{\ValEnv = \finfun{\VId}{\TypeScheme\times\IdStatus}}\\
+\adhocdeletion{\theidstatus}{5mm}{\EE             & \in   & \ExnEnv = \finfun{\Exn}{\Type}\\ }\E\ {\rm or}\ \adhocreplacementl{\theidstatus}{3cm}{\longE{}}{\newlongE{}}
+                & \in   & \adhocreplacementl{\theidstatus}{-9cm}{\Env = \StrEnv\times\TyEnv\times\VarEnv\times\ExnEnv}{\Env = \StrEnv\times\TyEnv\times\ValEnv}\\
 \T              & \in   & \TyNameSets = \Fin(\TyNames)\\
 \U              & \in   & \TyVarSet = \Fin(\TyVar)\\
-\C\ or\ \T,\U,\E   & \in   & \Context = \TyNameSets\times\TyVarSet\times\Env
+\C\ {\rm or}\ \T,\U,\E   & \in   & \Context = \TyNameSets\times\TyVarSet\times\Env
 \end{array}
 \end{displaymath}
 \caption{Compound Semantic Objects\index{21.2}}
@@ -127,21 +159,29 @@ classes to be disjoint.
 Note that $\Lambda$\index{21.3} and $\forall$ bind type variables.  For any semantic object
 $A$, $\TyNamesFcn A$ and $\TyVarsFcn A$ denote respectively the set of
 type names and the set of type variables occurring free in $A$.
-Moreover, $\imptyvars A$ and $\apptyvars A$ denote respectively the set
+\deletion{\thenoimptypes}{Moreover, $\imptyvars A$ and $\apptyvars A$ denote respectively the set
 of imperative type variables and the set of applicative
-type variables occurring free in $A$.\index{21.4}
+type variables occurring free in $A$.}\index{21.4}
+\insertion{\theidstatus}{\par Also note that a value environment maps
+value identifiers to a pair of a type scheme and an identifier status.
+If $\VE(\vid) = (\sigma,\is)$, we say that $\vid$ {\sl has status $\is$
+in $\VE$}. An occurrence of a value identifier which is elaborated
+in $\VE$ is referred to as a {\sl value variable}, a {\sl value constructor}
+or an {\sl exception constructor}, depending on whether its status in $\VE$
+is $\isv$, $\isc$ or $\ise$, respectively. }
+
 \subsection{Projection, Injection and Modification}
 \label{stat-proj}\index{22.1}
 {\bf Projection}: We often need to select components of tuples -- for example,
-the variable-environment component of a context. In such cases we
-rely on  variable names to indicate which component
-is selected. For instance ``$\of{\VE}{\E}$'' means ``the variable-environment
+the \replacement{\theidstatus}{variable-environment}{value-environment} component of a context. In such cases we
+rely on \replacement{\theidstatus}{variable}{metavariable} names to indicate which component
+is selected. For instance ``$\of{\VE}{\E}$'' means ``the \replacement{\theidstatus}{variable-environment}{value-environment}
 component
-of $\E$'' and ``$\of{\m}{\S}$'' means ``the structure name of $\S$''.
+of $\E$''\deletion{\thenostrsharing}{ and ``$\of{\m}{\S}$'' means ``the structure name of $\S$''}.
 
 Moreover, when a tuple contains a finite map we shall ``apply'' the
 tuple to an argument, relying on the syntactic class of the argument to
-determine the relevant function. For instance $\C(\tycon)$ means
+determine the relevant function. \replacement{\theidstatus}{For instance $\C(\tycon)$ means
 $(\of{\TE}{\C})\tycon$.
 
 A particular case needs mention:  $\C(\con)$ is taken to stand for
@@ -152,10 +192,12 @@ held in $\VE$ as well as in $\TE$ (where it will be recorded within
 a $\CE$); similarly, the type of an exception constructor is held in
 $\VE$ as well as in $\EE$.
 Thus the re-binding of a constructor of either kind is given proper
-effect by accessing it in $\VE$, rather than in $\TE$ or in $\EE$.
+effect by accessing it in $\VE$, rather than in $\TE$ or in $\EE$.}{For 
+instance $\C(\tycon)$ means
+$(\of{\TE}{\C})\tycon$ and $\C(\vid)$ means $(\of{\VE}{(\of{E}{\C})})(\vid)$.}
 
 Finally, environments may be applied to long identifiers.
-For instance if $\longcon = \strid_1.\cdots.\strid_k.\con$ then
+\replacement{\theidstatus}{For instance if $\longcon = \strid_1.\cdots.\strid_k.\con$ then
 $\E(\longcon)$ means
 \[ (\of{\VE}
        {(\of{\SE}
@@ -165,16 +207,27 @@ $\E(\longcon)$ means
         )\strid_k}
     )\con.
 \]
+}{For instance if $\longvid = \strid_1.\cdots.\strid_k.\vid$ then
+$\E(\longvid)$ means
+\[ (\of{\VE}
+       {(\of{\SE}
+            {\cdots(\of{\SE}
+                       {(\of{\SE}{\E})\strid_1}
+                   )\strid_2\cdots}
+        )\strid_k}
+    )\vid.
+\]
+}
 
 {\bf Injection}: Components may be injected into tuple classes; for example,\linebreak
 ``$\VE\ \In\ \Env$'' means the environment
-$(\emptymap,\emptymap,\VE,\emptymap)$.
+\replacement{\theidstatus}{$(\emptymap,\emptymap,\VE,\emptymap)$.}{$(\emptymap,\emptymap,\VE)$.}
 
 {\bf Modification}: The modification of one map $f$ by another map $g$,
 written $f+g$, has already been mentioned.  It is commonly used for
 environment modification, for example $\E+\E'$.  Often, empty components
 will be left implicit in a modification; for example $\E+\VE$ means
-$\E+(\emptymap,\emptymap,\VE,\emptymap)$.  For set components, modification
+\replacement{\theidstatus}{$\E+(\emptymap,\emptymap,\VE,\emptymap)$.}{$\E+(\emptymap,\emptymap,\VE)$.}  For set components, modification
 means union, so that $\C+(\T,\VE)$ means
 \[ (\ (\of{\T}{\C})\cup\T,\ \of{\U}{\C},\ (\of{\E}{\C})+\VE\ ) \]
 Finally, we frequently need to modify a context $\C$ by an environment $\E$
@@ -183,6 +236,7 @@ at the same time extending $\of{\T}{\C}$ to include the type names of $\E$
 (or of $\TE$ say).
 We therefore define $\C\oplus\TE$,\index{22.2} for example, to mean
 $\C+(\TyNamesFcn\TE,\TE)$.
+%\vspace*{12pt}
 
 \subsection{Types and Type functions}
 \label{tyfun-sec}
@@ -197,9 +251,9 @@ of one of the forms
 \end{itemize}
 \label{tyfcn-lab}
 A type function $\theta=\Lambda\alphak.\tau$\index{23.2}
- has arity $k$; it must be
+ has arity $k$; \deletion{\theidstatus}{it must be
 {\sl closed} -- i.e.
-$\TyVarFcn(\tau)\subseteq\alphak$ -- and the bound variables must
+$\TyVarFcn(\tau)\subseteq\alphak$ -- and} the bound variables must
 be distinct. Two type functions are considered equal
 if they only differ in their choice of bound variables (alpha-conversion).
 In particular, the equality attribute has no significance in a 
@@ -207,8 +261,8 @@ bound variable of a type function; for example, $\Lambda\alpha.\alpha\to
 \alpha$ and $\Lambda\beta.\beta\to\beta$ are equal type functions
 even if $\alpha$ admits equality but $\beta$ does not.
 %poly 
-Similarly, the imperative attribute has no significance 
-in the bound variable of a type function.
+\deletion{\thenoimptypes}{Similarly, the imperative attribute has no significance 
+in the bound variable of a type function.}
 If $t$ has arity $k$, then we write $t$ to mean $\Lambda\alphak.\alphak\t$
 (eta-conversion); thus $\TyNames\subseteq\TypeFcn$. $\theta=\Lambda\alphak.\tau$
 is an {\sl equality} type function, or {\sl admits equality}, if when the
@@ -227,17 +281,18 @@ are carried out after substitution, so that for example
 \[(\tauk\t)\{\Lambda\alphak.\tau/\t\}=\tau\{\tauk/\alphak\}.\]
 %poly 
 \label{imp-ty-lab}
-A type is {\sl imperative} if all type variables occurring in it are
-imperative.
+\deletion{\thenoimptypes}{A type is {\sl imperative} if all type variables occurring in it are
+imperative.}
 \subsection{Type Schemes}
 \label{type-scheme-sec}
 A type scheme $\tych=\forall\alphak.\tau$\index{23.3}
  {\sl generalises} a type $\tau'$,
 written $\tych \succ\tau'$,
-if $\tau'=\tau\{\tauk/\alphak\}$ for some $\tauk$, where each member $\tau_i$
+\replacement{\thenoimptypes}{if $\tau'=\tau\{\tauk/\alphak\}$ for some $\tauk$, where each member $\tau_i$
 of $\tauk$ admits equality if $\alpha_i$ does,  
 %poly 
-and $\tau_i$ is imperative if $\alpha_i$ is imperative.
+and $\tau_i$ is imperative if $\alpha_i$ is imperative.}{if $\tau'=\tau\{\tauk/\alphak\}$ for some $\tauk$, where each member $\tau_i$
+of $\tauk$ admits equality if $\alpha_i$ does.}
 If $\tych'=\forall\beta^{(l)}.\tau'$ then $\tych$ {\sl generalises} $\tych'$,
 written $\tych\succ\tych'$, if $\tych\succ\tau'$ and $\beta^{(l)}$ contains
 no free type variable of $\tych$.
@@ -253,26 +308,34 @@ must be preserved in renaming; for example $\forall\alpha.\alpha\to\alpha$
 and $\forall\beta.\beta\to\beta$ are only equal if either both $\alpha$
 and $\beta$ admit equality, or neither does.
 %poly 
-Similarly, the imperative attribute of a bound type variable of a
-type scheme {\sl is} significant.
+\deletion{\thenoimptypes}{Similarly, the imperative attribute of a bound type variable of a
+type scheme {\sl is} significant.}
 It can be shown that $\tych=\tych'$ iff $\tych\succ\tych'$ and
 $\tych'\succ\tych$.
 
 We consider a type $\tau$ to be a type scheme, identifying it with
 $\forall().\tau$.
+\oldpagebreak
 
 \subsection{Scope of Explicit Type Variables}
 \label{scope-sec}
 
 In\index{23.10} the Core language, a type or datatype binding can 
 explicitly introduce type variables whose scope is that binding.
+\insertion{\theexplicittyvars}{Moreover, in a value declaration
+{\tt val $\tyvarseq$ $\valbind$}, the sequence $\tyvarseq$ binds
+type variables: a type variable occurs free in 
+{\tt val $\tyvarseq$ $\valbind$} iff it occurs free in $\valbind$
+and is not in the sequence $\tyvarseq$.}
+\deletion{\theexplicittyvars}{
 In the modules, a description of a value, type, or datatype
 may contain explicit type variables whose scope is that
-description. However, we\index{23.11} still have to account for the
-scope of an explicit type variable occurring in the ``\ml{:} $\ty$'' 
+description.} However, \insertion{\theexplicittyvars}{explicit binding of type
+variables at {\tt val} is optional, so} we\index{23.11} still have to account for the
+scope of an explicit type variable occurring in the ``\ml{:}~$\ty$'' 
 of a typed expression or pattern 
 or in the ``\ml{of} $\ty$'' of an exception binding. For the rest
-of this section, we consider such occurrences of type variables only.
+of this section, we consider such \insertion{\theexplicittyvars}{free} occurrences of type variables only.
 
 Every occurrence of a value declaration is said to
 {\sl scope} a set of explicit type variables determined as follows.
@@ -282,20 +345,27 @@ Every occurrence of a value declaration is said to
 %Every explicit type variable $\alpha$ is {\sl scoped at} a value binding
 %which is determined as follows.
 
-First, an occurrence of $\alpha$ in a value declaration $\valdec$ is said
+\replacement{\theexplicittyvars}{First, an occurrence of $\alpha$ in a value declaration $\valdec$ is said
 to be {\sl unguarded} if the occurrence is not part of a smaller value
-declaration within $\valbind$.
+declaration within $\valbind$.}{First, a free occurrence of $\alpha$ in a value declaration 
+$\explicitvaldec$ is said
+to be {\sl unguarded} if the occurrence is not part of a smaller value
+declaration within $\valbind$.}
 In this case we say that $\alpha$ {\sl occurs unguarded} in the 
 value declaration.
 
-Then we say that $\alpha$ is {\sl scoped at} a particular occurrence
-$O$ of $\valdec$ in a program if 
+\replacement{\theexplicittyvars}{Then we say that $\alpha$ is {\sl scoped at} 
+a particular occurrence
+$O$ of $\valdec$ in a program if}{Then we say that $\alpha$ is {\sl implicitly scoped at} a particular value declaration
+{\tt val $\tyvarseq$ $\valbind$} in a program if} 
 (1) $\alpha$ occurs unguarded in this value declaration, and 
 (2) $\alpha$ does not occur unguarded in any larger value declaration
-containing the occurrence $O$.\label{scope-def-lab}
+containing the \replacement{\theexplicittyvars}{occurrence $O$.}{given one.}\label{scope-def-lab}
 
+\deletion{\theexplicittyvars}{
 Hence, associated with every occurrence of a value declaration there is 
-a set $\U$ of the explicit type variables that are scoped at that
+a set $\U$ of the explicit type variables that are 
+scoped at that
 occurrence. One may think of each occurrence of $\VAL$ as being implicitly
 decorated with such a  set, for instance:
 
@@ -308,27 +378,80 @@ decorated with such a  set, for instance:
 \mbox{$\VAL_{\{\mbox{\ml{'a}}\}}$ \ml{x = }}&\mbox{\ml{(}}&
 \mbox{\ml{let $\VAL_{\{\}}$ Id:'a->'a = fn z=>z in Id Id end,}}\cr
 & &\mbox{\ml{fn z=> z:'a)}}\cr}
+}
+\insertion{\thenoimptypes}{Henceforth, we assume that for every
+value declaration $\boxml{val}\,\tyvarseq\cdots$ occurring in the
+program, every explicit type variable implicitly scoped at the {\tt val}
+has been added to $\tyvarseq$ (subject to the syntactic constraint in Section~\ref{synres.sec}). Thus for example, in the two declarations
+\begin{tabbing}
+\indent\=\tt  val x =  let val id:'a->'a = fn z=>z in id id end\\
+       \>\tt  val x = (let val id:'a->'a = fn z=>z in id id end; fn z=>z:'a)
+\end{tabbing}
+the type variable \boxml{'a} is scoped differently; they become respectively
+\begin{tabbing}
+\indent\=\tt val x =  let val 'a id:'a->'a = fn z=>z in id id end\\
+       \>\tt val 'a x = (let val id:'a->'a = fn z=>z in id id end; fn z=>z:'a)
+\end{tabbing}
+}
 
-According to the inference rules in Section~\ref{stat-cor-inf-rules}
+\replacement{\theidstatus}{According}{Then, according} to the 
+inference rules in Section~\ref{stat-cor-inf-rules}
 the first example can be elaborated, but the second cannot since \ml{'a}
 is bound at the outer value declaration leaving no possibility of two 
-different instantiations of the type of \ml{Id} in the application
-\ml{Id Id}.
+different instantiations of the type of \replacement{\theidstatus}{\ml{Id}}{\ml{id}} in the application
+\replacement{\theidstatus}{\ml{Id Id}}{\ml{id id}}.
 
 
-
+\deletion{\thenoimptypes}{
 \subsection{Non-expansive Expressions}
 \label{expansive-sec}
 In\index{23.4} order to treat polymorphic references and exceptions,
 the set Exp of expressions is partitioned into two classes, the {\sl
-expansive} and the {\sl non-expansive} expressions. Any variable,
+expansive} and the {\sl non-expansive} expressions. 
+Any variable,
 constructor and $\FN$ expression, possibly constrained by one or more
 type expressions, is non-expansive; all other expressions are said to
 be expansive.  The idea is that the dynamic evaluation of a
 non-expansive expression will neither generate an exception nor extend
 the domain of the memory, while the evaluation of an expansive
-expression might.
+expression might.}
 
+\insertion{\thenoimptypes}{
+\subsection{Non-expansive Expressions}
+\label{expansive-sec}
+In\index{23.4} order to treat polymorphic references and exceptions,
+the set Exp of expressions is partitioned into two classes, the {\sl
+expansive} and the {\sl non-expansive} expressions. 
+An expression
+     is {\sl non-expansive in context $\C$} if, after replacing infixed forms 
+     by their equivalent prefixed forms, and derived forms by their equivalent
+     forms, it can be generated  by the following grammar from the 
+     non-terminal $\nexp$:
+\medskip
+
+\halign{&\indent\hfil$#$\ &\ $#$\hfil\ &\ $#$\hfil\cr
+\nexp&::=&\scon & \hskip20mm\nexprow&::=&\boxml{$\lab$ = $\nexp\langle$, $\nexprow\rangle$}\cr
+&&\langle\OP\rangle\longvid\cr
+&&\ttlbrace\langle\nexprow\rangle\ttrbrace&\conexp&::=&\boxml{($\conexp\langle$:$\ty\rangle$)}\cr
+&&\boxml{($\nexp$)}&&&\hbox{$\langle\OP\rangle\longvid$}\cr
+&&\boxml{$\conexp\;\nexp$}\cr
+&&\nexp \boxml{:} \ty\cr
+%&&\boxml{$\nexp$ handle $\match$}\cr
+&&\boxml{fn $\match$}\cr\noalign{\vskip6pt}}
+\medskip
+
+\hangindent=\parindent\hangafter=0\noindent
+{\sl Restriction:}\/ Within a $\conexp$, we require $\longvid\neq\REF$ and
+$\of{\is\,}{\,\C(\longvid)}\in\{\isc,\ise\}$.\medskip
+
+\noindent
+All other expressions are said to be {\sl expansive (in $C$)}.
+The idea is that the dynamic evaluation of a
+non-expansive expression will neither generate an exception nor extend
+the domain of the memory, while the evaluation of an expansive
+expression might.
+}
+\oldpagebreak
 \subsection{Closure}
 \label{closure-sec}
 Let\index{24.2} $\tau$ be a type and $A$ a semantic object. Then $\cl{A}{(\tau)}$,
@@ -337,61 +460,71 @@ $\forall\alphak.\tau$, where $\alphak=\TyVarFcn(\tau)\setminus\TyVarFcn A$.
 Commonly, $A$ will be a context $\C$.
 We abbreviate the {\sl total} closure $\cl{\emptymap}{(\tau)}$ to
 $\cl{}{(\tau)}$.
-If the range of a variable environment $\VE$ contains only types (rather than
+If the range of a \replacement{\theidstatus}{variable environment}{value 
+environment} $\VE$ contains only types (rather than
 arbitrary type schemes) we set
-\[\cl{A}{\VE}=\{\id\mapsto\cl{A}{(\tau)}\ ;\ \VE(\id)=\tau\}\]
-with a similar definition for $\cl{A}{\CE}$.
+\replacement{\theidstatus}{\[\cl{A}{\VE}=\{\id\mapsto\cl{A}{(\tau)}\ ;\ \VE(\id)=\tau\}\]}{\[\cl{A}{\VE}=\{\vid\mapsto(\cl{A}{(\tau)},\is)\ ;\ \VE(\vid)=(\tau,\is)\}\]}\deletion{\theidstatus}{with a similar definition for $\cl{A}{\CE}$.}
 
 \label{clos-def-lab}
-Closing\index{24.3} a variable environment $\VE$ that stems from
+Closing\index{24.3} a \replacement{\theidstatus}{variable environment}{value environment} $\VE$ that stems from
 the elaboration of a value binding $\valbind$ requires extra
 care to ensure type security of references and exceptions and correct
 scoping of explicit type variables.
 Recall that $\valbind$ is not allowed to bind the
-same variable twice. Thus, for each $\var\in\Dom\VE$ 
+same variable twice. \replacement{\theidstatus}{Thus, for each $\var\in\Dom\VE$ 
 there is a unique \mbox{\pat\ \ml{=} \exp}
-in $\valbind$ which binds $\var$. 
-If $\VE(\var)=\tau$, let 
-$\cl{\C,\valbind}{\VE(\var)}=\longtych$, where
-\[\alphak=\cases{\TyVarFcn\tau\setminus\TyVarFcn\C,&if $\exp$ 
+in $\valbind$ which binds $\var$.}{Thus, for each $\vid\in\Dom\VE$ 
+there is a unique \mbox{\pat\ \ml{=} \exp}
+in $\valbind$ which binds $\vid$.}
+If \replacement{\theidstatus}{$\VE(\var)=\tau$}{$\VE(\vid)=(\tau,\is)$}, let 
+\replacement{\theidstatus}{$\cl{\C,\valbind}{\VE(\var)}=\longtych$}{$\cl{\C,\valbind}{\VE(\vid)}=(\longtych,\is)$}, 
+where
+\replacement{\thenoimptypes}{\[\alphak=\cases{\TyVarFcn\tau\setminus\TyVarFcn\C,&if $\exp$ 
                                                     is non-expansive;\cr
                  \apptyvars\tau\setminus\TyVarFcn\C,&if $\exp$ is expansive.}
 \]
-%(Explicit type variables necessitate a slight strengthening of the requirements
-%which a type variable must satisfy in order to be bound: a type variable 
-%occurring unguarded in $\valbind$ can be admitted among $\alphak$ only
-%if it is scoped at the particular occurrence of $\valbind$ at which
-%the closure operation is performed.)
+}{
+\[\alphak=\cases{\TyVarFcn\tau\setminus\TyVarFcn\C,&if $\exp$ 
+                                                    is non-expansive in $\C$;\cr
+                 (),&if $\exp$ is expansive in $\C$.}
+\]}
 
-Notice that the form of $\valbind$ does not affect the binding of
+\deletion{\thenoimptypes}{Notice that the form of $\valbind$ does not affect the binding of
 applicative type variables, only the binding of imperative
-type variables.
+type variables.}
 
 \subsection{Type Structures and Type Environments}
 \label{typeenv-wf-sec}
-A type\index{24.4} structure $(\theta,\CE)$ is {\sl well-formed} if either
-$\CE=\emptymap$, or $\theta$ is a type name $t$.
-(The latter case arises, with $\CE\neq\emptymap$, in $\DATATYPE$
+A type\index{24.4} structure 
+\replacement{\thece}{$(\theta,\CE)$}{$(\theta,\VE)$}\ 
+is {\sl well-formed} if either
+\replacement{\thece}{$\CE=\emptymap$}{$\VE=\emptymap$}, or $\theta$ is a type name $t$.
+(The latter case arises, with \replacement{\thece}{$\CE\neq\emptymap$}{$\VE\neq\emptymap$}, in $\DATATYPE$
 declarations.)
-All type structures occurring in elaborations are assumed to
-be well-formed.
+\insertion{\thenostrsharing}{An object or assembly $A$ of semantic objects is {\sl well-formed} if every type structure
+occurring in $A$ is well-formed.}
+\deletion{\thenostrsharing}{All type structures occurring in elaborations are 
+assumed to
+be well-formed.}
 
-A type structure $(\t,\CE)$ is said to
+A type structure \replacement{\thece}{$(\t,\CE)$}{$(\t,\VE)$}\ is said to
 {\sl respect equality} if, whenever $\t$ admits equality, then
 either $\t=\REF$ (see Appendix~\ref{init-stat-bas-app}) or,
-for each $\CE(\con)$ of the form 
-$\forall\alphak.(\tau\rightarrow\alphak\t)$,
+for each \replacement{\theidstatus}{$\CE(\con)$}{$\VE(\vid)$} of the form 
+\replacement{\thece}{$\forall\alphak.(\tau\rightarrow\alphak\t)$,}{$(\forall\alphak.(\tau\rightarrow\alphak\t), \is)$,}
 the type function $\Lambda\alphak.\tau$ also admits equality.
 (This ensures that the equality
-predicate ~{\tt =}~ will be applicable to a constructed value $(\con,v)$ of
+predicate ~{\tt =}~ will be applicable to a constructed value 
+\replacement{\theidstatus}{$(\con,v)$}{$(\vid,v)$} of
 type $\tauk\t$ only when it is applicable to the value $v$ itself,
 whose type is $\tau\{\tauk/\alphak\}$.)
 A type environment $\TE$ {\sl respects equality} if all its type
 structures do so.
 
 Let $\TE$ be a type environment, and let $T$ be the set of type names
-$\t$ such that $(\t,\CE)$ occurs in $\TE$ for some
-$\CE\neq\emptymap$.  Then $\TE$ is said to {\sl maximise equality}
+$\t$ such that \replacement{\thece}{$(\t,\CE)$ }{$(\t,\VE)$ } occurs in $\TE$ for some
+\replacement{\thece}{$\CE\neq\emptymap$}{$\VE\neq\emptymap$}.  
+Then $\TE$ is said to {\sl maximise equality}
 if (a) $\TE$ respects equality, and also (b) if any larger subset of
 $T$ were to admit equality (without any change in the equality
 attribute of any type names not in $T$) then $\TE$ would cease to
@@ -399,14 +532,16 @@ respect equality.
 
 
 For any $\TE$ of the form
-\[\TE=\{\tycon_i\mapsto(t_i,\CE_i)\ ;\ 1\leq i\leq k\},\]
-where no $\CE_i$ is the empty map, and for any $\E$ we define
+\replacement{\thece}{\[\TE=\{\tycon_i\mapsto(t_i,\CE_i)\ ;\ 1\leq i\leq k\},\]}{\[\TE=\{\tycon_i\mapsto(t_i,\VE_i)\ ;\ 1\leq i\leq k\},\]}
+where no \replacement{\thece}{$\CE_i$}{$\VE_i$}\ 
+is the empty map, and for any $\E$ we define
 $\Abs(\TE,\E)$ to\index{25.1} be the environment obtained from 
 $\E$ and $\TE$ as
 follows. First, let $\Abs(\TE)$ be the type environment
 $\{\tycon_i\mapsto(t_i,\emptymap)\ ;\ 1\leq i\leq k\}$
-in which all constructor
-environments $\CE_i$ have been replaced by the empty map. 
+in which all \replacement{\thece}{constructor}{value}
+environments \adhocreplacementl{\thece}{-6cm}{$\CE_i$}{$\VE_i$} 
+have been replaced by the empty map. 
 Let $t_1',\cdots,t_k'$ be new distinct type names none of which
 admit equality. Then $\Abs(\TE,\E)$ is the result of simultaneously
 substituting
@@ -414,17 +549,17 @@ $t_i'$ for $t_i$, $1\leq i\leq k$,  throughout $\Abs(\TE)+\E$.
 (The effect of the latter substitution is to ensure that the use of 
 equality on  an $\ABSTYPE$ is restricted to the $\WITH$ part.)
 \label{abs-lab}
-\clearpage
+%\clearpage
 
 \subsection{Inference Rules}
 \label{stat-cor-inf-rules}
 Each rule\index{26.1} of the semantics allows inferences among sentences of the form
 \[A\ts{\it phrase}\ra A'\]
 where
-$A$ is usually an environment or a context, {\it phrase} is a phrase of
+$A$ is usually \deletion{\theidstatus}{an environment or }a context, {\it phrase} is a phrase of
 the Core, and $A'$ is a semantic object -- usually a type or an
 environment.  It may be pronounced ``{\it phrase} elaborates to $A'$ in
-(context or environment) $A$''.  Some rules have extra hypotheses not of
+(context\deletion{\theidstatus}{ or environment}) $A$''.  Some rules have extra hypotheses not of
 this form; they are called {\sl side conditions}.  
 
 In the presentation of the rules, phrases within single
@@ -445,7 +580,8 @@ which ``have been generated''. It is necessary to include $\T$ as a
 separate component in a context, since $\TyNamesFcn\E$ may not contain
 all the type names which have been generated; one reason is that a
 context $\T,\emptyset,\E$ is a projection of the basis
-$\B=(\M,\T),\F,\G,\E$ whose other components $\F$ and $\G$
+\replacement{\thenostrsharing}{$\B=(\M,\T),\F,\G,\E$}{$\B=\T,\F,\G,\E$} 
+whose other components $\F$ and $\G$
 could contain other such names -- recorded in $\T$ but not present in
 $\E$.  Of course, remarks about what ``has been generated'' are not
 precise in terms of the semantic rules. But the following precise result
@@ -467,19 +603,23 @@ $\TyNamesFcn\E'\subseteq\T'$.
 \rulesec{Atomic Expressions\index{26.2}}{\C\vdash\atexp\ra\tau}
 %\begin{figure}[h]
 
-\begin{equation}	% special constant
+\begin{equation}        % special constant
 \label{sconexp-rule}
 \frac{}
      {\C\ts\scon\ra\scontype(\scon)}\index{26.3}
 \end{equation}
 
-\begin{equation}	% value variable
+\replacement{\theidstatus}{\begin{equation}        % value variable
 \label{varexp-rule}
 \frac{\C(\longvar)\succ\tau}
      {\C\ts\longvar\ra\tau}
-\end{equation}
+\end{equation}}{\begin{equation}        % value variable
+\label{varexp-rule}
+\frac{\C(\longvid) = (\sigma,\is)\qquad\sigma\succ\tau}
+     {\C\ts\longvid\ra\tau}
+\end{equation}}
 
-\begin{equation}	% value constructor
+\deletion{\theidstatus}{\begin{equation}        % value constructor
 \label{conexp-rule}
 \frac{\C(\longcon)\succ\tau}
      {\C\ts\longcon\ra\tau}
@@ -489,39 +629,50 @@ $\TyNamesFcn\E'\subseteq\T'$.
 %\label{exconexp-rule}
 \frac{\C(\longexn)=\tau}
      {\C\ts\longexn\ra\tau}
-\end{equation}
+\end{equation}}
+\oldpagebreak
 
-\begin{equation}	% record expression
+\begin{equation}        % record expression
 %\label{recexp-rule}
 \frac{\langle\C\ts\labexps\ra\varrho\rangle}
      {\C\ts\ttlbrace\ \recexp\ \ttrbrace\ra\emptymap\langle +\ \varrho\rangle{\rm\ in\ \Type}}\index{27.0}
 \end{equation}
+\vskip6pt
 
-\begin{equation}        % local declaration
+\replacement{\thesafelet}{\begin{equation}        % local declaration
 \label{let-rule}
 \frac{\C\ts\dec\ra\E\qquad\C\oplus\E\ts\exp\ra\tau}
      {\C\ts\letexp\ra\tau}\index{27.1}
-\end{equation}
+\end{equation}}{\begin{equation}        % local declaration
+\label{let-rule}
+\frac{\C\ts\dec\ra\E\qquad\C\oplus\E\ts\exp\ra\tau\qquad\TyNamesFcn\tau\subseteq\of{\T}{\C}}
+     {\C\ts\letexp\ra\tau}\index{27.1}
+\end{equation}}
 
-\begin{equation}	% paren expression
+\begin{equation}        % paren expression
 %\label{parexp-rule}
 \frac{\C\ts\exp\ra\tau}
      {\C\ts\parexp\ra\tau}
 \end{equation}
 \comments
 \begin{description}
-\item{(\ref{varexp-rule}),(\ref{conexp-rule})} 
+\replacement{\theidstatus}{\item{(\ref{varexp-rule}),(\ref{conexp-rule})}
 The instantiation of 
 type schemes allows different occurrences of a single $\longvar$ 
-or $\longcon$ to assume different types.
+or $\longcon$ to assume different types.}{\item{(\ref{varexp-rule})}
+The instantiation of 
+type schemes allows different occurrences of a single $\longvid$ 
+to assume different types. Note that the identifier status is not
+used in this rule.}
 \item{(\ref{let-rule})} 
 The use of $\oplus$, here and elsewhere, ensures that
 type names generated by the first sub-phrase are different from 
-type names generated by the second sub-phrase.
+type names generated by the second sub-phrase.\insertion{\thefixtypos}{The side condition
+prevents type names generated by $\dec$ from escaping outside the local declaration.}
 \end{description}
 
 \rulesec{Expression Rows}{\C\ts\labexps\ra\varrho}
-\begin{equation}	% expression rows
+\begin{equation}        % expression rows
 %\label{labexps-rule}
 \frac{\C\ts\exp\ra\tau\qquad\langle\C\ts\labexps\ra\varrho\rangle}
      {\C\ts\longlabexps\ra\{\lab\mapsto\tau\}\langle +\ \varrho\rangle}\index{27.2}
@@ -531,19 +682,19 @@ type names generated by the second sub-phrase.
 \rulesec{Expressions}{\C\ts\exp\ra\tau}
 %\vspace{6pt}
 %\fbox{$\C\ts\exp\ra\tau$}
-\begin{equation}	% atomic
+\begin{equation}        % atomic
 \label{atexp-rule}
 \frac{\C\ts\atexp\ra\tau}
      {\C\ts\atexp\ra\tau}\index{27.3}
 \end{equation}
 
-\begin{equation}	% application
+\begin{equation}        % application
 %\label{app-rule}
 \frac{\C\ts\exp\ra\tau'\rightarrow\tau\qquad\C\ts\atexp\ra\tau'}
      {\C\ts\appexp\ra\tau}
 \end{equation}
 
-\begin{equation}	% typed
+\begin{equation}        % typed
 \label{typedexp-rule}
 \frac{\C\ts\exp\ra\tau\qquad\C\ts\ty\ra\tau}
      {\C\ts\typedexp\ra\tau}
@@ -585,17 +736,22 @@ expression has ``arbitrary'' type.
 %                        Matches 
 %
 \rulesec{Matches}{\C\ts\match\ra\tau}
-\begin{equation}	% match
+\begin{equation}        % match
 %\label{match-rule}
 \frac{\C\ts\mrule\ra\tau\qquad\langle\C\ts\match\ra\tau\rangle}
      {\C\ts\longmatch\ra\tau}\index{28.1}
 \end{equation}
 \rulesec{Match Rules}{\C\ts\mrule\ra\tau}
-\begin{equation}	% mrule
+\replacement{\thefixtypos}{
+\begin{equation}        % mrule
 %\label{mrule-rule}
 \frac{\C\ts\pat\ra(\VE,\tau)\qquad\C+\VE\ts\exp\ra\tau'}
      {\C\ts\longmrule\ \ra\tau\rightarrow\tau'}
-\end{equation}
+\end{equation}}{\begin{equation}        % mrule
+\label{mrule-rule}
+\frac{\C\ts\pat\ra(\VE,\tau)\qquad\C+\VE\ts\exp\ra\tau'\qquad\TyNamesFcn\VE\subseteq\of{\T}{\C}}
+     {\C\ts\longmrule\ \ra\tau\rightarrow\tau'}
+\end{equation}}
 \comment  This rule allows new free type variables to enter
 the context. These new type variables will be chosen, in effect, during
 the elaboration of $\pat$ (i.e., in the inference of the first
@@ -608,76 +764,103 @@ occurring within $\exp$ (see rule~\ref{typedexp-rule}).
 %
 \rulesec{Declarations}{\C\ts\dec\ra\E}
 %poly
-\begin{equation}	% value declaration
+\replacement{\theexplicittyvars}{
+\begin{equation}        % value declaration
 \label{valdec-rule}
 \frac{\plusmap{\C}{\U}\ts\valbind\ra\VE\qquad 
       \VE'=\cl{\C,\valbind}{\VE}\qquad
       \U\cap\TyVarFcn\VE'=\emptyset}
      {\C\ts\valdecS\ra\VE'\ \In\ \Env}\index{28.2}
-\end{equation}
-%from version 1, without polymorphic refs:
-%\begin{equation}	% value declaration
-%\label{valdec-rule}
-%\frac{\C\ts\valbind\ra\VE}
-%     {\C\ts\valdec\ra\cl{\C}{\VE}\ \In\ \Env}
-%\end{equation}
+\end{equation}}{\begin{equation}        % value declaration
+\label{valdec-rule}
+\frac{\begin{array}{l}
+      U = \TyVarsFcn (\tyvarseq)\\
+     \plusmap{\C}{\U}\ts\valbind\ra\VE\qquad 
+      \VE'=\cl{\C,\valbind}{\VE}\qquad
+      \U\cap\TyVarFcn\VE'=\emptyset
+      \end{array}}
+     {\C\ts\boxml{val $\tyvarseq$ $\valbind$}\ra\VE'\ \In\ \Env}\index{28.2}
+\end{equation}}
 
-\begin{equation}	% type declaration
+\begin{equation}        % type declaration
 %\label{typedec-rule}
 \frac{\C\ts\typbind\ra\TE}
      {\C\ts\typedec\ra\TE\ \In\ \Env}
 \end{equation}
 
-\begin{equation}	% datatype declaration
+\begin{equation}        % datatype declaration
 \label{datatypedec-rule}
 \frac{\begin{array}{c}
 \C\oplus\TE\ts\datbind\ra\VE,\TE\qquad
-      \forall(\t,\CE)\in\Ran\TE,\ \t\notin(\of{\T}{\C}) \\
+      \forall(\t,\adhocreplacementl{\thece}{9cm}{\CE}{\VE'})\in\Ran\TE,\ \t\notin(\of{\T}{\C}) \\
      \mbox{$\TE$ maximises equality}
      \end{array}
      }
      {\C\ts\datatypedec\ra(\VE,\TE)\ \In\ \Env}
 \end{equation}
 
-\begin{equation}	% abstype declaration
+\insertion{\thedatatyperepl}{\begin{equation}        % datatype replication
+\label{datatyperepldec-rule}
+\frac{\C(\longtycon) = (\typefcn,\VE)\qquad
+      \TE=\{\tycon\mapsto(\typefcn,\VE)\}
+     }
+     {\C\ts\datatyperepldec\ra(\VE,\TE)\ \In\ \Env}
+\end{equation}}
+
+\begin{equation}        % abstype declaration
 \label{abstypedec-rule}
 \frac{\begin{array}{rl}
       \C\oplus\TE\ts\datbind\ra\VE,\TE\qquad &
-      \forall(\t,\CE)\in\Ran\TE,\ \t\notin(\of{\T}{\C})\\
+      \forall(\t,\adhocreplacementl{\thece}{9cm}{\CE}{\VE'})\in\Ran\TE,\ \t\notin(\of{\T}{\C})\\
       \C\oplus(\VE,\TE)\ts\dec\ra\E\qquad & 
      \mbox{$\TE$ maximises equality}
       \end{array}
      }
      {\C\ts\abstypedec\ra\Abs(\TE,\E)}
 \end{equation}
+\vskip6pt
 
-\begin{equation}	% exception declaration
+\replacement{\theidstatus}{\begin{equation}        % exception declaration
 \label{exceptiondec-rule}
 \frac{\C\ts\exnbind\ra\EE\quad\VE=\EE }
      {\C\ts\exceptiondec\ra(\VE,\EE)\ \In\ \Env }
-\end{equation}
+\end{equation}}{\begin{equation}        % exception declaration
+\label{exceptiondec-rule}
+\frac{\C\ts\exnbind\ra\VE}
+     {\C\ts\exceptiondec\ra\VE\ \In\ \Env }
+\end{equation}}
 
-\begin{equation}	% local declaration
+\oldpagebreak
+\begin{equation}        % local declaration
 %\label{localdec-rule}
 \frac{\C\ts\dec_1\ra\E_1\qquad\C\oplus\E_1\ts\dec_2\ra\E_2}
      {\C\ts\localdec\ra\E_2}\index{28.3}
 \end{equation}
+\vskip6pt
 
-\begin{equation}                % open declaration
+\replacement{\thenostrsharing}{\begin{equation}                % open declaration
 %\label{open-dec-rule}
 \frac{ \C(\longstrid_1)=(\m_1,\E_1)
             \quad\cdots\quad
        \C(\longstrid_n)=(\m_n,\E_n) }
      { \C\ts\openstrdec\ra \E_1 + \cdots + \E_n }
-\end{equation}
+\end{equation}}{\begin{equation}                % open declaration
+%\label{open-dec-rule}
+\frac{ \C(\longstrid_1)= \E_1 
+            \quad\cdots\quad
+       \C(\longstrid_n)= \E_n  }
+     { \C\ts\openstrdec\ra \E_1 + \cdots + \E_n }
+\end{equation}}
+\vskip-4pt
 
-\begin{equation}	% empty declaration
+\begin{equation}        % empty declaration
 %\label{emptydec-rule}
 \frac{}
      {\C\ts\emptydec\ra\emptymap\ \In\ \Env}
 \end{equation}
+\vskip4pt
 
-\begin{equation}	% sequential declaration
+\begin{equation}        % sequential declaration
 %\label{seqdec-rule}
 \frac{\C\ts\dec_1\ra\E_1\qquad\C\oplus\E_1\ts\dec_2\ra\E_2}
      {\C\ts\seqdec\ra\plusmap{E_1}{E_2}}
@@ -686,18 +869,32 @@ occurring within $\exp$ (see rule~\ref{typedexp-rule}).
 \begin{description}
 \item{(\ref{valdec-rule})}
 Here $\VE$ will contain types rather than general
-type schemes. The closure of $\VE$ is exactly what allows variables to
-be used polymorphically, via rule~\ref{varexp-rule}.
+type schemes. \replacement{\theidstatus}{The closure of $\VE$ is exactly what allows variables to
+be used polymorphically, via rule~\ref{varexp-rule}.}{The closure of $\VE$  
+allows value identifiers  to
+be used polymorphically, via rule~\ref{varexp-rule}.}
 
-Moreover, $\U$ is the set of explicit type variables scoped at this particular
+\replacement{\theexplicittyvars}{Moreover, $\U$ is the set of explicit type variables scoped at this particular
 occurrence of $\valdec$, cf. Section~\ref{scope-sec}, 
 page~\pageref{scope-def-lab}. The side-condition on $\U$
-ensures that these explicit type variables are bound by the closure operation.
-On the other hand, no {\sl other} explicit type variable occurring
+ensures that these explicit type variables are bound by the closure 
+operation.}{The side-condition on $\U$
+ensures that the type variables in $\tyvarseq$  are bound 
+by the closure operation,
+if they occur free in the range of $\VE$.}
+
+\replacement{\theidstatus}{On the other hand, no {\sl other} explicit type variable occurring
 free in $\VE$ will become bound, since it must be in $\of{\U}{\C}$, and
 is therefore excluded from closure by the definition of the closure operation
 (Section~\ref{closure-sec}, page~\pageref{clos-def-lab})
-since $\of{\U}{\C}\subseteq\TyVarFcn\C$.
+since $\of{\U}{\C}\subseteq\TyVarFcn\C$.}{On the other hand,
+if the phrase $\boxml{val}\,\tyvarseq\,\valbind$ occurs inside
+some larger value binding $\boxml{val}\,\tyvarseq'\,\valbind'$
+then no type variable $\alpha$ listed in $\tyvarseq'$ will become
+bound by the $\cl{\C,\valbind}{\VE}$ operation; for $\alpha$ must 
+be in $\of{\U}{\C}$ and hence excluded from closure by the definition of the closure operation
+(Section~\ref{closure-sec}, page~\pageref{clos-def-lab})
+since $\of{\U}{\C}\subseteq\TyVarFcn\C$.}
 \item{(\ref{datatypedec-rule}),(\ref{abstypedec-rule})}
 The side conditions
 express that the elaboration of each datatype binding
@@ -711,46 +908,61 @@ of the $\ts$ captures the recursive nature of the binding.
 %is assumed well-formed (as defined in Section~\ref{typeenv-wf-sec}). If
 %$\TyNamesFcn(\of{\E}{\C})\subseteq\of{\T}{\C}$ and the side condition is
 %satisfied then $\C\oplus\TE$ is well-formed.
+\insertion{\thedatatyperepl}{\item{(\ref{datatyperepldec-rule})}
+Note that no new type name is generated (i.e., datatype replication is
+not generative). }
 \item{(\ref{abstypedec-rule})}
 The $\Abs$ operation was defined in Section~\ref{typeenv-wf-sec}, page~\pageref{abs-lab}.
 \item{(\ref{exceptiondec-rule})}
+\replacement{\theidstatus}{
 No closure operation is used here, since $\EE$ maps exception 
-names to types rather than  to general type schemes.
+names to types rather than  to general type schemes.}{No closure operation is used here, as this would make the type system unsound.
+Example: {\tt exception E of 'a; val it = (raise E 5) handle E f => f(2)}~.}
+\deletion{\theidstatus}{
 Note that $\EE$ is also recorded in the {\VarEnv} component of
-the resulting environment (see Section~\ref{stat-proj}, page~\pageref{stat-proj}).\index{29.0}
+the resulting environment (see Section~\ref{stat-proj}, page~\pageref{stat-proj}).\index{29.0}}
 \end{description}
 
 %                        Bindings
 %
 \rulesec{Value Bindings}{\C\ts\valbind\ra\VE}
 %\vspace{6pt}
-\begin{equation}	% value binding
+\begin{equation}        % value binding
 \label{valbind-rule}
 \frac{\C\ts\pat\ra(\VE,\tau)\qquad\C\ts\exp\ra\tau\qquad
       \langle\C\ts\valbind\ra\VE'\rangle }
      {\C\ts\longvalbind\ra\VE\ \langle +\ \VE'\rangle}\index{29.1}
 \end{equation}
 
-\begin{equation}	% recursive value binding
+\replacement{\thefixtypos}{
+\begin{equation}        % recursive value binding
 \label{recvalbind-rule}
 \frac{\C+\VE\ts\valbind\ra\VE}
      {\C\ts\recvalbind\ra\VE}
-\end{equation}
+\end{equation}}{\begin{equation}        % recursive value binding
+\label{recvalbind-rule}
+\frac{\C+\VE\ts\valbind\ra\VE\qquad\TyNamesFcn\VE\subseteq\of{\T}{\C}}
+     {\C\ts\recvalbind\ra\VE}
+\end{equation}}
 \comments
 \begin{description}
 \item{(\ref{valbind-rule})}
 When the option is present we have $\Dom\VE\cap
 \Dom\VE' = \emptyset$ by the syntactic restrictions.\index{29.2}
+\oldpagebreak
 \item{(\ref{recvalbind-rule})}
 Modifying $\C$ by $\VE$ on the left captures the 
 recursive nature of the binding. From rule~\ref{valbind-rule} we see that any
 type scheme occurring in $\VE$ will have to be a type. Thus each use of a
-recursive function in its own body must be ascribed the same type.
+recursive function in its own body must be \replacement{\thenostrsharing}{ascribed}{assigned} the same type.
+\insertion{\theidstatus}{Also note that $\C+\VE$ may overwrite 
+identifier status. For example, the program
+    {\tt datatype t = f; val rec f = fn x => x;}~~  is legal.}
 \end{description}
 
 \rulesec{Type Bindings}{\C\ts\typbind\ra\TE}
 %\fbox{$\C\ts\typbind\ra\TE$}
-\begin{equation}	% type binding
+\begin{equation}        % type binding
 %\label{typbind-rule}
 \frac{\tyvarseq=\alphak\qquad\C\ts\ty\ra\tau\qquad
       \langle\C\ts\typbind\ra\TE\rangle}
@@ -762,13 +974,12 @@ recursive function in its own body must be ascribed the same type.
      }\index{29.3}
 \end{equation}
 \comment The syntactic restrictions ensure that the type function
-$\typefcnk$ satisfies the well-formedness constraints of 
+$\typefcnk$ satisfies the well-formedness \replacement{\theidstatus}{constraints }{constraint }of 
 Section~\ref{tyfun-sec} and they ensure $tycon\notin\Dom\TE$.
 
-\rulesec{Data Type Bindings}{\C\ts\datbind\ra\VE,\TE}
+\rulesec{Datatype Bindings}{\C\ts\datbind\ra\VE,\TE}
 %\fbox{$\C\ts\datbind\ra\VE,\TE$}
-\begin{equation}	% datatype binding
-%\label{datbind-rule}
+\replacement{\theidstatus}{\begin{equation}        % datatype binding
 \frac{\begin{array}{c}
         \tyvarseq=\alphak\qquad\C,\alphakt\ts\constrs\ra\CE\\
         \langle\C\ts\datbind\ra\VE,\TE\qquad
@@ -781,13 +992,27 @@ Section~\ref{tyfun-sec} and they ensure $tycon\notin\Dom\TE$.
         \{\tycon\mapsto(\t,\cl{}{\CE})\}\ \langle +\ \TE\rangle
       \end{array}
      }\index{30.1}
-\end{equation}
-\comment The syntactic restrictions ensure $\Dom\VE\cap\Dom\CE = \emptyset$
-and $\tycon\notin\Dom\TE$.
+\end{equation}}{\begin{equation}        % datatype binding
+\frac{\begin{array}{c}
+        \tyvarseq=\alphak\qquad\C,\alphakt\ts\constrs\ra\VE\qquad\arity\t=k\\
+        \langle\C\ts\datbind'\ra\VE',\TE'\qquad
+        \forall(\t',\VE'')\in\Ran\TE', \t\neq\t'\rangle
+      \end{array}
+     }
+     {\begin{array}{l}
+        \C\ts\newlongdatbind\ra\\
+        \qquad(\cl{}{\VE}\langle +\ \VE'\rangle,\
+        \{\tycon\mapsto(\t,\cl{}{\VE})\}\ \langle +\ \TE'\rangle
+      \end{array}
+     }\index{30.1}
+\end{equation}}
+\comment \replacement{\thece}{The syntactic restrictions ensure $\Dom\VE\cap\Dom\CE = \emptyset$
+and $\tycon\notin\Dom\TE$.}{The syntactic restrictions ensure $\Dom\VE\cap\Dom\VE' = \emptyset$
+and $\tycon\notin\Dom\TE'$.}
 
-\rulesec{Constructor Bindings}{\C,\tau\ts\constrs\ra\CE}
+\replacement{\thece}{\rulesec{Constructor Bindings}{\C,\tau\ts\constrs\ra\CE}}{\rulesec{Constructor Bindings}{\C,\tau\ts\constrs\ra\VE}}
 %\fbox{$\C,\tau\ts\constrs\ra\CE$}
-\begin{equation}	% data constructors
+\replacement{\theidstatus}{\begin{equation}        % data constructors
 %\label{constrs-rule}
 \frac{\langle\C\ts\ty\ra\tau'\rangle\qquad
       \langle\langle\C,\tau\ts\constrs\ra\CE\rangle\rangle }
@@ -798,12 +1023,48 @@ and $\tycon\notin\Dom\TE$.
       \langle\langle +\ \CE\rangle\rangle
       \end{array}
      }\index{30.2}
-\end{equation}
-\comment By the syntactic restrictions $\con\notin\Dom\CE$.
+\end{equation}}{\begin{equation}        % data constructors
+%\label{constrs-rule}
+\frac{\langle\C\ts\ty\ra\tau'\rangle\qquad
+      \langle\langle\C,\tau\ts\constrs\ra\VE\rangle\rangle }
+     {\begin{array}{c}
+      \C,\tau\ts\longervidconstrs\ra\\
+      \qquad\qquad\qquad\{\vid\mapsto(\tau,\isc)\}\
+     \langle +\ \{\vid\mapsto(\tau'\to\tau,\isc)\}\ \rangle\
+      \langle\langle +\ \VE\rangle\rangle
+      \end{array}
+     }\index{30.2}
+\end{equation}}
+\comment By the syntactic restrictions \replacement{\theidstatus}{$\con\notin\Dom\CE$.}{$\vid\notin\Dom\VE$.}
 
-\rulesec{Exception Bindings}{\C\ts\exnbind\ra\EE}
+\replacement{\theidstatus}{
+\rulesec{Exception Bindings}{\C\ts\exnbind\ra\EE}}{
+\rulesec{Exception Bindings}{\C\ts\exnbind\ra\VE}}
 %poly with polymorphic exceptions:
-\begin{equation}	% exception binding
+% \ replacement{\thenoimptypes}{\begin{equation}        % exception binding
+%  \label{exnbind1-rule}
+%  \frac{\langle\C\ts\ty\ra\tau\quad\mbox{$\tau$ is imperative}\rangle\qquad
+%        \langle\langle\C\ts\exnbind\ra\EE\rangle\rangle }
+%       {\begin{array}{c}
+%        \C\ts\longexnbinda\ra\\
+%        \qquad\qquad\qquad\{\exn\mapsto\EXCN\}\
+%        \langle +\ \{\exn\mapsto\tau\rightarrow\EXCN\}\ \rangle\
+%        \langle\langle +\ \EE\rangle\rangle
+%        \end{array}
+%       }\index{30.3}
+%  \end{equation}}{\begin{equation}        % exception binding
+%  \label{exnbind1-rule}
+%  \frac{\langle\C\ts\ty\ra\tau\rangle\qquad
+%        \langle\langle\C\ts\exnbind\ra\EE\rangle\rangle }
+%       {\begin{array}{c}
+%        \C\ts\longexnbinda\ra\\
+%        \qquad\qquad\qquad\{\exn\mapsto\EXCN\}\
+%        \langle +\ \{\exn\mapsto\tau\rightarrow\EXCN\}\ \rangle\
+%        \langle\langle +\ \EE\rangle\rangle
+%        \end{array}
+%       }\index{30.3}
+%  \end{equation}}
+\replacement{\theidstatus}{\begin{equation}        % exception binding
 \label{exnbind1-rule}
 \frac{\langle\C\ts\ty\ra\tau\quad\mbox{$\tau$ is imperative}\rangle\qquad
       \langle\langle\C\ts\exnbind\ra\EE\rangle\rangle }
@@ -814,48 +1075,47 @@ and $\tycon\notin\Dom\TE$.
       \langle\langle +\ \EE\rangle\rangle
       \end{array}
      }\index{30.3}
-\end{equation}
+\end{equation}}{\begin{equation}        % exception binding
+\label{exnbind1-rule}
+\frac{\langle\C\ts\ty\ra\tau\rangle\qquad
+      \langle\langle\C\ts\exnbind\ra\VE\rangle\rangle }
+     {\begin{array}{l}
+      \C\ts\longvidexnbinda\ra\\
+      \qquad\{\vid\mapsto(\EXCN,\ise)\}\
+      \langle +\ \{\vid\mapsto(\tau\rightarrow\EXCN,\ise)\}\ \rangle\
+      \langle\langle +\ \VE\rangle\rangle
+      \end{array}
+     }\index{30.3}
+\end{equation}}
+\vskip-4pt
 
-%with mono typed exceptions:
-%\begin{equation}	% exception binding
-%\label{exnbind1-rule}
-%\frac{\langle\C\ts\ty\ra\tau\quad\TyVarFcn(\tau)=\emptyset\rangle\qquad
-%      \langle\langle\C\ts\exnbind\ra\EE\rangle\rangle }
-%     {\begin{array}{c}
-%      \C\ts\longexnbinda\ra\\
-%      \qquad\qquad\qquad\{\exn\mapsto\EXCN\}\
-%      \langle +\ \{\exn\mapsto\tau\rightarrow\EXCN\}\ \rangle\
-%      \langle\langle +\ \EE\rangle\rangle
-%      \end{array}
-%     }
-%\end{equation}
-
-\vspace*{4mm}
-\begin{equation}	% exception binding
+%\vspace*{4mm}
+\replacement{\theidstatus}{\begin{equation}        % exception binding
 \label{exnbind2-rule}
 \frac{\C(\longexn)=\tau\qquad
       \langle\C\ts\exnbind\ra\EE\rangle }
       {\C\ts\longexnbindb\ra\{\exn\mapsto\tau\}\ \langle +\ \EE\rangle}
-%     {\begin{array}{c}
-%      \C\ts\longexnbindb\ra\\
-%      \qquad\qquad\qquad\{\exn\mapsto\tau\}\
-%      \langle +\ \EE\rangle
-%      \end{array}
-%     }
-\end{equation}
+\end{equation}}{\begin{equation}        % exception binding
+\label{exnbind2-rule}
+\frac{\C(\longvid)=(\tau,\ise)\qquad
+      \langle\C\ts\exnbind\ra\VE\rangle }
+      {\C\ts\longvidexnbindb\ra\{\vid\mapsto(\tau,\ise)\}\ \langle +\ \VE\rangle}
+\end{equation}}
 \comments
 \begin{description}
-\item{(\ref{exnbind1-rule})} Notice that $\tau$ must not contain
-any applicative type variables.\index{30.35}
+\replacement{\thenoimptypes}{\item{(\ref{exnbind1-rule})} Notice that $\tau$ must not contain
+any applicative type variables.}{\item{(\ref{exnbind1-rule})} Notice that $\tau$ may contain
+type variables.}\index{30.35}
 %with monotyped exceptions:
 %\item{(\ref{exnbind1-rule})} Notice that $\tau$ must be a monotype
 %(see also restriction~\ref{monotypes-res} in 
 %Section~\ref{further-restrictions-sec}).
+\oldpagebreak
 \item{(\ref{exnbind1-rule}),(\ref{exnbind2-rule})}
+\replacement{\theidstatus}{
 There is a unique $\EE$, for each $\C$ and $\exnbind$,
-%No matter which of the options are present, given $\C$ and $\exnbind$ there
-%is at most one $\EE$ 
-such that $\C\ts\exnbind\ra\EE$.
+such that $\C\ts\exnbind\ra\EE$.}{For each $\C$ and $\exnbind$,
+there is at most one $\VE$ satisfying $\C\ts\exnbind\ra\VE$.}
 \end{description}
 
 %\caption{Rules for Bindings}
@@ -866,64 +1126,77 @@ such that $\C\ts\exnbind\ra\EE$.
 \rulesec{Atomic Patterns}{\C\ts\atpat\ra(\VE,\tau)}
 %\vspace{6pt}
 %\fbox{$\C\ts\atpat\ra(\VE,\tau)$}
-\begin{equation}	% wildcard pattern
+\begin{equation}        % wildcard pattern
 %\label{wildcard-rule}
 \frac{}
      {\C\ts\wildpat\ra (\emptymap,\tau)}\index{30.4}
 \end{equation}
 
-\begin{equation}	% special constant in pattern
+\begin{equation}        % special constant in pattern
 \frac{}
      {\C\ts\scon\ra (\emptymap,\scontype(\scon))}\index{30.5}
 \end{equation}
 
-\begin{equation}	% variable pattern
+\replacement{\theidstatus}{
+\begin{equation}        % variable pattern
 \label{varpat-rule}
 \frac{}
      {\C\ts\var\ra (\{\var\mapsto\tau\},\tau) }
-\end{equation}
+\end{equation}}{\begin{equation}        % variable pattern
+\label{varpat-rule}
+\frac{\hbox{$\vid\notin\Dom(\C)$ or $\of{\is}{C(\vid)} = \isv$}}
+     {\C\ts\vid\ra (\{\vid\mapsto(\tau,\isv)\},\tau) }
+\end{equation}}
 
-\begin{equation}	% constant pattern
+\replacement{\theidstatus}{
+\begin{equation}        % constant pattern
 %\label{constpat-rule}
 \frac{\C(\longcon)\succ\tauk\t }
      {\C\ts\longcon\ra (\emptymap,\tauk\t)}
-\end{equation}
+\end{equation}}{\begin{equation}        % constant pattern
+\label{constpat-rule}
+\frac{\C(\longvid)=(\sigma,\is)\qquad\is\neq\isv\qquad\sigma\succ\tauk\t }
+     {\C\ts\longvid\ra (\emptymap,\tauk\t)}
+\end{equation}}
 
+\deletion{\theidstatus}{
 \begin{equation}       % exception constant
 %\label{exconapat-rule}
 \frac{\C(\longexn)=\EXCN}
      {\C\ts\longexn\ra (\emptymap,\EXCN)}
-\end{equation}
+\end{equation}}
 
 
 
-\begin{equation}	% record pattern
+\begin{equation}        % record pattern
 %\label{recpat-rule}
 \frac{\langle\C\ts\labpats\ra(\VE,\varrho)\rangle}
      {\C\ts\lttbrace\ \recpat\ \rttbrace\ra(\ \emptymap\langle +\ \VE\rangle,\ \emptymap
       \langle +\ \varrho\rangle\ \In\ \Type\ ) }\index{31.1}
 \end{equation}
 
-\begin{equation}	% parenthesised pattern
+\begin{equation}        % parenthesised pattern
 %\label{parpat-rule}
 \frac{\C\ts\pat\ra(\VE,\tau)}
      {\C\ts\parpat\ra(\VE,\tau)}
 \end{equation}
 \comments
 \begin{description}
-\item{(\ref{varpat-rule})} 
-Note that $\var$ can assume a type, not a general type scheme.
+\replacement{\theidstatus}{\item{(\ref{varpat-rule})} 
+Note that $\var$ can assume a type, not a general type scheme.}{\item{(\ref{varpat-rule}), (\ref{constpat-rule})} The context $\C$ determines which of these
+two rules applies. In rule~\ref{varpat-rule}, note that  
+$\vid$ can assume a type, not a general type scheme.}
 \end{description}
 
 \rulesec{Pattern Rows}{\C\ts\labpats\ra(\VE,\varrho)}
 %\fbox{$\C\ts\labpats\ra(\VE,\varrho)$}
-\begin{equation}	% wildcard record
+\begin{equation}        % wildcard record
 %\label{wildrec-rule}
 \frac{}
      {\C\ts\wildrec\ra(\emptymap,\varrho)}\index{31.2}
 \end{equation}
 
-\begin{equation}	% record component
+\replacement{\theidstatus}{\begin{equation}        % record component
 \label{longlab-rule}
 \frac{\C\ts\pat\ra(\VE,\tau)\qquad
       \langle\C\ts\labpats\ra(\VE',\varrho)\qquad\lab\notin\Dom\varrho\rangle
@@ -931,90 +1204,120 @@ Note that $\var$ can assume a type, not a general type scheme.
      {\C\ts\longlabpats\ra
      (\VE\langle +\ \VE'\rangle,\
       \{\lab\mapsto\tau\}\langle +\ \varrho\rangle) }
-\end{equation}
-\comment 
+\end{equation}}{\begin{equation}        % record component
+\label{longlab-rule}
+\frac{\begin{array}{c}\C\ts\pat\ra(\VE,\tau)\\
+      \langle\C\ts\labpats\ra(\VE',\varrho)\qquad\Dom\VE\cap\Dom\VE' = \emptyset\rangle
+      \end{array}
+}
+     {\C\ts\longlabpats\ra
+     (\VE\langle +\ \VE'\rangle,\
+      \{\lab\mapsto\tau\}\langle +\ \varrho\rangle) }
+\end{equation}}
+\deletion{\theidstatus}{\comment 
 \begin{description}
 \item{(\ref{longlab-rule})} 
  By the syntactic restrictions, $\Dom\VE\cap\Dom\VE' = \emptyset$.
-\end{description}
+\end{description}}
+\insertion{\theidstatus}{\comment 
+\begin{description}
+\item{(\ref{longlab-rule})} 
+ The syntactic restrictions ensure $\lab\notin\Dom\varrho$.
+\end{description}}
 %                        Patterns
 %
 %\begin{figure}[h]
 %\label{pat-rules}
+\oldpagebreak
 \rulesec{Patterns}{\C\ts\pat\ra(\VE,\tau)}
-\begin{equation}	% atomic pattern
+\begin{equation}        % atomic pattern
 %\label{atpat-rule}
 \frac{\C\ts\atpat\ra (\VE,\tau)}
      {\C\ts\atpat\ra (\VE,\tau)}\index{31.3}
 \end{equation}
 
-\begin{equation}	% construction pattern
+\replacement{\theidstatus}{
+\begin{equation}        % construction pattern
 %\label{conpat-rule}
 \frac{\C(\longcon)\succ\tau'\to\tau\qquad\C\ts\atpat\ra(\VE,\tau')}
      {\C\ts\conpat\ra (\VE,\tau)}
-\end{equation}
+\end{equation}}{\begin{equation}        % construction pattern
+%\label{conpat-rule}
+\frac{\C(\longvid) = (\sigma, \is)\qquad\is\neq\isv\qquad \sigma\succ\tau'\to\tau\qquad\C\ts\atpat\ra(\VE,\tau')}
+     {\C\ts\vidpat\ra (\VE,\tau)}
+\end{equation}}
 
+\deletion{\theidstatus}{
 \begin{equation}       %  exception construction pattern
 %\label{exconpat-rule}
 \frac{\C(\longexn)=\tau\rightarrow\EXCN\qquad
       \C\ts\atpat\ra(\VE,\tau)}
      {\C\ts\exconpat\ra(\VE,\EXCN)}
-\end{equation}
+\end{equation}}
 
-\begin{equation}	% typed pattern
+\begin{equation}        % typed pattern
 %\label{typedpat-rule}
 \frac{\C\ts\pat\ra(\VE,\tau)\qquad\C\ts\ty\ra\tau}
      {\C\ts\typedpat\ra (\VE,\tau)}
 \end{equation}
 
-\begin{equation}	% layered pattern
+\replacement{\theidstatus}{
+\begin{equation}        % layered pattern
 \label{layeredpat-rule}
 \frac{\begin{array}{c}
       \C\ts\var\ra(\VE,\tau)\qquad\langle\C\ts\ty\ra\tau\rangle\\
       \C\ts\pat\ra(\VE',\tau)
-%\qquad\VE\sim\VE'
       \end{array}
      }
      {\C\ts\layeredpat\ra(\plusmap{\VE}{\VE'},\tau)}
-\end{equation}
-\comments
+\end{equation}}{\begin{equation}        % layered pattern
+\label{layeredpat-rule}
+\frac{\begin{array}{c}
+     \hbox{$\vid\notin\Dom(\C)$ or $\of{\is}{C(\vid)} = \isv$}\\
+      \langle\C\ts\ty\ra\tau\rangle\qquad
+      \C\ts\pat\ra(\VE,\tau)\qquad \vid\notin\Dom\VE
+      \end{array}
+     }
+     {\C\ts\layeredvidpat\ra(\plusmap{\{\vid\mapsto(\tau,\isv)\}}{\VE},\tau)}
+\end{equation}}
+\deletion{\theidstatus}{\comments
 \begin{description}
 \item{(\ref{layeredpat-rule})}
 By the syntactic restrictions, $\Dom\VE\cap\Dom\VE' = \emptyset$.
-\end{description}
+\end{description}}
 
 
 %                        Type Expressions
 \rulesec{Type Expressions}{\C\ts\ty\ra\tau}
-\begin{equation}	% atype variable
+\begin{equation}        % atype variable
 %\label{tyvar-rule}
 \frac{\tyvar=\alpha}
      {\C\ts\tyvar\ra\alpha}\index{32.1}
 \end{equation}
 
-\begin{equation}	% record type
+\begin{equation}        % record type
 %\label{rectype-rule}
 \frac{\langle\C\ts\labtys\ra\varrho\rangle}
      {\C\ts\lttbrace\ \rectype\ \rttbrace\ra\emptymap\langle +\ \varrho\rangle\ \In\ \Type}
 \end{equation}
 
-\begin{equation}	% constructed type
+\begin{equation}        % constructed type
 \label{constype-rule}
 \frac{\begin{array}{c}
       \tyseq=\ty_1\cdots\ty_k\qquad\C\ts\ty_i\ra\tau_i\ (1\leq i\leq k)\\
-      \C(\longtycon)=(\theta,\CE)
+      \C(\longtycon)=(\theta,\adhocreplacementl{\thece}{8cm}{\CE}{\VE})
       \end{array}
      }
      {\C\ts\constype\ra\tauk\theta}
 \end{equation}
 
-\begin{equation}	% function type
+\begin{equation}        % function type
 %\label{funtype-rule}
-\frac{\C\ts\ty\ra\tau\qquad\C\ts\ty'\ra\tau'}
+\frac{\C\ts\ty\ra\tau\qquad\C\ts\ty\,'\ra\tau'}
      {\C\ts\funtype\ra\tau\to\tau'}
 \end{equation}
 
-\begin{equation}	% parenthesised type
+\begin{equation}        % parenthesised type
 %\label{partype-rule}
 \frac{\C\ts\ty\ra\tau}
      {\C\ts\partype\ra\tau}
@@ -1025,9 +1328,10 @@ By the syntactic restrictions, $\Dom\VE\cap\Dom\VE' = \emptyset$.
 must have arity $k$.
 \end{tabbing}
 
+\oldpagebreak
 \rulesec{Type-expression Rows}{\C\ts\labtys\ra\varrho}
 %\fbox{$\C\ts\labtys\ra\varrho$}
-\begin{equation}	% record type components
+\begin{equation}        % record type components
 %\label{longlabtys-rule}
 \frac{\C\ts\ty\ra\tau\qquad\langle\C\ts\labtys\ra\varrho\rangle}
      {\C\ts\longlabtys\ra\{\lab\mapsto\tau\}\langle +\ \varrho\rangle}\index{32.15}
@@ -1060,11 +1364,11 @@ i.e. of the form
 %\end{quote}
 the program context must determine uniquely the domain
 $\{{\it lab}_1,\cdots,{\it lab}_n\}$
-of its record type, where $m\leq n$; thus, the context must
+of its \replacement{\theidstatus}{record}{row} type, where $m\leq n$; thus, the context must
 determine the labels $\{{\it lab}_{m+1},\cdots,{\it lab}_n\}$ of the fields
 to be matched by the wildcard. For this purpose, an explicit type
-constraint may be needed.  This restriction is necessary to ensure the
-existence of principal type schemes.
+constraint may be needed.  \deletion{\thenoimptypes}{This restriction is necessary to ensure the
+existence of principal type schemes.}
 \item In a match of the form ${\it pat}_1$ \ml{=>} $\exp_1$ \ml{|}$\;\cdots\;$
 \ml{|} ${\tt pat}_n$ \ml{=>} $\exp_n$ 
 the pattern sequence $\pat_1,\ldots,\pat_n$ should be {\sl irredundant};
@@ -1075,8 +1379,8 @@ every value (of the right type) must be matched by some $\pat_i$.
 The compiler must give warning on violation of these restrictions, 
 but should still compile the match. 
 The restrictions are inherited by derived forms; in particular,
-this means that in the function binding\index{33.1}
- $\var\ \atpat_1\ \cdots\ \atpat_n\langle : \ty\rangle$\ \ml{=}\ $\exp$
+this means that in the function\insertion{\thefixtypos}{-value} binding\index{33.1}
+\replacement{\theidstatus}{$\var\ \atpat_1\ \cdots\ \atpat_n\langle : \ty\rangle$\ \ml{=}\ $\exp$}{$\vid\ \atpat_1\ \cdots\ \atpat_n\langle : \ty\rangle$\ \ml{=}\ $\exp$}
 (consisting of one clause only), each separate $\atpat_i$ should be
 exhaustive by itself.
 %must be {\sl irredundant} and {\sl exhaustive}.  That is, each ${\it pat}_j$
@@ -1084,9 +1388,28 @@ exhaustive by itself.
 %${\it pat}_i$ for any $i <j$, and {\sl every} value (of the right type) must be
 %matched by some ${\it pat}_i$. The compiler must give a warning on violation
 %of this restriction, but should still compile the match.
+\insertion{\theidstatus}{\item
+        For each value binding   $\pat\ \mbox{\ml{=}}\ \exp$
+        the compiler must issue a report (but
+        still compile) if   $\pat$  is not exhaustive. 
+        This will detect a mistaken
+        declaration like  $\VAL\ \ml{nil}\ \mbox{\ml{=}}\ \exp$
+        in which the user expects to declare
+        a new variable \ml{nil} 
+        (whereas the language dictates that \ml{nil} is here a 
+        constant pattern, so no variable gets declared). 
+        However, this warning
+        should not be given when the binding is a component 
+        of a top-level declaration
+        $\valdec$; e.g. 
+        $\VAL\ \mbox{\ml{x::l = }}\exp_1\ \mbox{\ml{\AND\ y = }}\exp_2$ 
+        is not faulted by the
+        compiler at top level, but may of course generate a \ml{Bind} 
+        exception (see Section~\ref{bas-exc}).}
 \end{enumerate}
 
 
+\deletion{\theprincipalenv}{
 \subsection{Principal Environments}
 \label{principal-env-sec}
 The\index{33.15} notion of {\sl enrichment}, $\E\succ\E'$, between environments
@@ -1102,10 +1425,12 @@ according to the preceding Inference Rules. Then $E$ is {\em principal}
 which $\C\ts\dec\ra\E'$, we have $\E\succ\E'$. We claim that if
 $\dec$ elaborates to any environment in $\C$ then it elaborates to
 a principal environment in $\C$. Strictly, we must allow for the
-possibility that type names and imperative type variables
+possibility that type names and imperative
+ type variables
 which do not occur in $\C$ are chosen
 differently for $\E$ and $\E'$. 
 The stated claim is therefore made up to such variation.
+}
 
 
 
