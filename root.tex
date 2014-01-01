@@ -1,14 +1,17 @@
 % this is file `root', the root of the whole semantics
 %\documentclass[12pt,twoside]{article}
 %\usepackage{a4}
-\documentstyle[12pt,a4,twoside]{article}
+\documentclass[12pt,twoside]{article}
 \title{The Definition of ML\thanks{This document is derived from
 Milner, Tofte and Harper: ``The Definition of Standard ML'', MIT Press, 1990.}}
 \author{Mads Tofte (ed.)}
 \date{\today}
 %\includeonly{mac,syncor}
 \include{mac} % macros
+
+\usepackage{makeidx}
 \makeindex
+
 %
 %\includeonly{dynmod,overloading}
 %for agfa: \voffset -12mm
@@ -17,9 +20,10 @@ Milner, Tofte and Harper: ``The Definition of Standard ML'', MIT Press, 1990.}}
 %AT DIKU:
 %\addtolength{\textwidth}{-13mm}
 %\addtolength{\textheight}{0.4mm}
-\nofiles
+%\nofiles
 \begin{document}
 \bibliographystyle{plain}
+
 \pagestyle{empty}
 \begin{flushleft}
 {\Large\bf The Definition of Standard ML}
@@ -129,7 +133,10 @@ CIP
 \clearpage
 \blankPage
 \thispagestyle{empty}
-\include{index}
+%\include{index}
+
+
+\printindex
 \end{document}
 
  HOW TO REVISE THE INDEX 
