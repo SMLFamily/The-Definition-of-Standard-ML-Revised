@@ -1,13 +1,10 @@
 The Definition of Standard ML
 ==========
 
-These sources are currently based on the SML90 version of the Definition of
+These sources correspond to the SML97 version of the Definition of
 Standard ML. To build a PDF, perform the following steps in a terminal window:
 ```
-pdflatex root
-bibtex root
-pdflatex root
-pdflatex root
+latexmk -pdf root
 ```
 
 The file root.pdf will be produced.
